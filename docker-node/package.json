@@ -1,0 +1,13 @@
+{
+  "name": "docker_web_app",
+  "version": "1.0.0",
+  "description": "Dockerized node-js",
+  "author": "Pedro Crespo-Valero <crespo@itis.ethz.ch>",
+  "main": "server.js",
+  "scripts":{
+      "start": "node server.js"
+  },
+  "dependencies":{
+    "express": "^4.13.3"
+  }
+}
