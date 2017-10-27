@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME = itis/node-web-app
-
+IMAGE_NAME=itis/nodejs
 
 # -u : runs the container using unprivileged user (by default, it runs as root)
 
@@ -9,7 +8,7 @@ docker run \
   -e "NODE_ENV=production" \
   -u "node" \
   -m "300M" --memory-swap "1G" \
-  -w "/home/node/app" \
+  -w "/usr/src/app" \
   -p 49160:8080 \
   -d \
   --name "mynodejs-app" \

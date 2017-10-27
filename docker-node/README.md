@@ -5,19 +5,22 @@
 cd docker-node
 
 # Build docker
-docker build -t itis/node-web-app .
+$ bin/build
 
 # Running detached. redirect port to 49160
-docker run -p 49160:8080 -d itis/node-web-app
+$ bin/run
 
-dockers ps
-docker logs <container id >
+$ dockers ps
+$ docker logs mynodejs-app
 
-# Execute inside
-docker exec -it 98 /bin/bash
+# Test server
+$ curl http://localhost:49160
+Hoi zaeme!
+
+# Execute bash inside the container.
+# Can check permissions and different directory structures
+$ docker exec -it mynodejs-app /bin/bash
 ```
-
-
 
 ## References
  - [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
