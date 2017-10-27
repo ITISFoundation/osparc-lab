@@ -22,6 +22,5 @@ COPY . .
 # App binds to this port
 EXPOSE 8080
 
-
 # Define your runtime
 CMD ["npm", "start"]
