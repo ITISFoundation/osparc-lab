@@ -37,7 +37,6 @@
     "react-dom": "^15.5.3",
     "react-redux": "^5.0.6",
     "react-rnd": "^7.1.5",
-    "react-switch-button": "^2.2.2",
     "react-three-renderer": "^3.2.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",

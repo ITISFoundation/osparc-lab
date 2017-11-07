@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import SwitchButton from 'react-switch-button';
-import 'react-switch-button/dist/react-switch-button.css';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,7 +7,7 @@ import { styleChanged } from '../actions';
 class StyleSwitch extends Component {
 
   onChange(e) {
-    const checked = e.currentTarget.checked;
+    const checked = e.target.value;
     this.props.styleChanged(checked);
   }
 
@@ -21,10 +19,12 @@ class StyleSwitch extends Component {
           backgroundColor: this.props.backgroundColor
         }}
       >
-        <SwitchButton name="day-night-switch" mode="select"
-          labelRight="Night" label="Day"
-          onChange={this.onChange.bind(this)}
-        />
+        <div onChange={this.onChange.bind(this)}>
+          Day
+          <input type="radio" value="0" name="day-night"/>
+          <input type="radio" value="1" name="day-night"/>
+          Night
+        </div>
       </div>
     );
   }
