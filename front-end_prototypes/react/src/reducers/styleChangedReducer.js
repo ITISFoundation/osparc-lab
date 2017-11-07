@@ -2,7 +2,11 @@
 
 import * as actionType from '../actions/ActionType';
 
-const styleChangedReducer = function(state = { baseColor: 235 }, action) {
+const defaultBaseColor = {
+  baseColor: 235
+}
+
+const styleChangedReducer = function(state = defaultBaseColor, action) {
   switch (action.type) {
     case actionType.LAYOUT_STYLE_CHANGED:
       {
