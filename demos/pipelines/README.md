@@ -1,10 +1,10 @@
-# Pipelines: use microservices to create pipelines
+# Pipelines: Use microservices to create pipelines
 
 
 Overview
 ========
 
-Pipelines is an experimental project for testing different means of creating pipelines and communication/passing of data among them. :q
+Pipelines is an experimental project for testing different means of creating pipelines and communication/passing of data among them.
 
 Building Services
 =================
