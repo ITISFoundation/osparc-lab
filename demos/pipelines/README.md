@@ -11,7 +11,8 @@ Testing includes:
 * inter-service communication: REST API, RPC
 * data passing via data service
 * communication through manager
-* docker container creation via manager
+* docker container creation via manager from repository
+* distributed containers vs. dynamic all-in-one container
 
 
 Building Services
