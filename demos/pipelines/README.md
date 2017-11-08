@@ -31,6 +31,7 @@ To launch the pipeline services:
 $ make launch
 </code>
 
+
 To stop the pipeline services:
 
 <code>
@@ -41,12 +42,12 @@ $ make shutdown
 APIs and Documentation
 ======================
 
-## Viewer (port 5010)
+## Viewer service(port 5010)
 
 This service is used to display data in plots.
 
 Try `http://192.168.0.10:5010/plot_rest`
 
-## Calculator Service (port 5011)
+## Calculator service (port 5011)
 
 This service is used to create mockup data
