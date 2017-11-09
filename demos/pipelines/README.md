@@ -8,8 +8,8 @@ Pipelines is an experimental project for testing different means of creating pip
 
 Testing includes:
 
-* inter-service communication: REST API, RPC
-* data passing via data service
+* inter-service communication: JSON, thrift
+* data passing via data service, synchronous, via database
 * communication through manager
 * docker container creation via manager from repository
 * distributed containers vs. dynamic all-in-one container
@@ -48,6 +48,7 @@ APIs and Documentation
 This service is used to display data in plots.
 
 Try `http://192.168.0.10:5010/plot_rest`
+Try `http://192.168.0.10:5010/plot_db`
 
 ## Calculator service (port 5011)
 
