@@ -19,20 +19,31 @@ class ServiceSettings extends Component {
   }
 
   handleChange(name, new_value) {
-    for (let i = 0; i < this.props.selectedServiceSettings[0].settings.length; i++) {
-      if (this.props.selectedServiceSettings[0].settings[i].name === name) {
-        this.props.selectedServiceSettings[0].settings[i].value = new_value.target.value;
+    for (let i = 0; i < this.props.workbench.selected[0].service.settings.length; i++) {
+      if (this.props.workbench.selected[0].service.settings[i].name === name) {
+        this.props.workbench.selected[0].service.settings[i].value = new_value.target.value;
         this.forceUpdate();
         break;
       }
     }
   }
 
+  createTitle() {
+    let title = [];
+    if (this.props.workbench.selected.length > 0 && this.props.workbench.selected[0]) {
+      title =
+        <h4>
+          {this.props.workbench.selected[0].uniqueName}
+        </h4>
+    }
+    return title || null;
+  }
+
   createSettingsFormUI() {
     let settings = [];
-    if (this.props.selectedServiceSettings.length>0) {
-      for (let i = 0; i < this.props.selectedServiceSettings[0].settings.length; i++) {
-        let setting = this.props.selectedServiceSettings[0].settings[i];
+    if (this.props.workbench.selected.length > 0 && this.props.workbench.selected[0]) {
+      for (let i = 0; i < this.props.workbench.selected[0].service.settings.length; i++) {
+        let setting = this.props.workbench.selected[0].service.settings[i];
         settings.push(
           <div key={i}>
             {setting.text}:
@@ -49,7 +60,7 @@ class ServiceSettings extends Component {
   createFormUI() {
     let form;
     let sets = this.createSettingsFormUI();
-    if (sets.length>0) {
+    if (sets.length > 0) {
       form =
         <form onSubmit={this.handleSubmit.bind(this)}>
           {sets}
@@ -61,8 +72,7 @@ class ServiceSettings extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const submitThis = this.props.selectedServiceSettings[0];
-    console.log(submitThis);
+    const submitThis = this.props.workbench.selected[0].service;
     this.props.computeServiceOutput(submitThis);
   }
 
@@ -86,7 +96,7 @@ class ServiceSettings extends Component {
             });
           }}
         >
-          <h4>Service Settings</h4>
+          {this.createTitle()}
           {this.createFormUI()}
         </Rnd>
       </div>
@@ -96,7 +106,7 @@ class ServiceSettings extends Component {
 
 function mapStateToProps(state) {
   return {
-    selectedServiceSettings: state.selectedServiceReducer,
+    workbench: state.workbenchServiceReducer,
   };
 }
 

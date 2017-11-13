@@ -2,17 +2,24 @@
 
 import * as actionType from './ActionType';
 
-export function radiusChanged(new_radius) {
+export function radiusChanged(newRadius) {
   return {
     type: actionType.RADIUS_CHANGED,
-    payload: new_radius
+    payload: newRadius
   }
 }
 
-export function selectedServiceChanged(new_service) {
+export function newServiceRequested(newService) {
+  return {
+    type: actionType.NEW_SERVICE_REQUESTED,
+    payload: newService
+  }
+}
+
+export function selectedServiceChanged(selService) {
   return {
     type: actionType.SELECTED_SERVICE_CHANGED,
-    payload: new_service
+    payload: selService
   }
 }
 
