@@ -23,7 +23,7 @@ scripts/start.js
 ```
 
 
-## ReadMe from Create-React-App
+## Create-React-App
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
