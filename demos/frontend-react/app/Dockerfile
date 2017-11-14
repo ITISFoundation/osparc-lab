@@ -9,7 +9,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 # Install `serve` to run the application.
 RUN npm install -g serve
 # Set the command to start the node server.
-CMD serve -s build
+CMD serve -s build --port 6001
 # Tell Docker about the port we'll run on.
 EXPOSE 6001
 

@@ -12,11 +12,10 @@
 ``` bash
   cd frontend-react
 
-  # build dev image ->
-  sudo make build-dev
+  sudo make build
 
   # run container in dev mode
-  sudo make run-dev
+  sudo make run
 ```
 
 
@@ -25,7 +24,7 @@
  - Development setup is done *by hand*  running directly a *nodejs* image and setting up the react project using the container's bash
 ```bash
   cd frontend-react
-  sudo docker run -it -v $(pwd)/app:/home/node/app -w /home/node/app -p 6001:6001 --rm node:7.8.0 bash
+  sudo docker run -it -v $(pwd)/app:/home/node/app -w /home/node/app -p 6001:6001 --rm node:6.11.5 bash
 
   # now in container's bash
   # Add --no-bin-links flag if it complains about 'read-only file system, symlink...'
