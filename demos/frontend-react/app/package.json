@@ -43,6 +43,7 @@
     "redux-thunk": "^2.2.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
+    "storm-react-diagrams": "^3.1.2",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "three": "^0.84.0",
@@ -98,5 +99,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6"
   }
 }
