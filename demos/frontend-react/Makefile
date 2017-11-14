@@ -3,7 +3,7 @@ CURRDIR = $(shell pwd)
 
 # Use container as nodejs installation mapped to the application
 node:
-	docker run -it --rm -v ${CURRDIR}/app:/home/node/app -w /home/node/app node:6.11.5 bash
+	docker run -it --rm -v ${CURRDIR}/app:/home/node/app -w /home/node/app -p 6001:6001 node:6.11.5 bash
 
 # build image for development
 build-dev:

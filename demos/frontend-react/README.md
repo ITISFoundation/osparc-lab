@@ -10,8 +10,7 @@
 
  - Running in dev-mode
 ``` bash
-
-  cd front-end_prototypes/react
+  cd frontend-react
 
   # build dev image ->
   sudo make build-dev
@@ -25,21 +24,22 @@
  - Followed blog on [Dockerizing a React application](https://medium.com/ai2-blog/dockerizing-a-react-application-3563688a2378)
  - Development setup is done *by hand*  running directly a *nodejs* image and setting up the react project using the container's bash
 ```bash
-  cd front-end_prototypes/react
-  sudo docker run -ti -v $(pwd)/app:/home/node/app -w /home/node/app -p 6001:6001 --rm node:7.8.0 bash
+  cd frontend-react
+  sudo docker run -it -v $(pwd)/app:/home/node/app -w /home/node/app -p 6001:6001 --rm node:7.8.0 bash
 
   # now in container's bash
+  # Add --no-bin-links flag if it complains about 'read-only file system, symlink...'
   npm install
-  npm run start
+  npm start
 ```
  - Alternatively, build a dev image and run install and start using container's bash
  ```bash
-   cd front-end_prototypes/react
+   cd frontend-react
    sudo docker run -it -v $(pwd)/app:/home/node/app  itis/react-app:dev /bin/bash
 
    # now in container's bash
    npm install
-   npm run start
+   npm start
  ```
 
 
