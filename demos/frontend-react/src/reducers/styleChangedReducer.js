@@ -1,16 +1,12 @@
 // styleChangedReducer.js
 
 import * as actionType from '../actions/ActionType';
+import initialState from './initialState';
 
-const defaultBaseColor = {
-  baseColor: 235
-}
-
-const styleChangedReducer = function(state = defaultBaseColor, action) {
+const styleChangedReducer = function(state = initialState.defaultBaseColor, action) {
   switch (action.type) {
     case actionType.LAYOUT_STYLE_CHANGED:
       {
-        console.log(action.payload);
         let newState = { baseColor: 235 }
         if (Number(action.payload) === 1) {
           newState = { baseColor: 66 }

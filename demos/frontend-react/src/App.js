@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import IListenToSocket from './components/IListenToSocket';
 import StyleSwitch from './components/StyleSwitch';
 import ThreeDView from './components/3DView';
+import WorkbenchView from './components/WorkbenchView';
 import AvailableServices from './components/AvailableServices';
 import ServiceSettings from './components/ServiceSettings';
 import ToolBar from './components/ToolBar';
@@ -123,15 +124,13 @@ class App extends Component {
             backgroundColor={this.getStyle2().backgroundColor}
             color={this.getStyle2().color}
           />
+          <WorkbenchView />
           <ToolBar />
         </div>
       </div>
     );
   }
 }
-
-// App.defaultProps = { baseColor: 235 };
-App.defaultProps = { baseColor: 66 };
 
 const behind = {
   zIndex: '-1',
