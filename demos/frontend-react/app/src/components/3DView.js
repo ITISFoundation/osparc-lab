@@ -89,7 +89,7 @@ class ThreeDView extends Component {
               heightSegments={8}
             />
             <meshBasicMaterial
-              color={0xFF0000}
+              color={this.props.sphereColor}
               wireframe
               wireframeLinewidth = {3}
             />
