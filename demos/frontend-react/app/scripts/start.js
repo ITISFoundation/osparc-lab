@@ -141,17 +141,43 @@ function checkItaliaMenu(service, client) {
   })
 };
 
+function calculateRandomValue(service, client) {
+  var sleepFor = 3000; //ms
+  console.log('Calculating')
+  setTimeout(function() {
+    var min = Number(service.settings[0].value);
+    var max = Number(service.settings[1].value);
+    var newRand = Math.floor(Math.random() * (max - min + 1) + min);
+    console.log(newRand);
+    client.emit('radiusChangedByServer', {
+      type:'randomizer',
+      value: newRand
+    });
+  }, sleepFor);
+  console.log('Random Radius...');
+}
+
 function computeOutputData(service, client) {
-  if (service.name === 'requestWhatInItalia') {
+  console.log('computeOutputData', service);
+  if (service.name === 'requestWhatInItalia')
+  {
     checkItaliaMenu(service, client);
-  } else if (service.name === 'rabbit') {
+  }
+  else if (service.name === 'randomizer')
+  {
+    calculateRandomValue(service, client);
+  }
+  else if (service.name === 'rabbit')
+  {
     const outputFolderStructure = dirTree('//filesrv.speag.com/outbox');
     client.emit('outputFolderStructure', {
         type:'outputFolderStructure',
         value: outputFolderStructure
     });
-  } else {
-    console.log('computeOutputData', service);
+  }
+  else
+  {
+    console.log('Request should be sent to the director');
   }
 }
 
@@ -200,6 +226,7 @@ choosePort(HOST, DEFAULT_PORT)
           computeOutputData(service, client);
         });
 
+
         client.on('amIConnected', (hisID) => {
           console.log('Client with id ', hisID, ' connected');
           client.emit('userConnected', hisID);
@@ -211,22 +238,6 @@ choosePort(HOST, DEFAULT_PORT)
               type:'customEmit',
               text: message + ' back'
             })
-        });
-
-        client.on('randomRadius', (message) => {
-          console.log('Calculating')
-          setTimeout(function() {
-            console.log('Calculated:')
-            var max = 10
-            var min = 1
-            var newRand = Math.floor(Math.random() * (max - min + 1) + min)
-            console.log(newRand)
-            client.emit('radiusChangedByServer', {
-                type:'randomizer',
-                value: newRand
-              })
-          }, 5000)
-          console.log('Random Radius...')
         });
       });
 

@@ -102,9 +102,14 @@ class App extends Component {
           />
         </div>
         <div style={onTop}>
+          <IListenToSocket
+            backgroundColor={this.getStyle1().backgroundColor}
+            color={this.getStyle1().color}
+          />
           <div style={{width: '100%', overflow: 'hidden'}}>
             <div style={{width: '90%', float: 'left'}}>
-              <IListenToSocket
+              <AvailableServices
+                availableServices={this.state.availableServices}
                 backgroundColor={this.getStyle1().backgroundColor}
                 color={this.getStyle1().color}
               />
@@ -116,11 +121,7 @@ class App extends Component {
               />
             </div>
           </div>
-          <AvailableServices
-            availableServices={this.state.availableServices}
-            backgroundColor={this.getStyle1().backgroundColor}
-            color={this.getStyle1().color}
-          />
+
           <ServiceSettings
             backgroundColor={this.getStyle2().backgroundColor}
             color={this.getStyle2().color}

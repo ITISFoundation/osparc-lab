@@ -43,11 +43,6 @@ class IListenToSocket extends Component {
     });
   }
 
-  randomRadiusServer() {
-    console.log('randomRadius sento to the server')
-    socket.emit('randomRadius', 'randomRadius')
-  }
-
   pingServer() {
     console.log('pingServer sento to the server')
     socket.emit('pingServer', 'PING!')
@@ -61,9 +56,6 @@ class IListenToSocket extends Component {
           backgroundColor: this.props.backgroundColor
         }}
       >
-        <Button onClick={this.randomRadiusServer.bind(this)} bsStyle={this.state.variant}>
-          Random radius
-        </Button>
         <Button onClick={this.pingServer} bsStyle={this.state.variant}>
           Ping Server
         </Button>
