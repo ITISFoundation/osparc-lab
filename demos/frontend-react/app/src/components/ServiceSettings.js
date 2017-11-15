@@ -32,9 +32,9 @@ class ServiceSettings extends Component {
     let title = [];
     if (this.props.workbench.selected.length > 0 && this.props.workbench.selected[0]) {
       title =
-        <h4>
+        <h5>
           {this.props.workbench.selected[0].uniqueName}
-        </h4>
+        </h5>
     }
     return title || null;
   }
@@ -80,7 +80,8 @@ class ServiceSettings extends Component {
       form =
         <form onSubmit={this.handleSubmit.bind(this)}>
           {sets}
-          <input type="submit" value="Submit" />
+          <br />
+          <input type="submit" value="Submit" style={{color: 'black'}}/>
         </form>
     }
     return form || null;
