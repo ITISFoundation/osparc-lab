@@ -1,5 +1,7 @@
 'use strict';
 
+var https = require('https');
+
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
@@ -45,7 +47,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 
 function getServices(client) {
   console.log('requestAvailableServices');
-  let local_file = true;
+  let local_file = false;
   if (local_file) {
     console.log('locally');
     var serviceManager = require('../src/ServiceManager');
@@ -57,6 +59,41 @@ function getServices(client) {
     })
   } else {
     console.log('asking director');
+    var url = 'https://outbox.zurichmedtech.com/maiz/ServiceRegistry.json';
+    https.get(url, function(res){
+      var json = '';
+
+      res.on('data', function(chunk){
+          json += chunk;
+      });
+
+      res.on('end', function(){
+        if (res.statusCode === 200) {
+          try {
+            var availableServicesJson = JSON.parse(json);
+            var availableServices = [];
+            console.log('Found', Object.keys(availableServicesJson).length, ':');
+            for (var key in availableServicesJson) {
+              if (!availableServicesJson.hasOwnProperty(key)) {
+                continue;
+              }
+              console.log(availableServicesJson[key].text);
+              availableServices.push(availableServicesJson[key]);
+            };
+            client.emit('availableServices', {
+                type:'availableServices',
+                value: availableServices
+            })
+          } catch (e) {
+            console.log('Error parsing JSON!');
+          }
+        } else {
+            console.log('Status:', res.statusCode);
+        }
+      });
+    }).on('error', function(e){
+      console.log("Got an error: ", e);
+    });
   }
 }
 
