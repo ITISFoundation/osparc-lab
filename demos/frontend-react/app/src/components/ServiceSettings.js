@@ -44,14 +44,30 @@ class ServiceSettings extends Component {
     if (this.props.workbench.selected.length > 0 && this.props.workbench.selected[0]) {
       for (let i = 0; i < this.props.workbench.selected[0].service.settings.length; i++) {
         let setting = this.props.workbench.selected[0].service.settings[i];
-        settings.push(
-          <div key={i}>
-            {setting.text}:
-            <input type={setting.type} name={setting.name} value={setting.value}
-              onChange={this.handleChange.bind(this, setting.name)}
-            />
-          </div>
-        );
+        if (setting.type === 'select') {
+          let items = [];
+          for (let i = 0; i < setting.options.length; i++) {
+            items.push(<option key={i} value={i}>{setting.options[i]}</option>);
+          }
+          settings.push(
+            <div key={i}>
+              {setting.text}:
+              <select name={setting.name} value={setting.value}
+                onChange={this.handleChange.bind(this, setting.name)}>
+                {items}
+              </select>
+            </div>
+          );
+        } else {
+          settings.push(
+            <div key={i}>
+              {setting.text}:
+              <input type={setting.type} name={setting.name} value={setting.value}
+                onChange={this.handleChange.bind(this, setting.name)}
+              />
+            </div>
+          );
+        }
       }
     }
     return settings || null;
