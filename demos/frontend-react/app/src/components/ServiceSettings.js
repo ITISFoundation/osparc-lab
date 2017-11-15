@@ -46,8 +46,8 @@ class ServiceSettings extends Component {
         let setting = this.props.workbench.selected[0].service.settings[i];
         if (setting.type === 'select') {
           let items = [];
-          for (let i = 0; i < setting.options.length; i++) {
-            items.push(<option key={i} value={i}>{setting.options[i]}</option>);
+          for (let j = 0; j < setting.options.length; j++) {
+            items.push(<option key={j} value={j}>{setting.options[j]}</option>);
           }
           settings.push(
             <div key={i}>
