@@ -53,7 +53,6 @@ class WorkbenchView extends Component {
     // auto select last node
     nodes.slice(-1)[0].selected = true;
 
-    console.log(this.props.workbench.connections);
     let links = [];
     for (let i = 0; i < this.props.workbench.connections.length; i++) {
       let link = this.addConnection(this.props.workbench.connections[i], nodes);

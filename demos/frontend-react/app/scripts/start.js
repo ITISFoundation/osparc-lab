@@ -144,6 +144,12 @@ function checkItaliaMenu(service, client) {
 function computeOutputData(service, client) {
   if (service.name === 'requestWhatInItalia') {
     checkItaliaMenu(service, client);
+  } else if (service.name === 'rabbit') {
+    const outputFolderStructure = dirTree('//filesrv.speag.com/outbox');
+    client.emit('outputFolderStructure', {
+        type:'outputFolderStructure',
+        value: outputFolderStructure
+    });
   } else {
     console.log('computeOutputData', service);
   }
@@ -186,25 +192,17 @@ choosePort(HOST, DEFAULT_PORT)
 
       io.on('connection', (client) => {
 
-        client.on('amIConnected', (hisID) => {
-          console.log('Client with id ', hisID, ' connected');
-          client.emit('userConnected', hisID);
-        });
-
         client.on('requestAvailableServices', function() {
           getServices(client);
         });
 
-        client.on('rabbit', function() {
-          const rabbitFolderStructure = dirTree('//filesrv.speag.com/outbox');
-          client.emit('rabbitFolderStructure', {
-              type:'rabbitFolderStructure',
-              value: rabbitFolderStructure
-          })
-        });
-
         client.on('computeOutputData', (service) => {
           computeOutputData(service, client);
+        });
+
+        client.on('amIConnected', (hisID) => {
+          console.log('Client with id ', hisID, ' connected');
+          client.emit('userConnected', hisID);
         });
 
         client.on('pingServer', (message) => {

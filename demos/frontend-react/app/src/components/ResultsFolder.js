@@ -119,10 +119,8 @@ class ResultsFolder extends Component {
   }
 
   componentDidMount() {
-    socket.emit('rabbit');
-
-    socket.on('rabbitFolderStructure', (val) => {
-      if (val.type === 'rabbitFolderStructure') {
+    socket.on('outputFolderStructure', (val) => {
+      if (val.type === 'outputFolderStructure') {
         this.setState({
           resultFolderStructure: val.value
         });
