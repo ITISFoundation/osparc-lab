@@ -7,7 +7,6 @@
  What part of SIM-Core framework does this affect?
 
 ## Review
+  - What licenses the tools used in this demo has? Is it compatible with the project policy?
   - Pros
   - Cons
-
-  

@@ -7,12 +7,24 @@
 - Developed and maintained mainly by Facebook
 - Very good performance due to its render-when-change philosophy
 
-###### Starting point for prototyping:
-- Based on create-react-app with webpack for quick setup
+###### Prototype based on:
+- create-react-app with webpack for quick setup:
+  - https://medium.com/@diamondgfx/learning-react-with-create-react-app-part-1-a12e1833fdc
 - Node.js + express used in web server side
 
-##### Aspects reviewed:
+###### In order to start prototyping:
+- node.js required
+- front-end created using
+  - ```npm install -g create-react-app```
+  - ```create-react-app cd myapp```
+- pull the prototype out of the context of the create-react-app framework and into a standard webpack build
+  - ```yarn run eject```
+- start server
+  - ```yarn start```
+- change listening port in:
+  - scripts/start.js
 
+##### Aspects reviewed:
 - **Interactive layout**
   - Many packages provide very good looking interactive layouts
 - **Front-end/Back-end communication**
