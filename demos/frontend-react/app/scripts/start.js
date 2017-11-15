@@ -63,7 +63,7 @@ function dirTree(filename) {
   }
 
   return info;
-}
+};
 
 function getServices(client) {
   console.log('requestAvailableServices');
@@ -114,6 +114,38 @@ function getServices(client) {
     }).on('error', function(e){
       console.log("Got an error: ", e);
     });
+  }
+};
+
+function checkItaliaMenu(service, client) {
+  var path = require('path');
+  var scriptPath = path.join(__dirname, 'ItaliaMenu.py');
+  console.log(scriptPath);
+  var day = service.settings[0].value;
+  console.log('Day: ', day);
+  var options = {
+    mode: 'text',
+    args: ['Risotto', day]
+  };
+  var PythonShell = require('python-shell');
+  PythonShell.run(scriptPath, options, function (err, result) {
+    if (err) {
+      // throw err
+      console.log(err)
+    }
+    console.log(result);
+    client.emit('whatInItalia', {
+      type:'result',
+      value: result
+    });
+  })
+};
+
+function computeOutputData(service, client) {
+  if (service.name === 'requestWhatInItalia') {
+    checkItaliaMenu(service, client);
+  } else {
+    console.log('computeOutputData', service);
   }
 }
 
@@ -171,28 +203,8 @@ choosePort(HOST, DEFAULT_PORT)
           })
         });
 
-        client.on('requestWhatInItalia', (message) => {
-          var day = message.settings[0].value
-          console.log('requestWhatInItalia. Day: ', day)
-          var PythonShell = require('python-shell')
-          var path = require('path')
-          var scriptPath = path.join(__dirname, 'ItaliaMenu.py')
-          console.log(scriptPath)
-          var options = {
-            mode: 'text',
-            args: ['Risotto', day]
-          }
-          PythonShell.run(scriptPath, options, function (err, result) {
-            if (err) {
-              // throw err
-              console.log(err)
-            }
-            console.log(result)
-            client.emit('whatInItalia', {
-                type:'result',
-                value: result
-              })
-          })
+        client.on('computeOutputData', (service) => {
+          computeOutputData(service, client);
         });
 
         client.on('pingServer', (message) => {

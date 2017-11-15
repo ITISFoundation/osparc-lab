@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 
+import { socket } from '../socket2Server';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { computeOutputData } from '../actions/index';
@@ -90,7 +92,8 @@ class ServiceSettings extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const submitThis = this.props.workbench.selected[0].service;
-    this.props.computeOutputData(submitThis);
+    // this.props.computeOutputData(submitThis);
+    socket.emit('computeOutputData', submitThis);
   }
 
   render() {

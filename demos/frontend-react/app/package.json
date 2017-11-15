@@ -32,6 +32,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
+    "python-shell": "^0.4.0",
     "react": "^15.5.3",
     "react-bootstrap": "^0.31.5",
     "react-dev-utils": "^4.1.0",
