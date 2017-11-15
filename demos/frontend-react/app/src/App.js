@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import IListenToSocket from './components/IListenToSocket';
 import StyleSwitch from './components/StyleSwitch';
 import ThreeDView from './components/3DView';
 import WorkbenchView from './components/WorkbenchView';
@@ -107,10 +106,6 @@ class App extends Component {
           />
         </div>
         <div style={onTop}>
-          <IListenToSocket
-            backgroundColor={this.getStyle1().backgroundColor}
-            color={this.getStyle1().color}
-          />
           <div style={{width: '100%', overflow: 'hidden'}}>
             <div style={{width: '90%', float: 'left'}}>
               <AvailableServices
