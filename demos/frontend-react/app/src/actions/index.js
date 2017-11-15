@@ -23,7 +23,7 @@ export function selectedServiceChanged(selService) {
   }
 }
 
-export function computeServiceOutput(service) {
+export function computeOutputData(service) {
   return {
     type: actionType.COMPUTE_OUTPUT_DATA,
     payload: service

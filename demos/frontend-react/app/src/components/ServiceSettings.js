@@ -3,7 +3,7 @@ import Rnd from 'react-rnd';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { computeServiceOutput } from '../actions/index';
+import { computeOutputData } from '../actions/index';
 
 class ServiceSettings extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ class ServiceSettings extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const submitThis = this.props.workbench.selected[0].service;
-    this.props.computeServiceOutput(submitThis);
+    this.props.computeOutputData(submitThis);
   }
 
   render() {
@@ -133,7 +133,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators({
-    computeServiceOutput: computeServiceOutput
+    computeOutputData: computeOutputData
   }, dispatch);
 }
 
