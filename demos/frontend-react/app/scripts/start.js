@@ -43,6 +43,23 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 6001;
 const HOST = process.env.HOST || '0.0.0.0';
 
+function getServices(client) {
+  console.log('requestAvailableServices');
+  let local_file = true;
+  if (local_file) {
+    console.log('locally');
+    var serviceManager = require('../src/ServiceManager');
+    var myServices = new serviceManager();
+    var availableServices = myServices.getAvailableServices();
+    client.emit('availableServices', {
+        type:'availableServices',
+        value: availableServices
+    })
+  } else {
+    console.log('asking director');
+  }
+}
+
 // We attempt to use the default port but if it is busy, we offer the user to
 // run on a different port. `detect()` Promise resolves to the next free port.
 choosePort(HOST, DEFAULT_PORT)
@@ -85,15 +102,8 @@ choosePort(HOST, DEFAULT_PORT)
           client.emit('userConnected', hisID);
         });
 
-        client.on('requestAvailableServices', function () {
-          console.log('requestAvailableServices')
-          var serviceManager = require('../src/ServiceManager')
-          var myServices = new serviceManager()
-          var availableServices = myServices.getAvailableServices()
-          client.emit('availableServices', {
-              type:'availableServices',
-              value: availableServices
-            })
+        client.on('requestAvailableServices', function() {
+          getServices(client);
         });
 
         client.on('requestWhatInItalia', (message) => {
