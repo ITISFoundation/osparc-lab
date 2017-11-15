@@ -98,7 +98,8 @@ class ServiceSettings extends Component {
         <Rnd
           style = {{
             color: this.props.color,
-            backgroundColor: this.props.backgroundColor
+            backgroundColor: this.props.backgroundColor,
+            borderStyle: 'solid'
           }}
           visibility = {this.state.visible}
           size = {{ width: this.state.width,  height: this.state.height }}

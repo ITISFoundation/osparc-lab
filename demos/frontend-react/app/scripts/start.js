@@ -45,6 +45,26 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 6001;
 const HOST = process.env.HOST || '0.0.0.0';
 
+const path = require('path');
+function dirTree(filename) {
+  var stats = fs.lstatSync(filename);
+  var info = {
+    path: filename,
+    name: path.basename(filename)
+  };
+
+  if (stats.isDirectory()) {
+    info.type = "folder";
+    info.children = fs.readdirSync(filename).map(function(child) {
+      return dirTree(filename + '/' + child);
+    });
+  } else {
+    info.type = "file";
+  }
+
+  return info;
+}
+
 function getServices(client) {
   console.log('requestAvailableServices');
   let local_file = false;
@@ -141,6 +161,14 @@ choosePort(HOST, DEFAULT_PORT)
 
         client.on('requestAvailableServices', function() {
           getServices(client);
+        });
+
+        client.on('rabbit', function() {
+          const rabbitFolderStructure = dirTree('//filesrv.speag.com/outbox');
+          client.emit('rabbitFolderStructure', {
+              type:'rabbitFolderStructure',
+              value: rabbitFolderStructure
+          })
         });
 
         client.on('requestWhatInItalia', (message) => {

@@ -6,6 +6,7 @@ import ThreeDView from './components/3DView';
 import WorkbenchView from './components/WorkbenchView';
 import AvailableServices from './components/AvailableServices';
 import ServiceSettings from './components/ServiceSettings';
+import ResultsFolder from './components/ResultsFolder';
 import ToolBar from './components/ToolBar';
 import { socket } from './socket2Server';
 
@@ -122,6 +123,11 @@ class App extends Component {
           />
           <ServiceSettings
             backgroundColor={this.getStyle2().backgroundColor}
+            color={this.getStyle2().color}
+          />
+          <ResultsFolder
+            backgroundColor={this.getStyle2().backgroundColor}
+            activeColor={this.getStyle1().backgroundColor}
             color={this.getStyle2().color}
           />
           <WorkbenchView />
