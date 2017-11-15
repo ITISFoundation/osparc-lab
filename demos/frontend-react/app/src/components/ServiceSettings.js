@@ -99,7 +99,8 @@ class ServiceSettings extends Component {
           style = {{
             color: this.props.color,
             backgroundColor: this.props.backgroundColor,
-            borderStyle: 'solid'
+            borderStyle: 'solid',
+            opacity: .85
           }}
           visibility = {this.state.visible}
           size = {{ width: this.state.width,  height: this.state.height }}
@@ -113,6 +114,8 @@ class ServiceSettings extends Component {
             });
           }}
         >
+          <h4 style={{textAlign: 'center'}}>Service Settings</h4>
+          <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           {this.createTitle()}
           {this.createFormUI()}
         </Rnd>

@@ -3,36 +3,6 @@ import Rnd from 'react-rnd';
 import {Treebeard, decorators} from 'react-treebeard';
 import { socket } from '../socket2Server';
 
-var data = {
-    name: 'root',
-    children: [
-        {
-            name: '1',
-            children: [
-                { name: 'child1', path: "lcov-report/index.html" },
-                { name: 'child2' }
-            ]
-        },
-        {
-            name: '2',
-            children: []
-        },
-        {
-            name: '3',
-            children: [
-                {
-                    name: 'nested parent',
-                    children: [
-                        { name: 'nested child 1', type: 'file' },
-                        { name: 'nested child 2' }
-                    ]
-                }
-            ]
-        }
-    ]
-};
-
-
 class ResultsFolder extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +12,8 @@ class ResultsFolder extends Component {
       width: 320,
       height: 400,
       x: 360,
-      y: 20
+      y: 20,
+      resultFolderStructure: null
     };
 
     this.onToggle = this.onToggle.bind(this);
@@ -152,12 +123,20 @@ class ResultsFolder extends Component {
 
     socket.on('rabbitFolderStructure', (val) => {
       if (val.type === 'rabbitFolderStructure') {
-        data = val.value;
+        this.setState({
+          resultFolderStructure: val.value
+        });
       }
     });
   }
 
   render() {
+    if (!this.state.resultFolderStructure) {
+      return(
+        <div className="ResultsFolder" />
+      );
+    }
+
     return (
       <div className="ResultsFolder">
         <Rnd
@@ -165,7 +144,8 @@ class ResultsFolder extends Component {
             color: this.props.color,
             backgroundColor: this.props.backgroundColor,
             borderStyle: 'solid',
-            textAlign: 'left'
+            textAlign: 'left',
+            opacity: .85
           }}
           visibility = {this.state.visible}
           size = {{ width: this.state.width,  height: this.state.height }}
@@ -179,10 +159,11 @@ class ResultsFolder extends Component {
             });
           }}
         >
+          <h4 style={{textAlign: 'center'}}>Results Folder</h4>
+          <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           <div style={{backgroundColor: this.props.backgroundColor}}>
             <Treebeard
-              data={data}
-              // data={data2}
+              data={this.state.resultFolderStructure}
               onToggle={this.onToggle}
               decorators={decorators}
               style={this.getMyStyle()}
