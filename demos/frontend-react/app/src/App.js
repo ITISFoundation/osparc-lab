@@ -6,6 +6,7 @@ import WorkbenchView from './components/WorkbenchView';
 import AvailableServices from './components/AvailableServices';
 import ServiceSettings from './components/ServiceSettings';
 import ResultsFolder from './components/ResultsFolder';
+import ResultsViewer from './components/ResultsViewer';
 import ToolBar from './components/ToolBar';
 import { socket } from './socket2Server';
 
@@ -121,7 +122,6 @@ class App extends Component {
               />
             </div>
           </div>
-
           <ServiceSettings
             backgroundColor={this.getStyle2().backgroundColor}
             color={this.getStyle2().color}
@@ -129,6 +129,10 @@ class App extends Component {
           <ResultsFolder
             backgroundColor={this.getStyle2().backgroundColor}
             activeColor={this.getStyle1().backgroundColor}
+            color={this.getStyle2().color}
+          />
+          <ResultsViewer
+            backgroundColor={this.getStyle2().backgroundColor}
             color={this.getStyle2().color}
           />
           <WorkbenchView />
