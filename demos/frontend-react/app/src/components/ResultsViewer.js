@@ -17,22 +17,14 @@ class ResultsViewer extends Component {
     };
   }
 
-  convertToPublic(pathToConvert) {
-    if (pathToConvert === null)
-      return pathToConvert;
-
-    // Hack: make all local path pulic
-    var localDir = '//filesrv.speag.com/outbox/'
-    var publicDir = 'https://outbox.zurichmedtech.com/maiz/';
-
-    var pathConverted = pathToConvert.replace(localDir, publicDir);
-    return pathConverted;
+  convertOutputToImage(filePath) {
+    return (<img src={filePath} style={{height: '100%', width: '100%', objectFit: 'contain'}}/>)
   }
 
-  convertOutputToImage(filePath) {
-    return (<img style={{height: '100%', width: '100%', objectFit: 'contain'}}
-      src={this.convertToPublic(filePath)}
-    />)
+  convertOutputToTable(filePath) {
+  }
+
+  convertOutputToPureHtml(filePath) {
   }
 
   convertOutputToHtml(filePath) {
@@ -46,6 +38,14 @@ class ResultsViewer extends Component {
       case 'png':
         htmlCode = this.convertOutputToImage(filePath);
         break;
+      /*
+      case 'csv':
+        htmlCode = this.convertOutputToTable(filePath);
+        break;
+      case 'html':
+        htmlCode = this.convertOutputToPureHtml(filePath);
+        break;
+      */
       default:
         htmlCode = "";
         break;
@@ -53,7 +53,20 @@ class ResultsViewer extends Component {
     return htmlCode;
   }
 
+  convertPathToPublic(pathToConvert) {
+    if (pathToConvert === null)
+      return pathToConvert;
+
+    // Hack: make all local path pulic
+    var localDir = '//filesrv.speag.com/outbox/'
+    var publicDir = 'https://outbox.zurichmedtech.com/maiz/';
+
+    var pathConverted = pathToConvert.replace(localDir, publicDir);
+    return pathConverted;
+  }
+
   render() {
+    let pubPath = this.convertPathToPublic(this.props.showOutputDataReducer);
     return (
       <div className="ResultsViewer">
         <Rnd
@@ -78,7 +91,7 @@ class ResultsViewer extends Component {
           <h4 style={{textAlign: 'center'}}>Results Viewer</h4>
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           <div style={{backgroundColor: this.props.backgroundColor}}>
-            {this.convertOutputToHtml(this.props.showOutputDataReducer)}
+            {this.convertOutputToHtml(pubPath)}
           </div>
         </Rnd>
       </div>
