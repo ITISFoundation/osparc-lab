@@ -35,7 +35,7 @@ def image(image):
     return frontend_template('image.html', **kwargs)
 
 @app.route('/image/<path:image>/tag/<tag>')
-def example(image, tag):
+def manifest(image, tag):
     r = registry_request(image + '/manifests/' + tag)
     j = r.json()
     
@@ -44,7 +44,7 @@ def example(image, tag):
         'tag': tag,
         'image': image,
         'layers': len(j['fsLayers']),
-        'labels': labels 
+        'labels': labels
         }
 
     return frontend_template('tag.html', **kwargs)
@@ -87,4 +87,4 @@ if __name__ == "__main__":
     print ("Registry URL: " + os.environ['REGISTRY_URL'])
     print ("Frontend URL: " + FRONTEND_URL)
 
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, port=5001)

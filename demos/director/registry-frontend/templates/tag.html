@@ -1,5 +1,3 @@
-{% extends "layout.html" %}
-
 {% block content %}
 <div class="panel panel-primary">
 
@@ -13,11 +11,13 @@
                 <td>Image</td><td><b>{{ image }}</b></td>
             </tr><tr>
                 <td>Tag</td><td><b>{{ tag }}</b></td>
-            </tr><tr>
-                <td>Layers</td><td><b>{{ layers }}</b></td>
             </tr>
-	    </tr><tr>
-                <td>Labels</td><td><b>{{ labels }}</b></td>
+        </tr><tr>
+                 {% for label in labels.keys() %}
+                    <tr>
+                        <td>{{ label }}</td><td><b>{{labels[label]}}</b></td>
+                    </tr>
+                {% endfor %}
             </tr>
 
         </table>
