@@ -35,8 +35,10 @@ class ResultsFolder extends Component {
       cursor: node
     });
 
-    if (node.active === true && node.type === 'file')
+    if (node.active === true && node.type === 'file') {
       console.log(node.path);
+      this.props.showOutputData(node.path);
+    }
   }
 
   getMyStyle() {

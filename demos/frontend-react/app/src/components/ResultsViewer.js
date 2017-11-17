@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 class ResultsViewer extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +42,7 @@ class ResultsViewer extends Component {
           <h4 style={{textAlign: 'center'}}>Results Viewer</h4>
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           <div style={{backgroundColor: this.props.backgroundColor}}>
+            {this.props.showOutputDataReducer}
           </div>
         </Rnd>
       </div>
@@ -46,4 +50,10 @@ class ResultsViewer extends Component {
   }
 }
 
-export default ResultsViewer;
+function mapStateToProps(state) {
+  return {
+    showOutputDataReducer: state.showOutputDataReducer,
+  };
+}
+
+export default connect(mapStateToProps, null)(ResultsViewer);
