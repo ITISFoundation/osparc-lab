@@ -92,8 +92,9 @@ class ServiceSettings extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const submitThis = this.props.workbench.selected[0].service;
-    // this.props.computeOutputData(submitThis);
-    socket.emit('computeOutputData', submitThis);
+    const uniqueName = this.props.workbench.selected[0].uniqueName;
+
+    socket.emit('computeOutputData', submitThis, uniqueName);
   }
 
   render() {

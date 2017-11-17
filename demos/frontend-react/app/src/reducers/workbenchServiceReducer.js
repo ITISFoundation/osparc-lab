@@ -15,7 +15,7 @@ const newServiceReducer = function(state = initialState.workbench, action) {
     let copiedService = copyObject(action.payload);
     let newNode = {
       uniqueName: copiedService.text + '_S' + Number(newState.nodes.length+1),
-      service: copiedService
+      service: copiedService,
     };
     if ('input' in copiedService && copiedService.input !== 'none') {
       newNode['input'] = {

@@ -157,7 +157,7 @@ function calculateRandomValue(service, client) {
   console.log('Random Radius...');
 }
 
-function computeOutputData(service, client) {
+function computeOutputData(service, uniqueName, client) {
   console.log('computeOutputData', service);
   if (service.name === 'requestWhatInItalia')
   {
@@ -169,10 +169,11 @@ function computeOutputData(service, client) {
   }
   else if (service.name === 'rabbit')
   {
-    const outputFolderStructure = dirTree('//filesrv.speag.com/outbox');
-    client.emit('outputFolderStructure', {
-        type:'outputFolderStructure',
-        value: outputFolderStructure
+    const outputDataStructure = dirTree('//filesrv.speag.com/outbox/' + uniqueName);
+    client.emit('outputDataStructure', {
+        type:'outputDataStructure',
+        value: outputDataStructure,
+        jobId: uniqueName
     });
   }
   else
@@ -222,8 +223,8 @@ choosePort(HOST, DEFAULT_PORT)
           getServices(client);
         });
 
-        client.on('computeOutputData', (service) => {
-          computeOutputData(service, client);
+        client.on('computeOutputData', (service, uniqueName) => {
+          computeOutputData(service, uniqueName, client);
         });
 
 

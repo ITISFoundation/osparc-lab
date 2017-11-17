@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import {Treebeard, decorators} from 'react-treebeard';
+
 import { socket } from '../socket2Server';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { showOutputData } from '../actions/index';
 
 class ResultsFolder extends Component {
   constructor(props) {
@@ -12,8 +17,7 @@ class ResultsFolder extends Component {
       width: 320,
       height: 400,
       x: 360,
-      y: 20,
-      resultFolderStructure: null
+      y: 20
     };
 
     this.onToggle = this.onToggle.bind(this);
@@ -119,17 +123,36 @@ class ResultsFolder extends Component {
   }
 
   componentDidMount() {
-    socket.on('outputFolderStructure', (val) => {
-      if (val.type === 'outputFolderStructure') {
-        this.setState({
-          resultFolderStructure: val.value
-        });
+    socket.on('outputDataStructure', (res) => {
+      if (res.type === 'outputDataStructure') {
+        for (var i = 0; i < this.props.workbench.nodes.length; i++) {
+          if (this.props.workbench.nodes[i].uniqueName === res.jobId) {
+            this.props.workbench.nodes[i].service.outputDir = res.value;
+            break;
+          }
+        }
       }
     });
   }
 
+  resultsAvailable() {
+    if (this.props.workbench.selected.length === 0)
+      return false;
+
+    if (!this.props.workbench.selected[0])
+      return false;
+
+    if (!('outputDir' in  this.props.workbench.selected[0].service))
+      return false;
+
+    if (this.props.workbench.selected[0].service.outputDir === "")
+      return false;
+
+    return true;
+  }
+
   render() {
-    if (!this.state.resultFolderStructure) {
+    if (!this.resultsAvailable()) {
       return(
         <div className="ResultsFolder" />
       );
@@ -161,7 +184,7 @@ class ResultsFolder extends Component {
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           <div style={{backgroundColor: this.props.backgroundColor}}>
             <Treebeard
-              data={this.state.resultFolderStructure}
+              data={this.props.workbench.selected[0].service.outputDir}
               onToggle={this.onToggle}
               decorators={decorators}
               style={this.getMyStyle()}
@@ -173,4 +196,16 @@ class ResultsFolder extends Component {
   }
 }
 
-export default ResultsFolder;
+function mapStateToProps(state) {
+  return {
+    workbench: state.workbenchServiceReducer,
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({
+    showOutputData: showOutputData
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(ResultsFolder);
