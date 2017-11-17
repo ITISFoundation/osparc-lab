@@ -8,5 +8,6 @@ export default {
   defaultBaseColor: {
     baseColor: 66
   },
-  computeThis: null
+  computeThis: null,
+  showThis: [],
 };

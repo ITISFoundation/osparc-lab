@@ -30,6 +30,13 @@ export function computeOutputData(service) {
   }
 }
 
+export function showOutputData(path) {
+  return {
+    type: actionType.SHOW_OUTPUT_DATA,
+    payload: path
+  }
+}
+
 export function styleChanged(newStyleCode) {
   // 0: day, 1: night, 2: italia
   return {

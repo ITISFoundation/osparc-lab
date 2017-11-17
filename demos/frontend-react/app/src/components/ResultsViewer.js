@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 
-import AvailableServices from './AvailableServices';
-import IListenToSocket from './IListenToSocket';
-
 class ResultsViewer extends Component {
   constructor(props) {
     super(props);
