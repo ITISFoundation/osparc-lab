@@ -169,7 +169,8 @@ function computeOutputData(service, uniqueName, client) {
   }
   else if (service.name === 'rabbit')
   {
-    const outputDataStructure = dirTree('//filesrv.speag.com/outbox/' + uniqueName);
+    var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
+    var outputDataStructure = dirTree(localDir);
     client.emit('outputDataStructure', {
         type:'outputDataStructure',
         value: outputDataStructure,
