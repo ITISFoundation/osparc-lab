@@ -17,6 +17,42 @@ class ResultsViewer extends Component {
     };
   }
 
+  convertToPublic(pathToConvert) {
+    if (pathToConvert === null)
+      return pathToConvert;
+
+    // Hack: make all local path pulic
+    var localDir = '//filesrv.speag.com/outbox/'
+    var publicDir = 'https://outbox.zurichmedtech.com/maiz/';
+
+    var pathConverted = pathToConvert.replace(localDir, publicDir);
+    return pathConverted;
+  }
+
+  convertOutputToImage(filePath) {
+    return (<img style={{height: '100%', width: '100%', objectFit: 'contain'}}
+      src={this.convertToPublic(filePath)}
+    />)
+  }
+
+  convertOutputToHtml(filePath) {
+    let htmlCode = "";
+
+    if (!filePath)
+      return htmlCode;
+
+    let ext = filePath.split('.').pop();
+    switch (ext) {
+      case 'png':
+        htmlCode = this.convertOutputToImage(filePath);
+        break;
+      default:
+        htmlCode = "";
+        break;
+    }
+    return htmlCode;
+  }
+
   render() {
     return (
       <div className="ResultsViewer">
@@ -42,7 +78,7 @@ class ResultsViewer extends Component {
           <h4 style={{textAlign: 'center'}}>Results Viewer</h4>
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           <div style={{backgroundColor: this.props.backgroundColor}}>
-            {this.props.showOutputDataReducer}
+            {this.convertOutputToHtml(this.props.showOutputDataReducer)}
           </div>
         </Rnd>
       </div>

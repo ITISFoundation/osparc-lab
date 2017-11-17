@@ -167,7 +167,7 @@ function computeOutputData(service, uniqueName, client) {
   {
     calculateRandomValue(service, client);
   }
-  else if (service.name === 'rabbit')
+  else if (service.name === 'single-cell')
   {
     var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
     var outputDataStructure = dirTree(localDir);
