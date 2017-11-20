@@ -12,7 +12,7 @@ class ResultsViewer extends Component {
     this.state = {
       visible: 'visible',
       width: 600,
-      height: 600,
+      height: 640,
       x: 1200,
       y: 20
     };
