@@ -3,7 +3,6 @@ import Rnd from 'react-rnd';
 
 import { socket } from '../socket2Server';
 
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 class ResultsViewer extends Component {
@@ -28,7 +27,7 @@ class ResultsViewer extends Component {
     socket.on('readCsvContentRes', (items) => {
       console.log('readCsvContentRes', items);
       var col = [];
-      for (var i = 0; i < items.length; i++) {
+      for (let i = 0; i < items.length; i++) {
         for (var key in items[i]) {
           if (col.indexOf(key) === -1) {
             col.push(key);
@@ -37,21 +36,21 @@ class ResultsViewer extends Component {
       }
       var table = document.createElement("table");
       var tr = table.insertRow(-1);
-      for (var i = 0; i < col.length; i++) {
+      for (let i = 0; i < col.length; i++) {
         var th = document.createElement("th");
+        th.setAttribute("style", "text-align:center;");
         th.innerHTML = col[i];
         tr.appendChild(th);
       }
-      for (var i = 0; i < items.length; i++) {
+      for (let i = 0; i < items.length; i++) {
         tr = table.insertRow(-1);
         for (var j = 0; j < col.length; j++) {
           var tabCell = tr.insertCell(-1);
           tabCell.innerHTML = items[i][col[j]];
         }
       }
-      var divContainer = document.getElementById("display");
-      divContainer.innerHTML = "";
-      divContainer.appendChild(table);
+      document.getElementById("display").innerHTML = "";
+      document.getElementById("display").appendChild(table);
     });
   }
 
@@ -123,7 +122,7 @@ class ResultsViewer extends Component {
         >
           <h4 style={{textAlign: 'center'}}>Results Viewer</h4>
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
-          <div id='display' style={{backgroundColor: this.props.backgroundColor}}>
+          <div id='display' style={{backgroundColor: this.props.backgroundColor, textAlign: 'center'}}>
             {this.convertOutputToHtml(pubPath)}
           </div>
         </Rnd>
