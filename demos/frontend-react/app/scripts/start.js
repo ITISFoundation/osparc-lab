@@ -45,25 +45,6 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 6001;
 const HOST = process.env.HOST || '0.0.0.0';
 
-const path = require('path');
-function dirTree(filename) {
-  var stats = fs.lstatSync(filename);
-  var info = {
-    path: filename,
-    name: path.basename(filename)
-  };
-
-  if (stats.isDirectory()) {
-    info.type = "folder";
-    info.children = fs.readdirSync(filename).map(function(child) {
-      return dirTree(filename + '/' + child);
-    });
-  } else {
-    info.type = "file";
-  }
-
-  return info;
-};
 
 function getServices(client) {
   console.log('requestAvailableServices');
@@ -157,6 +138,26 @@ function calculateRandomValue(service, client) {
   console.log('Random Radius...');
 }
 
+function dirTree(filename) {
+  const path = require('path');
+  var stats = fs.lstatSync(filename);
+  var info = {
+    path: filename,
+    name: path.basename(filename)
+  };
+
+  if (stats.isDirectory()) {
+    info.type = "folder";
+    info.children = fs.readdirSync(filename).map(function(child) {
+      return dirTree(filename + '/' + child);
+    });
+  } else {
+    info.type = "file";
+  }
+
+  return info;
+};
+
 function computeOutputData(service, uniqueName, client) {
   console.log('computeOutputData', service);
   if (service.name === 'requestWhatInItalia')
@@ -181,6 +182,35 @@ function computeOutputData(service, uniqueName, client) {
   {
     console.log('Request should be sent to the director');
   }
+}
+
+function readUrlContent(url, client) {
+  console.log('url', url);
+
+  const request = require('request');
+  request.get(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log('readUrlContentRes', body);
+      client.emit('readUrlContentRes', body);
+    }
+  });
+}
+
+function readCsvContent(url, client) {
+  console.log('url', url);
+
+  const request = require('request');
+  const csv = require('csvtojson');
+  var jsonArray = [];
+  csv()
+    .fromStream(request.get(url))
+    .on('json',(jsonObj)=>{
+      jsonArray.push(jsonObj);
+    })
+    .on('done',(error)=>{
+      console.log('readCsvContentRes', jsonArray);
+      client.emit('readCsvContentRes', jsonArray);
+    });
 }
 
 // We attempt to use the default port but if it is busy, we offer the user to
@@ -228,6 +258,15 @@ choosePort(HOST, DEFAULT_PORT)
           computeOutputData(service, uniqueName, client);
         });
 
+        client.on('readUrlContent', function(url) {
+          readUrlContent(url, client);
+        });
+
+        client.on('readCsvContent', function(url) {
+          readCsvContent(url, client);
+        });
+
+        // --------------------------------------- //
 
         client.on('amIConnected', (hisID) => {
           console.log('Client with id ', hisID, ' connected');
@@ -237,9 +276,9 @@ choosePort(HOST, DEFAULT_PORT)
         client.on('pingServer', (message) => {
           console.log('pingServer ', message)
           client.emit('customEmit', {
-              type:'customEmit',
-              text: message + ' back'
-            })
+            type:'customEmit',
+            text: message + ' back'
+          })
         });
       });
 

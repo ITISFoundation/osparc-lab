@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 
+import { socket } from '../socket2Server';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -22,9 +24,42 @@ class ResultsViewer extends Component {
   }
 
   convertOutputToTable(filePath) {
+    socket.emit('readCsvContent', filePath);
+    socket.on('readCsvContentRes', (items) => {
+      console.log('readCsvContentRes', items);
+      var col = [];
+      for (var i = 0; i < items.length; i++) {
+        for (var key in items[i]) {
+          if (col.indexOf(key) === -1) {
+            col.push(key);
+          }
+        }
+      }
+      var table = document.createElement("table");
+      var tr = table.insertRow(-1);
+      for (var i = 0; i < col.length; i++) {
+        var th = document.createElement("th");
+        th.innerHTML = col[i];
+        tr.appendChild(th);
+      }
+      for (var i = 0; i < items.length; i++) {
+        tr = table.insertRow(-1);
+        for (var j = 0; j < col.length; j++) {
+          var tabCell = tr.insertCell(-1);
+          tabCell.innerHTML = items[i][col[j]];
+        }
+      }
+      var divContainer = document.getElementById("display");
+      divContainer.innerHTML = "";
+      divContainer.appendChild(table);
+    });
   }
 
   convertOutputToPureHtml(filePath) {
+    socket.emit('readUrlContent', filePath);
+    socket.on('readUrlContentRes', (val) => {
+      document.getElementById("display").innerHTML = val;
+    });
   }
 
   convertOutputToHtml(filePath) {
@@ -38,14 +73,12 @@ class ResultsViewer extends Component {
       case 'png':
         htmlCode = this.convertOutputToImage(filePath);
         break;
-      /*
       case 'csv':
         htmlCode = this.convertOutputToTable(filePath);
         break;
       case 'html':
         htmlCode = this.convertOutputToPureHtml(filePath);
         break;
-      */
       default:
         htmlCode = "";
         break;
@@ -90,7 +123,7 @@ class ResultsViewer extends Component {
         >
           <h4 style={{textAlign: 'center'}}>Results Viewer</h4>
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
-          <div style={{backgroundColor: this.props.backgroundColor}}>
+          <div id='display' style={{backgroundColor: this.props.backgroundColor}}>
             {this.convertOutputToHtml(pubPath)}
           </div>
         </Rnd>
