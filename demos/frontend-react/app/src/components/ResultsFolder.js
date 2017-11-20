@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import {Treebeard, decorators} from 'react-treebeard';
 
-import { socket } from '../socket2Server';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { showOutputData } from '../actions/index';
@@ -122,19 +120,6 @@ class ResultsFolder extends Component {
         }
       }
     }
-  }
-
-  componentDidMount() {
-    socket.on('outputDataStructure', (res) => {
-      if (res.type === 'outputDataStructure') {
-        for (var i = 0; i < this.props.workbench.nodes.length; i++) {
-          if (this.props.workbench.nodes[i].uniqueName === res.jobId) {
-            this.props.workbench.nodes[i].service.outputDir = res.value;
-            break;
-          }
-        }
-      }
-    });
   }
 
   resultsAvailable() {

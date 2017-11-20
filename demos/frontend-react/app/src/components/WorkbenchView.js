@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as SRD from 'storm-react-diagrams';
 
+import { socket } from '../socket2Server';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { selectedServiceChanged } from '../actions';
@@ -15,6 +17,20 @@ class WorkbenchView extends Component {
     this.diagramEngine = new SRD.DiagramEngine();
     this.diagramEngine.registerNodeFactory(new SRD.DefaultNodeFactory());
     this.diagramEngine.registerLinkFactory(new SRD.DefaultLinkFactory());
+  }
+
+  componentDidMount() {
+    socket.on('outputDataStructure', (res) => {
+      if (res.type === 'outputDataStructure') {
+        for (var i = 0; i < this.props.workbench.nodes.length; i++) {
+          if (this.props.workbench.nodes[i].uniqueName === res.jobId) {
+            this.props.workbench.nodes[i].service.outputDir = res.value;
+            this.rebuildWorkbench();
+            break;
+          }
+        }
+      }
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
