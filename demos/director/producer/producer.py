@@ -22,16 +22,16 @@ def on_rabbit_request(*args, **kwargs):
 
 credentials = pika.PlainCredentials('guest', 'guest')
 parameters = pika.ConnectionParameters(host='rabbitmq', port=5672, virtual_host='/', credentials=credentials)
-connection = pika.BlockingConnection(parameters)
 channel_established = False
 channel = None
 while not channel_established:
   try:
+    connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     channel.queue_declare(queue='hello')
     channel_established = True
   except:
-    time.wait(1)
+    time.sleep(1)
     
 
 counter = 1
