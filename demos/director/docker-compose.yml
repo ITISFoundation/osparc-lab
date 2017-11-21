@@ -1,0 +1,26 @@
+version: '2'
+services:
+  producer:
+    build:
+      context: .
+      dockerfile: ./producer/Dockerfile
+    volumes:
+      - ./producer:/work
+      - ./database:/database
+    ports:
+      - "5011:5011"
+    depends_on: 
+      - database
+  viewer:
+    build:
+      context: .
+      dockerfile: ./viewer/Dockerfile
+    volumes:
+      - ./viewer:/work
+      - ./database:/database
+    ports:
+      - "5010:5010"
+    depends_on: 
+      - database
+  database:
+    image: mongo:3.4.0
