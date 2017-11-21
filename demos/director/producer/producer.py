@@ -5,6 +5,49 @@ import uuid
 import os
 from pymongo import MongoClient
 from bson import ObjectId
+import pika
+import threading
+import time
+
+def on_rabbit_request(*args, **kwargs):
+  channel = kwargs["channel"]
+  callback = kwargs["callback"]
+  queue = kwargs["queue"]
+
+  channel.basic_consume(callback, queue=queue, no_ack=True)
+
+  t1 = threading.Thread(target=channel.start_consuming)
+  t1.start()
+  t1.join(0)
+
+credentials = pika.PlainCredentials('guest', 'guest')
+parameters = pika.ConnectionParameters(host='rabbitmq', port=5672, virtual_host='/', credentials=credentials)
+connection = pika.BlockingConnection(parameters)
+channel_established = False
+channel = None
+while not channel_established:
+  try:
+    channel = connection.channel()
+    channel.queue_declare(queue='hello')
+    channel_established = True
+  except:
+    time.wait(1)
+    
+
+counter = 1
+def callback(ch, method, properties, body):
+    global counter
+    with open("log.dat", "a") as f:
+        f.write(str(counter) + ": " + body + "\n" )
+        counter = counter +1
+
+#channel.basic_consume(callback,
+#                      queue='hello',
+##                      no_ack=True)
+##
+##print ' [*] Waiting for messages. To exit press CTRL+C'
+##channel.start_consuming()
+on_rabbit_request(callback=callback, queue='hello', channel=channel)
 
 app = Flask(__name__)
 

@@ -3,6 +3,7 @@ from werkzeug.exceptions import NotFound, ServiceUnavailable
 import json
 import requests
 import os
+import pika
 
 app = Flask(__name__)
 
@@ -25,7 +26,20 @@ def service(id):
 
 @app.route("/plot_rabbit", methods=['GET'])
 def plot_rabbit():
-    return nice_json({"status" : "under construstion"})
+  credentials = pika.PlainCredentials('guest', 'guest')
+  parameters = pika.ConnectionParameters(host='rabbitmq', port=5672, virtual_host='/', credentials=credentials)
+  connection = pika.BlockingConnection(parameters)
+
+  channel = connection.channel()
+
+  channel.queue_declare(queue='hello')
+
+  channel.basic_publish(exchange='',
+                        routing_key='hello',
+                        body='Hello World!')
+  connection.close()
+
+  return nice_json({"status" : "sent command"})
 
 
 if __name__ == "__main__":
