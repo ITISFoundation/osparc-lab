@@ -2,4 +2,5 @@
   text-align: center;
   padding: 5px;
   width: 100vw;
+  min-height: 65px; /* if there is no available service kkeps height */
 }

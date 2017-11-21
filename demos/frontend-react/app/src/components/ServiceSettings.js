@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 
+import { socket } from '../socket2Server';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { computeServiceOutput } from '../actions/index';
+import { computeOutputData } from '../actions/index';
 
 class ServiceSettings extends Component {
   constructor(props) {
@@ -32,9 +34,9 @@ class ServiceSettings extends Component {
     let title = [];
     if (this.props.workbench.selected.length > 0 && this.props.workbench.selected[0]) {
       title =
-        <h4>
+        <h5>
           {this.props.workbench.selected[0].uniqueName}
-        </h4>
+        </h5>
     }
     return title || null;
   }
@@ -44,14 +46,30 @@ class ServiceSettings extends Component {
     if (this.props.workbench.selected.length > 0 && this.props.workbench.selected[0]) {
       for (let i = 0; i < this.props.workbench.selected[0].service.settings.length; i++) {
         let setting = this.props.workbench.selected[0].service.settings[i];
-        settings.push(
-          <div key={i}>
-            {setting.text}:
-            <input type={setting.type} name={setting.name} value={setting.value}
-              onChange={this.handleChange.bind(this, setting.name)}
-            />
-          </div>
-        );
+        if (setting.type === 'select') {
+          let items = [];
+          for (let j = 0; j < setting.options.length; j++) {
+            items.push(<option key={j} value={j}>{setting.options[j]}</option>);
+          }
+          settings.push(
+            <div key={i}>
+              {setting.text}:
+              <select name={setting.name} value={setting.value}
+                onChange={this.handleChange.bind(this, setting.name)}>
+                {items}
+              </select>
+            </div>
+          );
+        } else {
+          settings.push(
+            <div key={i}>
+              {setting.text}:
+              <input type={setting.type} name={setting.name} value={setting.value}
+                onChange={this.handleChange.bind(this, setting.name)}
+              />
+            </div>
+          );
+        }
       }
     }
     return settings || null;
@@ -64,7 +82,8 @@ class ServiceSettings extends Component {
       form =
         <form onSubmit={this.handleSubmit.bind(this)}>
           {sets}
-          <input type="submit" value="Submit" />
+          <br />
+          <input type="submit" value="Submit" style={{color: 'black'}}/>
         </form>
     }
     return form || null;
@@ -73,7 +92,9 @@ class ServiceSettings extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const submitThis = this.props.workbench.selected[0].service;
-    this.props.computeServiceOutput(submitThis);
+    const uniqueName = this.props.workbench.selected[0].uniqueName;
+
+    socket.emit('computeOutputData', submitThis, uniqueName);
   }
 
   render() {
@@ -82,7 +103,9 @@ class ServiceSettings extends Component {
         <Rnd
           style = {{
             color: this.props.color,
-            backgroundColor: this.props.backgroundColor
+            backgroundColor: this.props.backgroundColor,
+            borderStyle: 'solid',
+            opacity: .85
           }}
           visibility = {this.state.visible}
           size = {{ width: this.state.width,  height: this.state.height }}
@@ -96,6 +119,8 @@ class ServiceSettings extends Component {
             });
           }}
         >
+          <h4 style={{textAlign: 'center'}}>Service Settings</h4>
+          <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           {this.createTitle()}
           {this.createFormUI()}
         </Rnd>
@@ -112,7 +137,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators({
-    computeServiceOutput: computeServiceOutput
+    computeOutputData: computeOutputData
   }, dispatch);
 }
 

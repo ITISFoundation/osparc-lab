@@ -1,5 +1,7 @@
 'use strict';
 
+var https = require('https');
+
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
@@ -43,6 +45,174 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 6001;
 const HOST = process.env.HOST || '0.0.0.0';
 
+
+function getServices(client) {
+  console.log('requestAvailableServices');
+  let local_file = false;
+  if (local_file) {
+    console.log('locally');
+    var serviceManager = require('../src/ServiceManager');
+    var myServices = new serviceManager();
+    var availableServices = myServices.getAvailableServices();
+    client.emit('availableServices', {
+        type:'availableServices',
+        value: availableServices
+    })
+  } else {
+    console.log('asking director');
+    var url = 'https://outbox.zurichmedtech.com/maiz/ServiceRegistry.json';
+    https.get(url, function(res){
+      var json = '';
+
+      res.on('data', function(chunk){
+          json += chunk;
+      });
+
+      res.on('end', function(){
+        if (res.statusCode === 200) {
+          try {
+            var availableServicesJson = JSON.parse(json);
+            var availableServices = [];
+            console.log('Found', Object.keys(availableServicesJson).length, ':');
+            for (var key in availableServicesJson) {
+              if (!availableServicesJson.hasOwnProperty(key)) {
+                continue;
+              }
+              console.log(availableServicesJson[key].text);
+              availableServices.push(availableServicesJson[key]);
+            };
+            client.emit('availableServices', {
+                type:'availableServices',
+                value: availableServices
+            })
+          } catch (e) {
+            console.log('Error parsing JSON!');
+          }
+        } else {
+            console.log('Status:', res.statusCode);
+        }
+      });
+    }).on('error', function(e){
+      console.log("Got an error: ", e);
+    });
+  }
+};
+
+function checkItaliaMenu(service, client) {
+  var path = require('path');
+  var scriptPath = path.join(__dirname, 'ItaliaMenu.py');
+  console.log(scriptPath);
+  var day = service.settings[0].value;
+  console.log('Day: ', day);
+  var options = {
+    mode: 'text',
+    args: ['Risotto', day]
+  };
+  var PythonShell = require('python-shell');
+  PythonShell.run(scriptPath, options, function (err, result) {
+    if (err) {
+      // throw err
+      console.log(err)
+    }
+    console.log(result);
+    client.emit('whatInItalia', {
+      type:'result',
+      value: result
+    });
+  })
+};
+
+function calculateRandomValue(service, client) {
+  var sleepFor = 3000; //ms
+  console.log('Calculating')
+  setTimeout(function() {
+    var min = Number(service.settings[0].value);
+    var max = Number(service.settings[1].value);
+    var newRand = Math.floor(Math.random() * (max - min + 1) + min);
+    console.log(newRand);
+    client.emit('radiusChangedByServer', {
+      type:'randomizer',
+      value: newRand
+    });
+  }, sleepFor);
+  console.log('Random Radius...');
+}
+
+function dirTree(filename) {
+  const path = require('path');
+  var stats = fs.lstatSync(filename);
+  var info = {
+    path: filename,
+    name: path.basename(filename)
+  };
+
+  if (stats.isDirectory()) {
+    info.type = "folder";
+    info.children = fs.readdirSync(filename).map(function(child) {
+      return dirTree(filename + '/' + child);
+    });
+  } else {
+    info.type = "file";
+  }
+
+  return info;
+};
+
+function computeOutputData(service, uniqueName, client) {
+  console.log('computeOutputData', service);
+  if (service.name === 'requestWhatInItalia')
+  {
+    checkItaliaMenu(service, client);
+  }
+  else if (service.name === 'randomizer')
+  {
+    calculateRandomValue(service, client);
+  }
+  else if (service.name === 'single-cell')
+  {
+    var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
+    var outputDataStructure = dirTree(localDir);
+    client.emit('outputDataStructure', {
+        type:'outputDataStructure',
+        value: outputDataStructure,
+        jobId: uniqueName
+    });
+  }
+  else
+  {
+    console.log('Request should be sent to the director');
+  }
+}
+
+function readUrlContent(url, client) {
+  console.log('url', url);
+
+  const request = require('request');
+  request.get(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log('readUrlContentRes', body);
+      client.emit('readUrlContentRes', body);
+    }
+  });
+}
+
+function readCsvContent(url, client) {
+  console.log('url', url);
+
+  const request = require('request');
+  const csv = require('csvtojson');
+  var jsonArray = [];
+  csv()
+    .fromStream(request.get(url))
+    .on('json',(jsonObj)=>{
+      jsonArray.push(jsonObj);
+    })
+    .on('done',(error)=>{
+      console.log('readCsvContentRes', jsonArray);
+      client.emit('readCsvContentRes', jsonArray);
+    });
+}
+
 // We attempt to use the default port but if it is busy, we offer the user to
 // run on a different port. `detect()` Promise resolves to the next free port.
 choosePort(HOST, DEFAULT_PORT)
@@ -80,68 +250,35 @@ choosePort(HOST, DEFAULT_PORT)
 
       io.on('connection', (client) => {
 
+        client.on('requestAvailableServices', function() {
+          getServices(client);
+        });
+
+        client.on('computeOutputData', (service, uniqueName) => {
+          computeOutputData(service, uniqueName, client);
+        });
+
+        client.on('readUrlContent', function(url) {
+          readUrlContent(url, client);
+        });
+
+        client.on('readCsvContent', function(url) {
+          readCsvContent(url, client);
+        });
+
+        // --------------------------------------- //
+
         client.on('amIConnected', (hisID) => {
           console.log('Client with id ', hisID, ' connected');
           client.emit('userConnected', hisID);
         });
 
-        client.on('requestAvailableServices', function () {
-          console.log('requestAvailableServices')
-          var serviceManager = require('../src/ServiceManager')
-          var myServices = new serviceManager()
-          var availableServices = myServices.getAvailableServices()
-          client.emit('availableServices', {
-              type:'availableServices',
-              value: availableServices
-            })
-        });
-
-        client.on('requestWhatInItalia', (message) => {
-          var day = message.settings[0].value
-          console.log('requestWhatInItalia. Day: ', day)
-          var PythonShell = require('python-shell')
-          var path = require('path')
-          var scriptPath = path.join(__dirname, 'ItaliaMenu.py')
-          console.log(scriptPath)
-          var options = {
-            mode: 'text',
-            args: ['Risotto', day]
-          }
-          PythonShell.run(scriptPath, options, function (err, result) {
-            if (err) {
-              // throw err
-              console.log(err)
-            }
-            console.log(result)
-            client.emit('whatInItalia', {
-                type:'result',
-                value: result
-              })
-          })
-        });
-
         client.on('pingServer', (message) => {
           console.log('pingServer ', message)
           client.emit('customEmit', {
-              type:'customEmit',
-              text: message + ' back'
-            })
-        });
-
-        client.on('randomRadius', (message) => {
-          console.log('Calculating')
-          setTimeout(function() {
-            console.log('Calculated:')
-            var max = 10
-            var min = 1
-            var newRand = Math.floor(Math.random() * (max - min + 1) + min)
-            console.log(newRand)
-            client.emit('radiusChangedByServer', {
-                type:'randomizer',
-                value: newRand
-              })
-          }, 5000)
-          console.log('Random Radius...')
+            type:'customEmit',
+            text: message + ' back'
+          })
         });
       });
 
