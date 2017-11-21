@@ -1,5 +1,14 @@
 version: '2'
 services:
+  director:
+    build:
+      context: .
+      dockerfile: ./director/Dockerfile
+    volumes:
+      - ./director:/work
+      - ./registry:/registry
+    ports:
+      - "8010:8010"
   producer:
     build:
       context: .
