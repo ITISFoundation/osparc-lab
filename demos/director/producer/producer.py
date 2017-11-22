@@ -51,7 +51,7 @@ on_rabbit_request(callback=callback, queue='hello', channel=channel)
 
 app = Flask(__name__)
 
-def mockup_data():
+def mockup_data(id):
     data = []
 #    plot1 = []
 #    plot1.append([0,1,2,3])
@@ -63,19 +63,24 @@ def mockup_data():
 #    plot2.append([0, 100, 25])
 #    data.append(plot2)
     x = np.linspace(0.0, 10.0, num = 10001)
-    y = np.sin(x)
+    if id == 0:
+        y = np.sin(x)
+    elif id == 1:
+        y = 10*np.cos(2*x)
+    else:
+        y = np.exp(-3*x*x)
     data.append([list(x),list(y)])
 
     return data
 
 @app.route("/plot_rest", methods=['GET'])
 def plot_rest():
-    data = mockup_data()
+    data = mockup_data(0)
     return make_response(json.dumps(data))
 
 @app.route("/plot_db", methods=['GET'])
 def plot_db():
-    data = mockup_data()
+    data = mockup_data(1)
     data_id = str(uuid.uuid4())
     db_file = os.path.join(r'/database',data_id)
     with open(db_file, 'w') as outfile:
@@ -87,7 +92,7 @@ def plot_db():
 
 @app.route("/plot_mongo", methods=['GET'])
 def plot_mongo():
-    data = mockup_data()
+    data = mockup_data(2)
     dict_data ={}
     for d in range(len(data)):
         dict_data[str(d)] = data[d]
