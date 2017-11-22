@@ -31,7 +31,7 @@ To build the registry with frontend and nginx proxy see separate instruction fil
 APIs and Documentation
 ======================
  
-## Viewer service(port 5010)
+## Viewer service (port 5010)
  
 This service is used to display data in plots.
  
@@ -53,4 +53,4 @@ Try `host:5001`
 
 ## Services organization:
 
-![director](/images/director.png)
+![director](images/director.png)
