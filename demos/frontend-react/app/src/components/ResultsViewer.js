@@ -13,7 +13,7 @@ class ResultsViewer extends Component {
       visible: 'visible',
       width: 600,
       height: 640,
-      x: 1200,
+      x: 1000,
       y: 20
     };
   }
