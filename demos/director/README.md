@@ -53,4 +53,4 @@ Try `host:5001`
 
 ## Services organization:
 
-![Director](director.png)
+![Director](/images/director.png)
