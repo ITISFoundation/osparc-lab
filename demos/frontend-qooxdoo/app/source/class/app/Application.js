@@ -53,6 +53,13 @@ qx.Class.define("app.Application",
       -------------------------------------------------------------------------
       */
 
+      // We want to use some of the high-level node operation convenience
+      // methods rather than manually digging into the TreeVirtual helper
+      // classes.  Include the mixin that provides them.
+      qx.Class.include(qx.ui.treevirtual.TreeVirtual,
+                       qx.ui.treevirtual.MNode);
+
+
       var servicesHeight = 60;
       this._createAvailableServicesContainer(servicesHeight);
       this._createSettingsWindow(20, servicesHeight+20, 350, 450);
@@ -145,16 +152,63 @@ qx.Class.define("app.Application",
       win.add(splitpane);
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Folder");
-      leftWidget.setDecorator(null);
-      leftWidget.setWrap(true);
-      splitpane.add(leftWidget, 1);
+      var tree = new qx.ui.treevirtual.TreeVirtual("Results Folder");
+      tree.setColumnWidth(0, 400);
+      tree.setAlwaysShowOpenCloseSymbol(true);
+
+      // Add the tree
+      splitpane.add(tree, 1);
 
       // Right
       var rightWidget = new qx.ui.form.TextArea("Viewer");
       rightWidget.setDecorator(null);
       rightWidget.setWrap(true);
+
+      // Add the label
       splitpane.add(rightWidget, 2);
+
+      {
+        // tree data model
+        var dataModel = tree.getDataModel();
+
+        var te1 = dataModel.addBranch(null, "Desktop", true);
+
+        var te;
+        dataModel.addBranch(te1, "Files", true);
+
+        te = dataModel.addBranch(te1, "Workspace", true);
+        dataModel.addLeaf(te, "Windows (C:)");
+        dataModel.addLeaf(te, "Documents (D:)");
+
+        dataModel.addBranch(te1, "Network", true);
+        dataModel.addBranch(te1, "Trash", true);
+
+        var te2 = dataModel.addBranch(null, "Inbox", true);
+
+        te = dataModel.addBranch(te2, "Spam", false);
+        for (var i = 1; i < 20; i++)
+        {
+          dataModel.addLeaf(te, "Spam Message #" + i);
+        }
+
+        dataModel.addBranch(te2, "Sent", false);
+        dataModel.addBranch(te2, "Trash", false);
+        dataModel.addBranch(te2, "Data", false);
+        dataModel.addBranch(te2, "Edit", false);
+
+        dataModel.setData();
+
+        tree.addListener("changeSelection", function(e)
+        {
+          var text = "Selected labels:";
+          var selectedNodes = e.getData();
+          for (i = 0; i < selectedNodes.length; i++)
+          {
+            text += "\n  " + selectedNodes[i].label;
+          }
+          rightWidget.setValue(text);
+        });
+      }
 
       win.moveTo(left, top);
       win.open();
