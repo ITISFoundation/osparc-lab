@@ -17,8 +17,6 @@ qx.Class.define("app.Application",
 {
   extend : qx.application.Standalone,
 
-  //include : [app.views.SettingsView],
-
   /*
   *****************************************************************************
      MEMBERS
@@ -30,8 +28,6 @@ qx.Class.define("app.Application",
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
-     *
-     * @lint ignoreDeprecated(alert)
      */
     main : function()
     {
