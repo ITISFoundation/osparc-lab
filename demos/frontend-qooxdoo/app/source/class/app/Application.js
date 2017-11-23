@@ -53,9 +53,45 @@ qx.Class.define("app.Application",
       -------------------------------------------------------------------------
       */
 
-      this._createSettingsWindow(20, 20, 350, 450);
-      this._createResultsViewerWindow(1000, 20, 800, 800);
-      this._createWorkbenchWindow(20, 550, 800, 400);
+      var servicesHeight = 60;
+      this._createAvailableServicesContainer(servicesHeight);
+      this._createSettingsWindow(20, servicesHeight+20, 350, 450);
+      this._createResultsViewerWindow(1000, servicesHeight+20, 800, 800);
+      this._createWorkbenchWindow(20, servicesHeight+500, 800, 400);
+    },
+
+    _createAvailableServicesContainer : function(height)
+    {
+      var box = new qx.ui.layout.HBox();
+      box.setSpacing(5);
+
+      var container = (new qx.ui.container.Composite(box)).set(
+        {
+          decorator: "main",
+          backgroundColor: "yellow",
+          height: height
+        }
+      );
+
+      var available_label = new qx.ui.basic.Label("Available Services").set({
+        decorator: "main",
+        rich: true,
+        backgroundColor: "green",
+        maxHeight: height-10,
+        alignY: "middle",
+        allowGrowX: true,
+        allowGrowY: true
+      });
+
+      container.add(available_label);
+
+      this.getRoot().add(container,
+        {
+          left: 0,
+          top: 0,
+          width: "100%"
+        }
+      );
     },
 
     _createSettingsWindow : function(left, top, width, height)
@@ -65,6 +101,8 @@ qx.Class.define("app.Application",
         width: width,
         height: height
       });
+      win.setAllowClose(false);
+      win.setAllowMinimize(false);
       win.setLayout(new qx.ui.layout.Grow());
 
       var scroller = new qx.ui.container.Scroll();
@@ -86,6 +124,8 @@ qx.Class.define("app.Application",
         width: width,
         height: height
       });
+      win.setAllowClose(false);
+      win.setAllowMinimize(false);
       win.setLayout(new qx.ui.layout.Grow());
 
       var scroller = new qx.ui.container.Scroll();
@@ -127,6 +167,8 @@ qx.Class.define("app.Application",
         width: width,
         height: height
       });
+      win.setShowClose(false);
+      win.setShowMinimize(false);
       win.setLayout(new qx.ui.layout.Grow());
 
       var scroller = new qx.ui.container.Scroll();
