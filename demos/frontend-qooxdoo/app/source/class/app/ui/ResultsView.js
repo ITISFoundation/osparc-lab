@@ -1,6 +1,7 @@
 qx.Class.define("app.ui.ResultsView",
 {
   extend: qx.ui.window.Window,
+
   construct : function(left, top, width, height, color, backgrdColor)
   {
     this.base(arguments, "Settings");
@@ -31,24 +32,32 @@ qx.Class.define("app.ui.ResultsView",
     this.add(splitpane);
 
     // Left
-    var tree = new qx.ui.treevirtual.TreeVirtual("Results Folder");
-    tree.setColumnWidth(0, 400);
-    tree.setAlwaysShowOpenCloseSymbol(true);
+    this._resultsFolder = new qx.ui.treevirtual.TreeVirtual("Results Folder");
+    this._resultsFolder.setColumnWidth(0, 400);
+    this._resultsFolder.setAlwaysShowOpenCloseSymbol(true);
 
     // Add the tree
-    splitpane.add(tree, 1);
+    splitpane.add(this._resultsFolder, 1);
 
     // Right
-    var rightWidget = new qx.ui.form.TextArea("Viewer");
-    rightWidget.setDecorator(null);
-    rightWidget.setWrap(true);
+    this._resultsViewer = new qx.ui.form.TextArea("Results Viewer");
+    this._resultsViewer.setDecorator(null);
+    this._resultsViewer.setWrap(true);
 
     // Add the label
-    splitpane.add(rightWidget, 2);
+    splitpane.add(this._resultsViewer, 2);
 
-    {
+    this._addTreeDataModel();
+
+    this.moveTo(left, top);
+  },
+
+  members: {
+    _formField: null,
+    _resultsViewer: null,
+    _addTreeDataModel: function() {
       // tree data model
-      var dataModel = tree.getDataModel();
+      var dataModel = this._resultsFolder.getDataModel();
 
       var te1 = dataModel.addBranch(null, "Desktop", true);
 
@@ -77,18 +86,16 @@ qx.Class.define("app.ui.ResultsView",
 
       dataModel.setData();
 
-      tree.addListener("changeSelection", function(e)
+      this._resultsFolder.addListener("changeSelection", function(e)
       {
         var text = "Selected labels:";
         var selectedNodes = e.getData();
-        for (i = 0; i < selectedNodes.length; i++)
+        for (var i = 0; i < selectedNodes.length; i++)
         {
           text += "\n  " + selectedNodes[i].label;
         }
-        rightWidget.setValue(text);
+        this._resultsViewer.setValue(text);
       });
     }
-
-    this.moveTo(left, top);
   }
 });

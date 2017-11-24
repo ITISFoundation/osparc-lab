@@ -1,6 +1,7 @@
 qx.Class.define("app.ui.WorkbenchView",
 {
   extend: qx.ui.window.Window,
+  
   construct : function(left, top, width, height, color, backgrdColor)
   {
     this.base(arguments, "Settings");
