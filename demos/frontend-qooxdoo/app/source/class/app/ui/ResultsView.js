@@ -33,32 +33,45 @@ qx.Class.define("app.ui.ResultsView",
     this.add(splitpane);
 
     // Left
-    this._resultsFolder = new qx.ui.treevirtual.TreeVirtual("Results Folder");
-    this._resultsFolder.setColumnWidth(0, 400);
-    this._resultsFolder.setAlwaysShowOpenCloseSymbol(true);
+    this._resultsFolderUI = new qx.ui.treevirtual.TreeVirtual("Results Folder");
+    this._resultsFolderUI.setColumnWidth(0, 400);
+    this._resultsFolderUI.setAlwaysShowOpenCloseSymbol(true);
 
     // Add the tree
-    splitpane.add(this._resultsFolder, 1);
+    splitpane.add(this._resultsFolderUI, 1);
 
     // Right
-    this._resultsViewer = new qx.ui.form.TextArea("Results Viewer");
-    this._resultsViewer.setDecorator(null);
-    this._resultsViewer.setWrap(true);
+    this._resultsViewerUI = new qx.ui.form.TextArea("Results Viewer");
+    this._resultsViewerUI.setDecorator(null);
+    this._resultsViewerUI.setWrap(true);
 
     // Add the label
-    splitpane.add(this._resultsViewer, 2);
+    splitpane.add(this._resultsViewerUI, 2);
 
     this._addTreeDataModel();
 
     this.moveTo(left, top);
   },
 
-  members: {
-    _resultsFolder: null,
-    _resultsViewer: null,
+  properties :
+  {
+    resultsFolder : { check : "String", apply : "_changeResultsFolder" },
+    selectedResult : { check : "String", apply : "_changeSelectedResult" }
+  },
+
+  members :
+  {
+    _resultsFolderUI: null,
+    _resultsViewerUI: null,
+    _changeResultsFolder : function(value) {
+      console.log('changeResultsFolder', value);
+    },
+    _changeSelectedResult : function(value) {
+      console.log('changeSelectedResult', value);
+    },
     _addTreeDataModel: function() {
       // tree data model
-      var dataModel = this._resultsFolder.getDataModel();
+      var dataModel = this._resultsFolderUI.getDataModel();
 
       var te1 = dataModel.addBranch(null, "Desktop", true);
 
@@ -87,7 +100,7 @@ qx.Class.define("app.ui.ResultsView",
 
       dataModel.setData();
 
-      this._resultsFolder.addListener("changeSelection", function(e)
+      this._resultsFolderUI.addListener("changeSelection", function(e)
       {
         var text = "Selected labels:";
         var selectedNodes = e.getData();
@@ -95,7 +108,7 @@ qx.Class.define("app.ui.ResultsView",
         {
           text += "\n  " + selectedNodes[i].label;
         }
-        this._resultsViewer.setValue(text);
+        this._resultsViewerUI.setValue(text);
       },this);
     }
   }

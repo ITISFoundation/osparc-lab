@@ -57,10 +57,24 @@ qx.Class.define("app.Application",
 
       var baseColor = 66;
       var servicesHeight = 60;
-      var availableServices = this._createAvailableServicesContainer(servicesHeight, this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor);
-      var settingsWindow = new app.ui.SettingsView(20, servicesHeight+20, 350, 450, this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor);
-      var resultsWindow = new app.ui.ResultsView(900, servicesHeight+20, 1000, 800, this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor);
-      var workbenchWindow = new app.ui.WorkbenchView(20, servicesHeight+500, 800, 400, this._getStyle3(baseColor).color, this._getStyle3(baseColor).backgroundColor);
+      var padding = 10;
+      var halfHeight = (974 - servicesHeight - 3*padding) / 2;
+      var availableServices = this._createAvailableServicesContainer(
+        servicesHeight,
+        this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
+      );
+      var settingsWindow = new app.ui.SettingsView(
+        padding, servicesHeight + padding, 350, halfHeight,
+        this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
+      );
+      var resultsWindow = new app.ui.ResultsView(
+        900, servicesHeight + padding, 1000, 800,
+        this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
+      );
+      var workbenchWindow = new app.ui.WorkbenchView(
+        padding, servicesHeight + padding + halfHeight + padding, 800, halfHeight,
+        this._getStyle3(baseColor).color, this._getStyle3(baseColor).backgroundColor
+      );
 
       this.getRoot().add(availableServices, {left: 0, top: 0, width: "100%"});
       settingsWindow.open();
