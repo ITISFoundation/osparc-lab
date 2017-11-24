@@ -39,7 +39,7 @@ Try `localhost:5010/plot_rest`
 Try `localhost:5010/plot_db`
 Try `localhost:5010/plot_mongo`
  
-## Director service (port 8011)
+## Director service (port 8011) --> to be finished
 
 Try `localhost:8010/plot_rabbit`
 
