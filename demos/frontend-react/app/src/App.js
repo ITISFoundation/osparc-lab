@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-import IListenToSocket from './components/IListenToSocket';
 import StyleSwitch from './components/StyleSwitch';
 import ThreeDView from './components/3DView';
 import WorkbenchView from './components/WorkbenchView';
 import AvailableServices from './components/AvailableServices';
 import ServiceSettings from './components/ServiceSettings';
+import ResultsFolder from './components/ResultsFolder';
+import ResultsViewer from './components/ResultsViewer';
 import ToolBar from './components/ToolBar';
 import { socket } from './socket2Server';
 
@@ -22,7 +23,7 @@ class App extends Component {
     this.state = {
       nightSelected: 0,
       baseColor: 235,
-      styleItalia: {},
+      styleItalia: 'rgb(255,0,0)',
       availableServices: []
     }
   }
@@ -38,25 +39,29 @@ class App extends Component {
 
     socket.on('userConnected', (val) => {
       if (val.type === 'result') {
-        var result = Number(val.value[0])
-        if (result === 1) {
-          this.setState({
-            styleItalia: {
-              backgroundColor: 'rgb(249,200,203)',
-              color: 'black'
-            }
-          })
-        } else {
-          this.setState({
-            styleItalia: {}
-          })
-        }
+        var result = Number(val.value[0]);
+        console.log('userConnected', result);
       }
     });
 
     socket.on('radiusChangedByServer', (val) => {
       if (val.type === 'randomizer') {
         this.props.radiusChanged(Number(val.value))
+      }
+    });
+
+    socket.on('whatInItalia', (val) => {
+      if (val.type === 'result') {
+        var result = Number(val.value[0]);
+        if (result === 1) {
+          this.setState({
+            styleItalia: 'rgb(249,200,203)'
+          })
+        } else {
+          this.setState({
+            styleItalia: 'rgb(255,0,0)'
+          })
+        }
       }
     });
   }
@@ -98,12 +103,14 @@ class App extends Component {
           <ThreeDView
             backgroundColor={this.getStyle3().backgroundColor}
             color={this.getStyle3().color}
+            sphereColor={this.state.styleItalia}
           />
         </div>
         <div style={onTop}>
           <div style={{width: '100%', overflow: 'hidden'}}>
             <div style={{width: '90%', float: 'left'}}>
-              <IListenToSocket
+              <AvailableServices
+                availableServices={this.state.availableServices}
                 backgroundColor={this.getStyle1().backgroundColor}
                 color={this.getStyle1().color}
               />
@@ -115,12 +122,16 @@ class App extends Component {
               />
             </div>
           </div>
-          <AvailableServices
-            availableServices={this.state.availableServices}
-            backgroundColor={this.getStyle1().backgroundColor}
-            color={this.getStyle1().color}
-          />
           <ServiceSettings
+            backgroundColor={this.getStyle2().backgroundColor}
+            color={this.getStyle2().color}
+          />
+          <ResultsFolder
+            backgroundColor={this.getStyle2().backgroundColor}
+            activeColor={this.getStyle1().backgroundColor}
+            color={this.getStyle2().color}
+          />
+          <ResultsViewer
             backgroundColor={this.getStyle2().backgroundColor}
             color={this.getStyle2().color}
           />
