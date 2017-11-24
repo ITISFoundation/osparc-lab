@@ -1,4 +1,4 @@
-# Sidecar: Use sidecar container to control compuational service
+# Sidecar: Use sidecar container to control computaional service
 
 
 Overview
@@ -11,17 +11,17 @@ Building Services
 =================
 To build the sidecar use
 
-<code>
+```
 $ cd sidecar
 $ docker-compose up
-</code>
+```
 
 The solver can be build using
 
-<code>
+```
 $ cd solver
 $ make build
-</code>
+```
 
 
 APIs and Documentation
