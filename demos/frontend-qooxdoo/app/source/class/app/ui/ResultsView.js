@@ -5,12 +5,13 @@ qx.Class.define("app.ui.ResultsView",
   construct : function(left, top, width, height, color, backgrdColor)
   {
     this.base(arguments, "Settings");
-    this.setContentPadding(0);
-    this.setWidth(width);
-    this.setHeight(height);
-
-    this.setAllowClose(false);
-    this.setAllowMinimize(false);
+    this.set({
+      contentPadding: 0,
+      width: width,
+      height: height,
+      showClose: false,
+      showMinimize: false
+    });
     this.setLayout(new qx.ui.layout.Grow());
 
     var scroller = new qx.ui.container.Scroll();
@@ -53,7 +54,7 @@ qx.Class.define("app.ui.ResultsView",
   },
 
   members: {
-    _formField: null,
+    _resultsFolder: null,
     _resultsViewer: null,
     _addTreeDataModel: function() {
       // tree data model
@@ -95,7 +96,7 @@ qx.Class.define("app.ui.ResultsView",
           text += "\n  " + selectedNodes[i].label;
         }
         this._resultsViewer.setValue(text);
-      });
+      },this);
     }
   }
 });

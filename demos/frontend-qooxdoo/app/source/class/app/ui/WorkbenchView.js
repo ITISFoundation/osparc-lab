@@ -5,12 +5,13 @@ qx.Class.define("app.ui.WorkbenchView",
   construct : function(left, top, width, height, color, backgrdColor)
   {
     this.base(arguments, "Settings");
-    this.setContentPadding(0);
-    this.setWidth(width);
-    this.setHeight(height);
-
-    this.setShowClose(false);
-    this.setShowMinimize(false);
+    this.set({
+      contentPadding: 0,
+      width: width,
+      height: height,
+      showClose: false,
+      showMinimize: false
+    });
     this.setLayout(new qx.ui.layout.Grow());
 
     var scroller = new qx.ui.container.Scroll();
