@@ -1,7 +1,7 @@
 qx.Class.define("app.ui.SettingsView",
 {
   extend: qx.ui.window.Window,
-  
+
   construct : function(left, top, width, height, color, backgrdColor)
   {
     this.base(arguments, "Settings");
@@ -16,13 +16,17 @@ qx.Class.define("app.ui.SettingsView",
     var scroller = new qx.ui.container.Scroll();
     this.add(scroller);
 
-    var container = new qx.ui.container.Composite(new qx.ui.layout.Flow()).set({
+    this._settingsViewer = new qx.ui.container.Composite(new qx.ui.layout.Flow()).set({
       allowShrinkY: false,
       textColor: color,
       backgroundColor: backgrdColor
     });
-    scroller.add(container);
+    scroller.add(this._settingsViewer);
 
     this.moveTo(left, top);
+  },
+
+  members: {
+    _settingsViewer: null
   }
 });
