@@ -4,7 +4,7 @@ qx.Class.define("app.ui.WorkbenchView",
 
   construct : function(left, top, width, height, color, backgrdColor)
   {
-    this.base(arguments, "Settings");
+    this.base(arguments, "Workbench");
     this.set({
       contentPadding: 0,
       width: width,

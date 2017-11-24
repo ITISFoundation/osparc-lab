@@ -4,7 +4,7 @@ qx.Class.define("app.ui.ResultsView",
 
   construct : function(left, top, width, height, color, backgrdColor)
   {
-    this.base(arguments, "Settings");
+    this.base(arguments, "Results");
     this.set({
       contentPadding: 0,
       width: width,
@@ -66,7 +66,7 @@ qx.Class.define("app.ui.ResultsView",
       dataModel.addBranch(te1, "Files", true);
 
       te = dataModel.addBranch(te1, "Workspace", true);
-      dataModel.addLeaf(te, "thisdows (C:)");
+      dataModel.addLeaf(te, "Windows (C:)");
       dataModel.addLeaf(te, "Documents (D:)");
 
       dataModel.addBranch(te1, "Network", true);
