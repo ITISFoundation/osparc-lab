@@ -61,6 +61,11 @@ def fetch_container(data):
     buddy_image = buddy_name + ":" + buddy_tag
 
 
+def dump_log():
+    global buddy_image
+
+    
+
 @app.route("/setup", methods=['POST'])
 def setup():
     create_directories()
@@ -92,6 +97,8 @@ def process():
     buddy = client.containers.run(buddy_image,"process", detach=True,
      volumes = {'sidecar_input' :{'bind' : '/input'}, 'sidecar_output' : {'bind' : '/output'}})
     
+    dump_log()
+
     return nice_json({"status" : "asdfasfd"})
 
 @app.route("/postprocess", methods=['GET'])
