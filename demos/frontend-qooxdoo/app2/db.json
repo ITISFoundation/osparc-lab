@@ -1,7 +1,7 @@
 {
   "classInfo": {
     "app2.Application": {
-      "mtime": "2017-11-27T08:34:11.885Z",
+      "mtime": "2017-11-27T13:33:55.649Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -17,6 +17,7 @@
         "qx.ui.treevirtual.TreeVirtual": {},
         "qx.ui.treevirtual.MNode": {},
         "app2.ui.SettingsView": {},
+        "app2.ui.ThreeDView": {},
         "app2.ui.ResultsView": {},
         "app2.ui.WorkbenchView": {},
         "qx.ui.layout.HBox": {},
@@ -33,7 +34,8 @@
         }
       },
       "assets": [
-        "app2/*"
+        "app2/*",
+        "resource/three/*"
       ]
     },
     "app2.theme.Theme": {
@@ -266,6 +268,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -4160,6 +4168,21 @@
         },
         "qx.ui.core.LayoutItem": {
           "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.popup.Popup",
@@ -4842,6 +4865,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -5983,6 +6012,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -8468,7 +8503,7 @@
       "implement": []
     },
     "app2.ui.SettingsView": {
-      "mtime": "2017-11-24T14:31:25.297Z",
+      "mtime": "2017-11-27T09:14:56.001Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -8511,6 +8546,18 @@
         },
         "qx.core.Object": {
           "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.window.Window",
@@ -8518,7 +8565,7 @@
       "implement": []
     },
     "app2.ui.ResultsView": {
-      "mtime": "2017-11-24T14:31:22.018Z",
+      "mtime": "2017-11-27T10:24:32.959Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -8570,6 +8617,18 @@
         },
         "qx.core.Object": {
           "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.window.Window",
@@ -8619,6 +8678,18 @@
           "load": true
         },
         "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -8687,6 +8758,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -9029,6 +9106,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -9113,6 +9196,18 @@
         },
         "qx.ui.layout.Abstract": {
           "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.scroll.AbstractScrollArea",
@@ -9183,6 +9278,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -9225,6 +9326,15 @@
           "load": true
         },
         "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -9373,6 +9483,30 @@
         },
         "qx.ui.basic.Atom": {
           "load": true
+        },
+        "qx.ui.core.Widget": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.ui.layout.Atom": {
+          "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.form.MenuButton",
@@ -9476,6 +9610,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -9510,6 +9650,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -9574,6 +9720,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -9668,6 +9820,21 @@
           "load": true
         },
         "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -10066,6 +10233,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -10120,6 +10293,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -10155,6 +10334,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -10326,6 +10511,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -10509,6 +10700,21 @@
         },
         "qx.ui.layout.Atom": {
           "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.form.Button",
@@ -10559,7 +10765,9 @@
         "qx.ui.layout.Grow": {},
         "qx.lang.Array": {},
         "qx.ui.core.queue.Widget": {},
-        "qx.core.ObjectRegistry": {},
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
         "qx.ui.core.LayoutItem": {
           "load": true
         },
@@ -10570,6 +10778,9 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -10603,6 +10814,24 @@
         },
         "qx.ui.menu.ButtonLayout": {
           "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.menu.CheckBox",
@@ -10631,6 +10860,21 @@
         },
         "qx.ui.core.LayoutItem": {
           "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.menu.AbstractButton",
@@ -10658,6 +10902,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -10818,6 +11068,21 @@
           "load": true
         },
         "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11076,6 +11341,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -11178,6 +11449,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -11226,6 +11503,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11339,7 +11622,9 @@
           "usage": "dynamic"
         },
         "qx.locale.Manager": {},
-        "qx.core.ObjectRegistry": {},
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
         "qx.ui.core.LayoutItem": {
           "load": true
         },
@@ -11347,6 +11632,9 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11384,6 +11672,21 @@
         },
         "qx.ui.core.LayoutItem": {
           "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.container.SlideBar",
@@ -11412,6 +11715,21 @@
           "load": true
         },
         "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11442,6 +11760,21 @@
           "load": true
         },
         "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11509,6 +11842,15 @@
           "load": true
         },
         "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11642,6 +11984,21 @@
         },
         "qx.ui.core.LayoutItem": {
           "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.form.Slider",
@@ -11674,6 +12031,21 @@
         },
         "qx.ui.layout.Atom": {
           "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.form.Button",
@@ -11698,6 +12070,30 @@
           "load": true
         },
         "qx.ui.basic.Atom": {
+          "load": true
+        },
+        "qx.ui.core.Widget": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.ui.layout.Atom": {
+          "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11770,6 +12166,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -11810,6 +12212,18 @@
           "load": true
         },
         "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11882,6 +12296,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -11959,6 +12379,12 @@
           "load": true
         },
         "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -12052,6 +12478,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -12091,6 +12523,12 @@
         },
         "qx.theme.manager.Meta": {
           "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.core.Widget",
@@ -12119,11 +12557,371 @@
         },
         "qx.ui.core.LayoutItem": {
           "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
         }
       },
       "extends": "qx.ui.container.Composite",
       "include": [],
       "implement": []
+    },
+    "app2.ui.ThreeDView": {
+      "mtime": "2017-11-27T13:36:00.607Z",
+      "libraryName": "app2",
+      "dependsOn": {
+        "qx.Class": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.ui.window.Window": {
+          "load": true,
+          "construct": true
+        },
+        "qx.ui.layout.Grow": {
+          "construct": true
+        },
+        "qx.ui.container.Scroll": {
+          "construct": true
+        },
+        "qx.ui.container.Composite": {
+          "construct": true
+        },
+        "qx.ui.layout.Flow": {
+          "construct": true
+        },
+        "qx.core.Environment": {
+          "construct": true
+        },
+        "qx.util.DynamicScriptLoader": {
+          "construct": true
+        },
+        "qx.ui.core.Widget": {
+          "construct": true,
+          "load": true
+        },
+        "qx.ui.layout.VBox": {
+          "load": true
+        },
+        "qx.core.Init": {
+          "load": true
+        },
+        "qx.ui.core.FocusHandler": {
+          "load": true
+        }
+      },
+      "extends": "qx.ui.window.Window",
+      "include": [],
+      "implement": [],
+      "environment": {
+        "provided": [],
+        "required": {
+          "qx.debug": {
+            "construct": true
+          }
+        }
+      },
+      "unresolved": [
+        {
+          "name": "THREE.Scene",
+          "locations": [
+            {
+              "start": {
+                "line": 46,
+                "column": 22
+              },
+              "end": {
+                "line": 46,
+                "column": 33
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.PerspectiveCamera",
+          "locations": [
+            {
+              "start": {
+                "line": 47,
+                "column": 23
+              },
+              "end": {
+                "line": 47,
+                "column": 46
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.WebGLRenderer",
+          "locations": [
+            {
+              "start": {
+                "line": 48,
+                "column": 25
+              },
+              "end": {
+                "line": 48,
+                "column": 44
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.Color",
+          "locations": [
+            {
+              "start": {
+                "line": 52,
+                "column": 31
+              },
+              "end": {
+                "line": 52,
+                "column": 42
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.SphereGeometry",
+          "locations": [
+            {
+              "start": {
+                "line": 60,
+                "column": 27
+              },
+              "end": {
+                "line": 60,
+                "column": 47
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.MeshPhongMaterial",
+          "locations": [
+            {
+              "start": {
+                "line": 61,
+                "column": 27
+              },
+              "end": {
+                "line": 61,
+                "column": 50
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.Mesh",
+          "locations": [
+            {
+              "start": {
+                "line": 66,
+                "column": 23
+              },
+              "end": {
+                "line": 66,
+                "column": 33
+              }
+            }
+          ]
+        },
+        {
+          "name": "THREE.PointLight",
+          "locations": [
+            {
+              "start": {
+                "line": 68,
+                "column": 29
+              },
+              "end": {
+                "line": 68,
+                "column": 45
+              }
+            }
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 46,
+              "column": 22
+            }
+          },
+          "args": [
+            "THREE.Scene"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 47,
+              "column": 23
+            }
+          },
+          "args": [
+            "THREE.PerspectiveCamera"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 48,
+              "column": 25
+            }
+          },
+          "args": [
+            "THREE.WebGLRenderer"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 52,
+              "column": 31
+            }
+          },
+          "args": [
+            "THREE.Color"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 60,
+              "column": 27
+            }
+          },
+          "args": [
+            "THREE.SphereGeometry"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 61,
+              "column": 27
+            }
+          },
+          "args": [
+            "THREE.MeshPhongMaterial"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 66,
+              "column": 23
+            }
+          },
+          "args": [
+            "THREE.Mesh"
+          ]
+        },
+        {
+          "msgId": "qxcompiler.symbol.unresolved",
+          "pos": {
+            "start": {
+              "line": 68,
+              "column": 29
+            }
+          },
+          "args": [
+            "THREE.PointLight"
+          ]
+        }
+      ]
+    },
+    "qx.util.DynamicScriptLoader": {
+      "mtime": "2017-11-27T08:29:11.318Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Class": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.core.Object": {
+          "load": true,
+          "construct": true
+        },
+        "qx.lang.Type": {
+          "construct": true
+        },
+        "qx.lang.Array": {
+          "construct": true
+        },
+        "qx.util.ResourceManager": {},
+        "qx.bom.request.Script": {},
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
+        }
+      },
+      "extends": "qx.core.Object",
+      "include": [],
+      "implement": []
+    },
+    "qx.bom.request.Script": {
+      "mtime": "2017-11-27T08:29:10.524Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Bootstrap": {
+          "load": true,
+          "usage": "dynamic",
+          "construct": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
+        },
+        "qx.event.Emitter": {
+          "construct": true
+        },
+        "qx.util.Uri": {},
+        "qx.core.Environment": {
+          "defer": "runtime"
+        },
+        "qx.bom.client.Engine": {},
+        "qx.bom.client.Browser": {}
+      },
+      "extends": null,
+      "include": [],
+      "implement": [
+        "qx.core.IDisposable"
+      ],
+      "environment": {
+        "provided": [
+          "qx.debug.io"
+        ],
+        "required": {}
+      },
+      "hasDefer": true
     }
   }
 }

@@ -85,19 +85,6 @@ qx.Class.define("app2.ui.ResultsView",
       dataModel.addBranch(te1, "Network", true);
       dataModel.addBranch(te1, "Trash", true);
 
-      var te2 = dataModel.addBranch(null, "Inbox", true);
-
-      te = dataModel.addBranch(te2, "Spam", false);
-      for (var i = 1; i < 20; i++)
-      {
-        dataModel.addLeaf(te, "Spam Message #" + i);
-      }
-
-      dataModel.addBranch(te2, "Sent", false);
-      dataModel.addBranch(te2, "Trash", false);
-      dataModel.addBranch(te2, "Data", false);
-      dataModel.addBranch(te2, "Edit", false);
-
       dataModel.setData();
 
       this._resultsFolderUI.addListener("changeSelection", function(e)

@@ -20861,7 +20861,9 @@
         "mtime": "2017-11-27T08:29:09.844Z",
         "width": 32,
         "height": 32
-      }
+      },
+      "three/three.js": {},
+      "three/three.min.js": {}
     }
   }
 }

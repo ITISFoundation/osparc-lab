@@ -12,6 +12,8 @@
  * This is the main application class of your custom application "app2"
  *
  * @asset(app2/*)
+ * @asset(resource/three/*)
+ * @ignore(THREE)
  */
 qx.Class.define("app2.Application",
 {
@@ -28,9 +30,9 @@ qx.Class.define("app2.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     main : function()
@@ -53,7 +55,7 @@ qx.Class.define("app2.Application",
       -------------------------------------------------------------------------
       */
 
-	  // Document is the application root
+      // Document is the application root
       var doc = this.getRoot();
 
       // We want to use some of the high-level node operation convenience
@@ -66,13 +68,17 @@ qx.Class.define("app2.Application",
       var servicesHeight = 60;
       var padding = 10;
       var halfHeight = (974 - servicesHeight - 3*padding) / 2;
-      
+
       var availableServices = this._createAvailableServicesContainer(
         servicesHeight,
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
       var settingsWindow = new app2.ui.SettingsView(
         padding, servicesHeight + padding, 350, halfHeight,
+        this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
+      );
+      var threeDWindow = new app2.ui.ThreeDView(
+        padding + 350 + padding, servicesHeight + padding, halfHeight, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var resultsWindow = new app2.ui.ResultsView(
@@ -86,6 +92,7 @@ qx.Class.define("app2.Application",
 
       doc.add(availableServices, {left: 0, top: 0, width: "100%"});
       settingsWindow.open();
+      threeDWindow.open();
       resultsWindow.open();
       workbenchWindow.open();
     },
