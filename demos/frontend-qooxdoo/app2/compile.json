@@ -25,7 +25,7 @@
   ],
 
   "libraries": [
-    "C:/Develop/oSPARC_ITIS_om/demos/frontend-qooxdoo/qooxdoo-master/framework",
+    "C:/Develop/oSPARC_ITIS_om/demos/frontend-qooxdoo/qooxdoo/framework",
     "."
   ]
 }
