@@ -1,9 +1,15 @@
-qx.Class.define("app2.ui.ThreeDView",
+/**
+ * @asset(resource/three/*)
+ * @ignore(THREE)
+ */
+ qx.Class.define("app2.ui.ThreeDView",
 {
   extend: qx.ui.window.Window,
 
   construct : function(left, top, width, height, color, backgrdColor)
   {
+    this.setLibReady(false);
+
     this.base(arguments, "3D View");
     this.set({
       contentPadding: 0,
@@ -43,47 +49,38 @@ qx.Class.define("app2.ui.ThreeDView",
     dynLoader.addListenerOnce('ready',function(e) {
       console.log(lib_path + " loaded");
 
-      var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera();
-      var renderer = new THREE.WebGLRenderer();
+      this._scene = new THREE.Scene();
+      this._scene.background = new THREE.Color(backgrdColor);
+
+      this._camera = new THREE.PerspectiveCamera();
+      this._camera.position.z = 20;
+      this._scene.add(this._camera);
+
+      var pointLight = new THREE.PointLight(0xFFFFFF);
+      pointLight.position.x = -10;
+      pointLight.position.y = 10;
+      pointLight.position.z = 40;
+      this._scene.add(pointLight);
+
+      this._renderer = new THREE.WebGLRenderer();
+      this._renderer.setSize(this.getWidth(), this.getHeight());
 
       var widget = new qx.ui.core.Widget();
       widget.addListenerOnce('appear',function() {
-        scene.background = new THREE.Color(backgrdColor);
-
-        camera.position.z = 20
-
-        renderer.setSize(this.getWidth(), this.getHeight());
-
-        widget.getContentElement().getDomElement().appendChild(renderer.domElement);
-
-        var geometry = new THREE.SphereGeometry(2, 32, 16);
-        var material = new THREE.MeshPhongMaterial({
-          wireframe: true,
-          wireframeLinewidth: 3,
-          color: 0xFF0000
-        });
-        var mesh = new THREE.Mesh(geometry, material);
-
-        var pointLight = new THREE.PointLight(0xFFFFFF);
-        pointLight.position.x = -10;
-        pointLight.position.y = 10;
-        pointLight.position.z = 40;
-
-        scene.add(camera);
-        scene.add(mesh);
-        scene.add(pointLight);
-
-        renderer.render(scene, camera);
+        widget.getContentElement().getDomElement().appendChild(this._renderer.domElement);
+        this._render();
+        this._addSphere(2);
       }, this);
 
       widget.addListener('resize',function(){
-        renderer.setSize( this.getWidth(), this.getHeight());
+        this._renderer.setSize( this.getWidth(), this.getHeight());
       }, this);
 
       this.add(widget);
 
       this.moveTo(left, top);
+
+      this.setLibReady(true);
     }, this);
 
     dynLoader.addListener('failed',function(e) {
@@ -94,7 +91,32 @@ qx.Class.define("app2.ui.ThreeDView",
     dynLoader.start();
   },
 
+  properties: {
+    LibReady: { check : "Boolean" }
+  },
+
   members: {
-    _threeDViewer: null
+    _threeDViewer: null,
+    _scene: null,
+    _camera: null,
+    _renderer: null,
+
+    _render : function()
+    {
+      this._renderer.render(this._scene, this._camera);
+    },
+
+    _addSphere : function(radius)
+    {
+      var geometry = new THREE.SphereGeometry(2, 32, 16);
+      var material = new THREE.MeshPhongMaterial({
+        wireframe: true,
+        wireframeLinewidth: 3,
+        color: 0xFF0000
+      });
+      var mesh = new THREE.Mesh(geometry, material);
+      this._scene.add(mesh);
+      this._render();
+    }
   }
 });
