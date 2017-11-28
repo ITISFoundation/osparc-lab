@@ -74,6 +74,7 @@
         this._controls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
         // https://threejs.org/docs/#examples/controls/OrbitControls
         // https://www.ibm.com/developerworks/library/wa-webgl3/
+        // https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_orbit.html
         this._controls.addEventListener('change', this._updateControls);
         this._controls.update();
 
