@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "preprocessing"
+cat input.json | jq '.input[] | select(.name =="N") .value'

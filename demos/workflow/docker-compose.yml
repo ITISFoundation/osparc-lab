@@ -1,0 +1,31 @@
+version: '2'
+services:
+  director:
+    build:
+      context: .
+      dockerfile: ./director/Dockerfile
+    volumes:
+      - ./director:/work
+      - ./registry:/registry
+    ports:
+      - "8010:8010"
+  sidecar:
+    build:
+      context: .
+      dockerfile: ./sidecar/Dockerfile
+    volumes:
+      - input:/input
+      - output:/output
+      - ./sidecar:/work
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - "8000:8000"
+    dns:
+      - 172.16.8.15
+  database:
+    image: mongo:3.4.0
+volumes:
+  input:
+  output:
+

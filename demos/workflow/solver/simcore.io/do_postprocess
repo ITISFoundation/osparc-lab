@@ -1,0 +1,5 @@
+#!/bin/bash
+echo 'Running Postprocess'
+if [ -d '/output' ]; then
+  cp -r /work/*.dat /output
+fi
