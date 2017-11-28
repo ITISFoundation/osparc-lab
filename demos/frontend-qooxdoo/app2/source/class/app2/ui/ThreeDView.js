@@ -32,11 +32,9 @@
 
 
     // in debug mode load the uncompressed unobfuscated scripts
-    // three.js files are in externals/three(.min).js
-    var src = '';
+    // three.js files are in resource/three/three(.min).js
     var min = '.min';
     if (qx.core.Environment.get("qx.debug")) {
-      src = '.src';
       min = '';
     }
 
@@ -72,10 +70,7 @@
         widget.getContentElement().getDomElement().appendChild(this._renderer.domElement);
 
         this._controls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
-        // https://threejs.org/docs/#examples/controls/OrbitControls
-        // https://www.ibm.com/developerworks/library/wa-webgl3/
-        // https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_orbit.html
-        this._controls.addEventListener('change', this._updateControls);
+        this._controls.addEventListener('change', this._updateControls.bind(this));
         this._controls.update();
 
         this._render();
@@ -117,16 +112,11 @@
 
     _render : function()
     {
-      console.log('render');
-      this._controls.update();
       this._renderer.render(this._scene, this._camera);
     },
 
     _updateControls : function() {
-      console.log('OrbitControls');
-      //this._controls.update();
-      //this._render();
-      //this._renderer.render(this._scene, this._camera);
+      this._render();
     },
 
     _addSphere : function(radius)

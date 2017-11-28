@@ -77,7 +77,6 @@ qx.Class.define("app2.Application",
         padding + 350 + padding, servicesHeight + padding, halfHeight, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
-      console.log("Ready1: " + threeDWindow.getLibReady());
       var resultsWindow = new app2.ui.ResultsView(
         900, servicesHeight + padding, 1000, 800,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
