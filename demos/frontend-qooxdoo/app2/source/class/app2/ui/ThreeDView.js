@@ -41,9 +41,11 @@
     // initialize the script loading
     var three_path = "resource/three/three" + min + ".js";
     var orbit_path = "resource/three/OrbitControls.js";
+    var tranform_path = "resource/three/TransformControls.js";
     var dynLoader = new qx.util.DynamicScriptLoader([
       three_path,
-      orbit_path
+      orbit_path,
+      tranform_path
     ]);
 
     dynLoader.addListenerOnce('ready', function(e) {
@@ -69,9 +71,14 @@
       widget.addListenerOnce('appear', function() {
         widget.getContentElement().getDomElement().appendChild(this._renderer.domElement);
 
-        this._controls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
-        this._controls.addEventListener('change', this._updateControls.bind(this));
-        this._controls.update();
+        this._orbitControls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
+        this._orbitControls.addEventListener('change', this._updateOrbitControls.bind(this));
+        this._orbitControls.update();
+
+        this._transformControls = new THREE.TransformControls(this._camera, this._renderer.domElement);
+        this._transformControls.addEventListener('change', this._updateTransformControls.bind(this));
+        this._transformControls.setMode( "translate" );
+        this._scene.add(this._transformControls);
 
         this._render();
         this._addSphere(2);
@@ -80,7 +87,8 @@
       widget.addListener('resize', function() {
         this._camera.aspect = this.getWidth() /this.getHeight();
         this._camera.updateProjectionMatrix();
-        this._controls.handleResize();
+        this._orbitControls.handleResize();
+        this._orbitControls.update();
         this._renderer.setSize(this.getWidth(), this.getHeight());
       }, this);
 
@@ -108,14 +116,20 @@
     _scene: null,
     _camera: null,
     _renderer: null,
-    _controls: null,
+    _orbitControls: null,
+    _transformControls: null,
 
     _render : function()
     {
       this._renderer.render(this._scene, this._camera);
     },
 
-    _updateControls : function() {
+    _updateOrbitControls : function() {
+      this._render();
+    },
+
+    _updateTransformControls : function() {
+      this._transformControls.update();
       this._render();
     },
 
@@ -129,6 +143,7 @@
       });
       var mesh = new THREE.Mesh(geometry, material);
       this._scene.add(mesh);
+      this._transformControls.attach(mesh);
       this._render();
     }
   }
