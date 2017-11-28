@@ -41,13 +41,15 @@
     }
 
     // initialize the script loading
-    var lib_path = "resource/three/three" + min + ".js";
+    var three_path = "resource/three/three" + min + ".js";
+    var orbit_path = "resource/three/OrbitControls.js";
     var dynLoader = new qx.util.DynamicScriptLoader([
-      lib_path
+      three_path,
+      orbit_path
     ]);
 
     dynLoader.addListenerOnce('ready',function(e) {
-      console.log(lib_path + " loaded");
+      console.log(three_path + " loaded");
 
       this._scene = new THREE.Scene();
       this._scene.background = new THREE.Color(backgrdColor);
@@ -66,14 +68,22 @@
       this._renderer.setSize(this.getWidth(), this.getHeight());
 
       var widget = new qx.ui.core.Widget();
-      widget.addListenerOnce('appear',function() {
+      widget.addListenerOnce('appear', function() {
         widget.getContentElement().getDomElement().appendChild(this._renderer.domElement);
+
+        this._controls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
+        this._controls.addEventListener( 'change', this._updateControls );
+        this._controls.update();
+
         this._render();
         this._addSphere(2);
       }, this);
 
-      widget.addListener('resize',function(){
-        this._renderer.setSize( this.getWidth(), this.getHeight());
+      widget.addListener('resize', function() {
+        this._camera.aspect = this.getWidth() /this.getHeight();
+        this._camera.updateProjectionMatrix();
+        this._controls.handleResize();
+        this._renderer.setSize(this.getWidth(), this.getHeight());
       }, this);
 
       this.add(widget);
@@ -83,7 +93,7 @@
       this.setLibReady(true);
     }, this);
 
-    dynLoader.addListener('failed',function(e) {
+    dynLoader.addListener('failed', function(e) {
       var data = e.getData();
       console.log("failed to load " + data.script);
     }, this);
@@ -100,10 +110,20 @@
     _scene: null,
     _camera: null,
     _renderer: null,
+    _controls: null,
 
     _render : function()
     {
+      console.log('render');
+      this._controls.update();
       this._renderer.render(this._scene, this._camera);
+    },
+
+    _updateControls : function() {
+      console.log('OrbitControls');
+      //this._controls.update();
+      //this._render();
+      //this._renderer.render(this._scene, this._camera);
     },
 
     _addSphere : function(radius)
