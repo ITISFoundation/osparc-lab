@@ -48,7 +48,7 @@
       orbit_path
     ]);
 
-    dynLoader.addListenerOnce('ready',function(e) {
+    dynLoader.addListenerOnce('ready', function(e) {
       console.log(three_path + " loaded");
 
       this._scene = new THREE.Scene();
@@ -72,7 +72,9 @@
         widget.getContentElement().getDomElement().appendChild(this._renderer.domElement);
 
         this._controls = new THREE.OrbitControls(this._camera, this._renderer.domElement);
-        this._controls.addEventListener( 'change', this._updateControls );
+        // https://threejs.org/docs/#examples/controls/OrbitControls
+        // https://www.ibm.com/developerworks/library/wa-webgl3/
+        this._controls.addEventListener('change', this._updateControls);
         this._controls.update();
 
         this._render();
