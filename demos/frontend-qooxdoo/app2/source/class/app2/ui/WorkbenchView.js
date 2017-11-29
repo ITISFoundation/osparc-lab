@@ -57,8 +57,11 @@
 
     dynLoader.addListenerOnce('ready', function(e) {
       console.log(jquery_path + " loaded");
+      this.setLibReady(true);
 
       var widget = new qx.ui.core.Widget();
+      this.add(widget);
+
       widget.addListenerOnce('appear', function() {
 
         $(document).ready(function() {
@@ -115,11 +118,7 @@
       widget.getContentElement().setAttribute('height', height+'px');
       widget.getContentElement().setAttribute('width', width+'px');
 
-      this.add(widget);
-
       this.moveTo(left, top);
-
-      this.setLibReady(true);
     }, this);
 
     dynLoader.addListener('failed', function(e) {

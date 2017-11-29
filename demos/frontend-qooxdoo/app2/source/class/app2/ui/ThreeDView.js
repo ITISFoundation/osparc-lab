@@ -50,6 +50,7 @@
 
     dynLoader.addListenerOnce('ready', function(e) {
       console.log(three_path + " loaded");
+      this.setLibReady(true);
 
       this._scene = new THREE.Scene();
       this._scene.background = new THREE.Color(backgrdColor);
@@ -68,6 +69,8 @@
       this._renderer.setSize(this.getWidth(), this.getHeight());
 
       var widget = new qx.ui.core.Widget();
+      this.add(widget);
+
       widget.addListenerOnce('appear', function() {
         widget.getContentElement().getDomElement().appendChild(this._renderer.domElement);
 
@@ -92,11 +95,7 @@
         this._renderer.setSize(this.getWidth(), this.getHeight());
       }, this);
 
-      this.add(widget);
-
       this.moveTo(left, top);
-
-      this.setLibReady(true);
     }, this);
 
     dynLoader.addListener('failed', function(e) {
