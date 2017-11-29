@@ -65,10 +65,13 @@ qx.Class.define("app2.Application",
       var padding = 10;
       var halfHeight = (974 - servicesHeight - 3*padding) / 2;
 
-      var availableServices = this._createAvailableServicesContainer(
+      var availableServices = new app2.ui.AvailableServicesView(
         servicesHeight,
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
+      var myList = ['Bat', 'Bi', 'Hiru', 'Lau'];
+      availableServices.SetAvailableServices(myList);
+
       var settingsWindow = new app2.ui.SettingsView(
         padding, servicesHeight + padding, 350, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
@@ -91,35 +94,6 @@ qx.Class.define("app2.Application",
       threeDWindow.open();
       resultsWindow.open();
       workbenchWindow.open();
-    },
-
-    _createAvailableServicesContainer : function(height, color, backgrdColor)
-    {
-      var box = new qx.ui.layout.HBox();
-      box.setSpacing(5);
-
-      var container = (new qx.ui.container.Composite(box)).set(
-        {
-          decorator: "main",
-          height: height,
-          backgroundColor: backgrdColor
-        }
-      );
-
-      var available_label = new qx.ui.basic.Label("Available Services").set({
-        decorator: "main",
-        rich: true,
-        textColor: color,
-        backgroundColor: "blue",
-        maxHeight: height-10,
-        alignY: "middle",
-        allowGrowX: true,
-        allowGrowY: true
-      });
-
-      container.add(available_label);
-
-      return container;
     },
 
     _getStyle1 : function(baseClr) {
