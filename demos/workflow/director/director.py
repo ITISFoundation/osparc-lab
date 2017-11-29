@@ -3,8 +3,11 @@ import json
 import hashlib
 from pymongo import MongoClient
 from bson import ObjectId
+from werkzeug.exceptions import NotFound, ServiceUnavailable
+import requests
 
 import docker
+import sys
 
 app = Flask(__name__)
 
@@ -31,8 +34,9 @@ def parse_input_data(data):
         input_collections = input_database.input_collections
         exists = input_collections.find_one({"_hash" : str(data_hash)})
         if exists == None:
-           data["_hash"] = [str(data_hash)]
-           input_collections.insert_one(data)
+            cp_data = data.copy()
+            cp_data["_hash"] = [str(data_hash)]
+            input_collections.insert_one(cp_data)
     
         return [data_hash, not exists is None]
 
@@ -47,6 +51,18 @@ def parse_container_data(data):
         container_hash = str(img.id).split(':')[1]
         return container_hash
 
+def start_computation(data):
+    try:
+       # req = requests.post("http://sidecar:8000/setup", json = data)
+       # req2 = requests.get("http://sidecar:8000/preprocess")
+       # req3 = requests.get("http://sidecar:8000/process")
+       # req4 = requests.get("http://sidecar:8000/postprocess")
+#       print data
+#       sys.stdout.flush()
+       req = requests.post("http://sidecar:8000/run", json = data)
+
+    except requests.exceptions.ConnectionError:
+        raise ServiceUnavailable("The computational service is unavailable.")
 
 @app.route("/services", methods=['GET'])
 def services():
@@ -75,10 +91,11 @@ def run_pipeline():
 
     output_ready = output_exists(output_hash)
     if not output_ready:
-       print "needs some work" 
+        start_computation(data)  
 
     return nice_json({"input_hash" : str(input_hash), "input_exists" : str(input_exists),
-        "output_hash" : str(output_hash), "output_exists" : str(output_ready)})
+        "output_hash" : str(output_hash), "output_exists" : str(output_ready),
+        "input_data": data})
 
 
 if __name__ == "__main__":

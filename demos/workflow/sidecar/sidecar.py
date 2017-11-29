@@ -7,6 +7,7 @@ import docker
 import os
 import time
 import shutil
+import uuid
 
 app = Flask(__name__)
 
@@ -14,6 +15,8 @@ io_dirs = {}
 buddy = None
 buddy_image =""
 buddy_image = 'solver'
+job_id = ""
+
 def nice_json(arg):
     response = make_response(json.dumps(arg, sort_keys = True, indent=4))
     response.headers['Content-type'] = "application/json"
@@ -31,8 +34,10 @@ def delete_contents(folder):
 
 def create_directories():
     global io_dirs
+    global job_id
+    job_id = str(uuid.uuid4())
     for d in ['input', 'output']:
-        dir = os.path.join("/", d)
+        dir = os.path.join("/", d, job_id)
         io_dirs[d] = dir
         if not os.path.exists(dir):
             os.makedirs(dir)
@@ -62,21 +67,22 @@ def fetch_container(data):
     buddy_image = buddy_name + ":" + buddy_tag
 
 
+def prepare_input_and_container(data):
+    if data.has_key("input"):
+        parse_input_data(data['input'])
+
+    if data.has_key("container"):
+        fetch_container(data['container'])
+   
 def dump_log():
     global buddy_image
-
-    
 
 @app.route("/setup", methods=['POST'])
 def setup():
     create_directories()
     # add files if any and dump json
     data = request.get_json()
-    if data.has_key("input"):
-        parse_input_data(data['input'])
-
-    if data.has_key("container"):
-        fetch_container(data['container'])
+    prepare_input_and_container(data)
 
     return "done"
 
@@ -111,6 +117,25 @@ def postprocess():
 
     return nice_json({"status" : "postprocessing"})
 
+@app.route("/run", methods=['POST'])
+def run():
+    global buddy_image
+    global job_id
+    create_directories()
+    # add files if any and dump json
+    data = request.get_json()
+
+    prepare_input_and_container(data)
+    client = docker.from_env(version='auto')
+    io_env = []
+    io_env.append("INPUT_FOLDER=/input/"+job_id)
+    io_env.append("OUTPUT_FOLDER=/output/"+job_id)
+
+    buddy = client.containers.run(buddy_image, "run", detach=False, remove=True,
+     volumes = {'workflow_input' :{'bind' : '/input'}, 'workflow_output' : {'bind' : '/output'}},
+     environment=io_env)
+    
+    return nice_json({"status" : "DONE"})
 
 if __name__ == "__main__":
   app.run(port=8000, debug=True, host='0.0.0.0')

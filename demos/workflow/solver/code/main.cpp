@@ -9,7 +9,7 @@
 
 int main(int argc, char* argv[])
 {
-  int N = 1000;
+  int N = 100;
   float xmin=0.f;
   float xmax=1.f;
   std::string filename = "output.dat";
