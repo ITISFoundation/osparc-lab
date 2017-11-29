@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=itis/nodejs
+IMAGE_NAME=itisfoundation/sandbox:nodejs
 
 # -u : runs the container using unprivileged user (by default, it runs as root)
 
@@ -11,5 +11,7 @@ docker run \
   -w "/usr/src/app" \
   -p 49160:8080 \
   -d \
-  --name "mynodejs-app" \
+  --name "demo_docker-node" \
   ${IMAGE_NAME} "$@"
+
+open http://localhost:49160
