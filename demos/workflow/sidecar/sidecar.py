@@ -2,7 +2,7 @@ from flask import Flask, make_response, request
 import json
 import requests
 import pika
-
+import hashlib
 import docker
 import os
 import sys 
@@ -10,8 +10,9 @@ import time
 import shutil
 import uuid
 from concurrent.futures import ThreadPoolExecutor
+from pymongo import MongoClient
 
-executor = ThreadPoolExecutor(2)
+executor = ThreadPoolExecutor(16)
 
 app = Flask(__name__)
 
@@ -82,6 +83,7 @@ def dump_log():
     global buddy_image
 
 def start_container(name, stage, io_env):
+
     client = docker.from_env(version='auto')
     buddy = client.containers.run(buddy_image, "run", 
          detach=False, remove=True,
@@ -90,11 +92,76 @@ def start_container(name, stage, io_env):
                     'workflow_log'    : {'bind'  : '/log'}},
          environment=io_env)
 
-    buddy.remove()
+   # buddy.remove()
     # hash output
-#    output_hash = hash_job_output()
+    output_hash = hash_job_output()
 
+
+    store_job_output(output_hash)
     
+
+def hash_job_output():
+    output_hash = hashlib.sha256()
+    directory = io_dirs['output']
+
+    if not os.path.exists (directory):
+        return -1
+
+    try:
+        for root, dirs, files in os.walk(directory):
+            for names in files:
+                filepath = os.path.join(root,names)
+                try:
+                    f1 = open(filepath, 'r')
+                except:
+                    # You can't open the file for some reason
+                    f1.close()
+                    continue
+
+                while 1:
+                    # Read file in as little chunks
+                    buf = f1.read(4096)
+                    if not buf : break
+                    output_hash.update(hashlib.sha256(buf))
+                f1.close()
+    except:
+        import traceback
+        # Print the stack traceback
+        traceback.print_exc()
+        return -2
+
+    return output_hash.hexdigest() 
+
+def store_job_output(output_hash):
+    sys.stdout.flush()
+    sys.stderr.flush()
+
+    db_client = MongoClient("mongodb://database:27017/")
+    output_database = db_client.output_database
+    output_collections = output_database.output_collections
+    
+    directory = io_dirs['output']
+    data = {}
+    if not os.path.exists (directory):
+        return
+    try:
+        output_file_list = []
+        for root, dirs, files in os.walk(directory):
+            for names in files:
+                filepath = os.path.join(root,names)
+                with open(filepath, 'rb') as f:
+                    file_data = f.read()
+                    current = { 'filename' : names, 'contents' : file_data }
+                    output_file_list.append(current)
+        data["output"] = output_file_list
+        data["_hash"] = output_hash
+        output_collections.insert_one(data)
+
+    except:
+        import traceback
+        # Print the stack traceback
+        traceback.print_exc()
+        return -2
 
 @app.route("/setup", methods=['POST'])
 def setup():
@@ -149,7 +216,8 @@ def run():
     io_env.append("INPUT_FOLDER=/input/"+job_id)
     io_env.append("OUTPUT_FOLDER=/output/"+job_id)
     io_env.append("LOG_FOLDER=/log/"+job_id)
-   
+ 
+  
     executor.submit(start_container, buddy_image, "run", io_env)
     return nice_json({"status" : "Running pipeline"})
 

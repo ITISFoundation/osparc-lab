@@ -34,7 +34,13 @@ services:
       - db:/data/db
     ports:
       - "28017:28017"
-    command: mongod --httpinterface --smallfiles --logpath=/dev/null # --quiet
+    command: mongod --httpinterface --rest --smallfiles --logpath=/dev/null # --quiet
+  database_ui:
+    image: mongo-express
+    links: 
+      - database:mongo
+    ports:
+      - "8081:8081"
 volumes:
   input:
   output:
