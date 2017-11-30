@@ -70,6 +70,9 @@ qx.Class.define("app2.Application",
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
       availableServices.SetAvailableServices(this._getAvailableServices());
+      availableServices.addListener("serviceRequested", function(e) {
+        console.log("serviceRequested: ", e.getData());
+      }, this);
 
       var settingsWindow = new app2.ui.SettingsView(
         padding, servicesHeight + padding, 350, halfHeight,

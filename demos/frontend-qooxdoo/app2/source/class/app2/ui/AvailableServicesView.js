@@ -32,6 +32,10 @@ qx.Class.define("app2.ui.AvailableServicesView",
     BackgrdColor: { check:"String" }
   },
 
+  events : {
+    "serviceRequested": "qx.event.type.Data"
+  },
+
   members: {
     _AvailableServices: {},
     SetAvailableServices: function(availableServices) {
@@ -41,6 +45,10 @@ qx.Class.define("app2.ui.AvailableServicesView",
 
     _checkInputConnections: function(checkThisService) {
       return true;
+    },
+
+    _onServiceRequested: function(service_id) {
+      this.fireDataEvent("serviceRequested", service_id);
     },
 
     _recreateButtons: function() {
@@ -75,6 +83,7 @@ qx.Class.define("app2.ui.AvailableServicesView",
             minWidth: 60,
             maxHeight: 0.8*this.getBarHeight()
           });
+          btn.addListener("execute", this._onServiceRequested.bind(this, filteredServices[i].id));
           this.add(btn);
         }
       }
