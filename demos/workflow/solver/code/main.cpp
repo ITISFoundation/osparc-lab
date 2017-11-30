@@ -1,3 +1,7 @@
+extern "C" {
+  #include "tinyexpr.h"
+}
+
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -10,9 +14,13 @@
 int main(int argc, char* argv[])
 {
   int N = 100;
-  float xmin=0.f;
-  float xmax=1.f;
+  double xmin=0.f;
+  double xmax=1.f;
   std::string filename = "output.dat";
+  std::string func = "sin(x)";
+  double x;
+  te_variable vars[] = {{"x", &x}};
+  int err;
 
   if (argc>1)
   { 
@@ -28,18 +36,31 @@ int main(int argc, char* argv[])
   }
   if (argc>4)
   {
-    filename = std::string(argv[4]);
+     func = std::string(argv[4]);
+  } 
+  if (argc>5)
+  {
+    filename = std::string(argv[5]);
   }
-  std::cout << "Calculating sin(x) in [" << xmin << "," << xmax << "] for " << N << " values" << std::endl;
-  float dx = (xmax-xmin)/static_cast<float>(N); 
+
+  std::cout <<func <<std::endl;
+  te_expr* expr = te_compile(func.c_str(), vars, 1, &err);
+  if (!expr)
+  {
+    std::cout << "Parse error at " << err << std::endl;
+    return 1;
+  }
+
+  std::cout << "Calculating " << func << " in [" << xmin << "," << xmax << "] for " << N << " values" << std::endl;
+  double dx = (xmax-xmin)/static_cast<double>(N); 
  
   std::ofstream output;
   output.open(filename);
   for(int i=0; i<=N; i++) 
   {
-    float x = xmin + static_cast<float>(i)*dx;
-    float y = sin(x);
-    float p = static_cast<float>(i) / static_cast<float>(N) * 100.f;
+    x = xmin + static_cast<double>(i)*dx;
+    double y = te_eval(expr);
+    double p = static_cast<double>(i) / static_cast<double>(N) * 100.f;
     output << x << "\t" << y << std::endl;
     std::cout << "Progress: " << p << " %" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));

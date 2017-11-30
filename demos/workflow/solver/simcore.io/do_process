@@ -2,6 +2,9 @@
 arg1=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmin") .value')
 arg2=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmax") .value')
 arg3=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="N") .value')
-arg4=$OUTPUT_FOLDER/output
+arg4=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="func") .value')
+temp="${arg4%\"}"
+temp="${temp#\"}"
+arg5=$OUTPUT_FOLDER/output
 
-./test $arg1 $arg2 $arg3 $arg4 > $OUTPUT_FOLDER/progress
+./test $arg1 $arg2 $arg3 $temp $arg5 > $OUTPUT_FOLDER/progress

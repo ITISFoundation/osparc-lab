@@ -12,5 +12,6 @@ RUN chmod +x /simcore.io/*
 
 ENV PATH="/simcore.io:${PATH}"
 
-RUN g++ -std=c++11 -o test main.cpp
-RUN rm *.cpp
+RUN gcc -c -fPIC -lm tinyexpr.c -o libtiny.o
+RUN g++ -std=c++11 -o test main.cpp libtiny.o
+RUN rm *.cpp *.c *.h
