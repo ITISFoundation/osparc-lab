@@ -33,10 +33,14 @@ qx.Class.define("app2.ui.AvailableServicesView",
   },
 
   members: {
-    _AvailableServices: [],
+    _AvailableServices: {},
     SetAvailableServices: function(availableServices) {
       this._AvailableServices = availableServices;
       this._recreateButtons();
+    },
+
+    _checkInputConnections: function(checkThisService) {
+      return true;
     },
 
     _recreateButtons: function() {
@@ -48,14 +52,31 @@ qx.Class.define("app2.ui.AvailableServicesView",
       });
       this.add(label);
 
-      for (var i = 0; i < this._AvailableServices.length; i++) {
-        var btn = new qx.ui.form.Button(this._AvailableServices[i]);
-        btn.set({
-          minWidth: 60,
-          height: 30
-          //this.getButtonHeight()
-        });
-        this.add(btn);
+      var filteredServices = [];
+      var availableServices = []
+      if (this._AvailableServices) {
+        for (var key in this._AvailableServices) {
+          if (!this._AvailableServices.hasOwnProperty(key)) {
+            continue;
+          }
+          availableServices.push(this._AvailableServices[key]);
+        };
+        if (availableServices) {
+          for (var i = 0; i < availableServices.length; i++) {
+            if (this._checkInputConnections(availableServices[i])) {
+                filteredServices.push(availableServices[i]);
+            }
+          }
+        }
+
+        for (var i = 0; i < filteredServices.length; i++) {
+          var btn = new qx.ui.form.Button(filteredServices[i].text);
+          btn.set({
+            minWidth: 60,
+            maxHeight: 0.8*this.getBarHeight()
+          });
+          this.add(btn);
+        }
       }
     }
   }
