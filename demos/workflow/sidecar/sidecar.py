@@ -5,9 +5,13 @@ import pika
 
 import docker
 import os
+import sys 
 import time
 import shutil
 import uuid
+from concurrent.futures import ThreadPoolExecutor
+
+executor = ThreadPoolExecutor(2)
 
 app = Flask(__name__)
 
@@ -29,14 +33,14 @@ def delete_contents(folder):
             if os.path.isfile(file_path):
                 os.unlink(file_path)
             elif os.path.isdir(file_path): shutil.rmtree(file_path)
-   	except Exception as e:
+        except Exception as e:
             print(e)
 
 def create_directories():
     global io_dirs
     global job_id
     job_id = str(uuid.uuid4())
-    for d in ['input', 'output']:
+    for d in ['input', 'output', 'log']:
         dir = os.path.join("/", d, job_id)
         io_dirs[d] = dir
         if not os.path.exists(dir):
@@ -48,13 +52,13 @@ def create_directories():
 def parse_input_data(data):
     global io_dirs 
     for d in data:
-        if d.has_key("type") and d["type"]=="url":
+        if "type" in d and d["type"] == "url":
             r = requests.get(d["url"])
             filename = os.path.join(io_dirs['input'], d["name"])
             with open(filename, 'wb') as f:
                 f.write(r.content)
     filename = os.path.join(io_dirs['input'], 'input.json')
-    with open(filename, 'wb') as f:
+    with open(filename, 'w') as f:
         f.write(json.dumps(data))
                 
 def fetch_container(data):
@@ -68,14 +72,29 @@ def fetch_container(data):
 
 
 def prepare_input_and_container(data):
-    if data.has_key("input"):
+    if 'input' in data:
         parse_input_data(data['input'])
 
-    if data.has_key("container"):
+    if 'container' in data:
         fetch_container(data['container'])
    
 def dump_log():
     global buddy_image
+
+def start_container(name, stage, io_env):
+    client = docker.from_env(version='auto')
+    buddy = client.containers.run(buddy_image, "run", 
+         detach=False, remove=True,
+         volumes = {'workflow_input'  : {'bind' : '/input'}, 
+                    'workflow_output' : {'bind' : '/output'},
+                    'workflow_log'    : {'bind'  : '/log'}},
+         environment=io_env)
+
+    buddy.remove()
+    # hash output
+#    output_hash = hash_job_output()
+
+    
 
 @app.route("/setup", methods=['POST'])
 def setup():
@@ -126,16 +145,13 @@ def run():
     data = request.get_json()
 
     prepare_input_and_container(data)
-    client = docker.from_env(version='auto')
     io_env = []
     io_env.append("INPUT_FOLDER=/input/"+job_id)
     io_env.append("OUTPUT_FOLDER=/output/"+job_id)
-
-    buddy = client.containers.run(buddy_image, "run", detach=False, remove=True,
-     volumes = {'workflow_input' :{'bind' : '/input'}, 'workflow_output' : {'bind' : '/output'}},
-     environment=io_env)
-    
-    return nice_json({"status" : "DONE"})
+    io_env.append("LOG_FOLDER=/log/"+job_id)
+   
+    executor.submit(start_container, buddy_image, "run", io_env)
+    return nice_json({"status" : "Running pipeline"})
 
 if __name__ == "__main__":
   app.run(port=8000, debug=True, host='0.0.0.0')

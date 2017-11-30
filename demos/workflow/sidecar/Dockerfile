@@ -1,8 +1,8 @@
-FROM continuumio/miniconda
+FROM continuumio/miniconda3
 MAINTAINER Manuel Guidon <guidon@itis.ethz.ch>
 
 RUN conda install flask plotly
-RUN conda install -c mhworth pika
+RUN conda install -c conda-forge pika
 
 RUN pip install docker
 

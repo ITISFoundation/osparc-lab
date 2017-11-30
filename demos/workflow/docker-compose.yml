@@ -17,6 +17,7 @@ services:
     volumes:
       - input:/input
       - output:/output
+      - log:/log
       - ./sidecar:/work
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
@@ -37,5 +38,6 @@ services:
 volumes:
   input:
   output:
+  log:
   db:
 
