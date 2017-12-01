@@ -67,7 +67,7 @@ qx.Class.define("app2.Application",
       var servicesHeight = 60;
       var padding = 10;
       docHeight = docHeight - servicesHeight;
-      var quarterWidth = (docWidth - 4*padding) / 4;
+      var quarterWidth = (docWidth - 6*padding) / 4;
       var halfHeight = (docHeight - 2*padding) / 2;
       var halfWidth = (docWidth - 2*padding) / 2;
       docHeight = docHeight - 2*padding;
@@ -76,8 +76,8 @@ qx.Class.define("app2.Application",
         docHeight = parseInt(docHeight);
         docWidth = parseInt(docWidth);
         halfHeight = parseInt(halfHeight);
-        docHeight = parseInt(docHeight);
         halfWidth = parseInt(halfWidth);
+        quarterWidth = parseInt(quarterWidth);
       }
 
       var model = qx.data.marshal.Json.createModel(this._getInitialStore());
@@ -107,11 +107,11 @@ qx.Class.define("app2.Application",
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var threeDWindow = new app2.ui.ThreeDView(
-        2*padding + quarterWidth, servicesHeight + padding, halfHeight, halfHeight,
+        2*padding + quarterWidth, servicesHeight + padding, quarterWidth, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var resultsWindow = new app2.ui.ResultsView(
-        2*padding + 2*quarterWidth, servicesHeight + padding, halfWidth, docHeight,
+        3*padding + 2*quarterWidth, servicesHeight + padding, halfWidth, docHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var workbenchWindow = new app2.ui.WorkbenchView(
