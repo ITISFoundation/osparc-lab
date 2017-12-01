@@ -60,20 +60,11 @@ qx.Class.define("app2.ui.AvailableServicesView",
       });
       this.add(label);
 
-      var filteredServices = [];
-      var availableServices = []
       if (this._AvailableServices) {
-        for (var key in this._AvailableServices) {
-          if (!this._AvailableServices.hasOwnProperty(key)) {
-            continue;
-          }
-          availableServices.push(this._AvailableServices[key]);
-        };
-        if (availableServices) {
-          for (var i = 0; i < availableServices.length; i++) {
-            if (this._checkInputConnections(availableServices[i])) {
-                filteredServices.push(availableServices[i]);
-            }
+        var filteredServices = [];
+        for (var i = 0; i < this._AvailableServices.length; i++) {
+          if (this._checkInputConnections(this._AvailableServices[i])) {
+              filteredServices.push(this._AvailableServices[i]);
           }
         }
 

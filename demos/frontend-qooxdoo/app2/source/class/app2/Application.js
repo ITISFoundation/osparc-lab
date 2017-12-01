@@ -60,17 +60,29 @@ qx.Class.define("app2.Application",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
 
-      var baseColor = 60;
+      var model = qx.data.marshal.Json.createModel(this._getInitialStore());
+      var availableServicesObj = this._getAvailableServices();
+      var availableServicesArr = [];
+      for (var key in availableServicesObj) {
+        if (!availableServicesObj.hasOwnProperty(key)) {
+          continue;
+        }
+        availableServicesArr.push(availableServicesObj[key]);
+      };
+      var availableServicesArrQx = new qx.data.Array(availableServicesArr);
+      model.setAvailableServices(availableServicesArrQx);
+
+      var baseColor = model.getBaseColor();
       var servicesHeight = 60;
       var padding = 10;
       var halfHeight = (974 - servicesHeight - 3*padding) / 2;
 
-      var availableServices = new app2.ui.AvailableServicesView(
+      var availableServicesUI = new app2.ui.AvailableServicesView(
         servicesHeight,
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
-      availableServices.SetAvailableServices(this._getAvailableServices());
-      availableServices.addListener("serviceRequested", function(e) {
+      availableServicesUI.SetAvailableServices(model.getAvailableServices().toArray());
+      availableServicesUI.addListener("serviceRequested", function(e) {
         console.log("serviceRequested: ", e.getData());
       }, this);
 
@@ -91,7 +103,7 @@ qx.Class.define("app2.Application",
         this._getStyle3(baseColor).color, this._getStyle3(baseColor).backgroundColor
       );
 
-      doc.add(availableServices, {left: 0, top: 0, width: "100%"});
+      doc.add(availableServicesUI, {left: 0, top: 0, width: "100%"});
       settingsWindow.open();
       threeDWindow.open();
       resultsWindow.open();
@@ -253,6 +265,21 @@ qx.Class.define("app2.Application",
       	}
       };
       return myList;
+    },
+
+    _getInitialStore : function() {
+      var myStore = {
+        "availableServices": [],
+        "sphereRadius": 1,
+        "baseColor": 66,
+        "outputPath": "",
+        "workbench": {
+          "selected": [],
+          "nodes": [],
+          "connections": []
+        }
+      };
+      return myStore;
     },
 
     _getStyle1 : function(baseClr) {
