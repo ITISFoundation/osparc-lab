@@ -60,6 +60,26 @@ qx.Class.define("app2.Application",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
 
+      var body = document.body;
+      var html = document.documentElement;
+      var docHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+      var docWidth = Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth );
+      var servicesHeight = 60;
+      var padding = 10;
+      docHeight = docHeight - servicesHeight;
+      var quarterWidth = (docWidth - 4*padding) / 4;
+      var halfHeight = (docHeight - 2*padding) / 2;
+      var halfWidth = (docWidth - 2*padding) / 2;
+      docHeight = docHeight - 2*padding;
+      docWidth = docWidth - 2*padding;
+      {
+        docHeight = parseInt(docHeight);
+        docWidth = parseInt(docWidth);
+        halfHeight = parseInt(halfHeight);
+        docHeight = parseInt(docHeight);
+        halfWidth = parseInt(halfWidth);
+      }
+
       var model = qx.data.marshal.Json.createModel(this._getInitialStore());
       var availableServicesObj = this._getAvailableServices();
       var availableServicesArr = [];
@@ -71,11 +91,7 @@ qx.Class.define("app2.Application",
       };
       var availableServicesArrQx = new qx.data.Array(availableServicesArr);
       model.setAvailableServices(availableServicesArrQx);
-
       var baseColor = model.getBaseColor();
-      var servicesHeight = 60;
-      var padding = 10;
-      var halfHeight = (974 - servicesHeight - 3*padding) / 2;
 
       var availableServicesUI = new app2.ui.AvailableServicesView(
         servicesHeight,
@@ -87,19 +103,19 @@ qx.Class.define("app2.Application",
       }, this);
 
       var settingsWindow = new app2.ui.SettingsView(
-        padding, servicesHeight + padding, 350, halfHeight,
+        padding, servicesHeight + padding, quarterWidth, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var threeDWindow = new app2.ui.ThreeDView(
-        padding + 350 + padding, servicesHeight + padding, halfHeight, halfHeight,
+        2*padding + quarterWidth, servicesHeight + padding, halfHeight, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var resultsWindow = new app2.ui.ResultsView(
-        900, servicesHeight + padding, 1000, 800,
+        2*padding + 2*quarterWidth, servicesHeight + padding, halfWidth, docHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
       var workbenchWindow = new app2.ui.WorkbenchView(
-        padding, servicesHeight + padding + halfHeight + padding, 800, halfHeight,
+        padding, servicesHeight + padding + halfHeight + padding, halfWidth - padding, halfHeight - padding,
         this._getStyle3(baseColor).color, this._getStyle3(baseColor).backgroundColor
       );
 
@@ -124,6 +140,7 @@ qx.Class.define("app2.Application",
       }, this);
       req.send();
       */
+      // store/ServiceRegistry.json
       var myList = {
       	"00000-00000" : {
       		"id": "00000-00000",
@@ -268,6 +285,7 @@ qx.Class.define("app2.Application",
     },
 
     _getInitialStore : function() {
+      // store/InitialStore.json
       var myStore = {
         "availableServices": [],
         "sphereRadius": 1,
