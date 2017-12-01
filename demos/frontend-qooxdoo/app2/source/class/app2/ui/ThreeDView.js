@@ -84,7 +84,7 @@
         this._scene.add(this._transformControls);
 
         this._render();
-        this._addSphere(2);
+        this._addSphere(1);
       }, this);
 
       widget.addListener('resize', function() {
@@ -107,7 +107,8 @@
   },
 
   properties: {
-    LibReady: { check : "Boolean" }
+    LibReady: { check: "Boolean" },
+    SphereRadius: { check: "Number", apply: "_radiusChanged" }
   },
 
   members: {
@@ -117,6 +118,7 @@
     _renderer: null,
     _orbitControls: null,
     _transformControls: null,
+    _sphereMesh: null,
 
     _render : function()
     {
@@ -132,17 +134,23 @@
       this._render();
     },
 
+    _radiusChanged : function(scale)
+    {
+        this._addSphere(scale);
+    },
+
     _addSphere : function(radius)
     {
-      var geometry = new THREE.SphereGeometry(2, 32, 16);
+      this._scene.remove(this._sphereMesh);
+      var geometry = new THREE.SphereGeometry(radius, 32, 16);
       var material = new THREE.MeshPhongMaterial({
         wireframe: true,
         wireframeLinewidth: 3,
         color: 0xFF0000
       });
-      var mesh = new THREE.Mesh(geometry, material);
-      this._scene.add(mesh);
-      this._transformControls.attach(mesh);
+      this._sphereMesh = new THREE.Mesh(geometry, material);
+      this._scene.add(this._sphereMesh);
+      this._transformControls.attach(this._sphereMesh);
       this._render();
     }
   }

@@ -124,6 +124,10 @@ qx.Class.define("app2.Application",
       threeDWindow.open();
       resultsWindow.open();
       workbenchWindow.open();
+
+      setTimeout( function() {
+        threeDWindow.setSphereRadius(2);
+      }, 3000);
     },
 
     _getAvailableServices : function() {
