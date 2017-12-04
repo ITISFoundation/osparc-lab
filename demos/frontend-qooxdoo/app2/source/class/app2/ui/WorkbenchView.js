@@ -136,6 +136,10 @@
   members: {
     _workbenchViewer: null,
 
+    AddService: function(service_id) {
+      return true;
+    },
+
     /**
       * Simple css loader without event support
       */

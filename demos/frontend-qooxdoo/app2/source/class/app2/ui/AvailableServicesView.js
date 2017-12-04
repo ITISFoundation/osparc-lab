@@ -33,9 +33,9 @@ qx.Class.define("app2.ui.AvailableServicesView",
   },
 
   events : {
-    "serviceRequested": "qx.event.type.Data"
+    "newServiceRequested": "qx.event.type.Data"
   },
-
+  
   members: {
     _AvailableServices: {},
     SetAvailableServices: function(availableServices) {
@@ -48,7 +48,7 @@ qx.Class.define("app2.ui.AvailableServicesView",
     },
 
     _onServiceRequested: function(service_id) {
-      this.fireDataEvent("serviceRequested", service_id);
+      this.fireDataEvent("newServiceRequested", service_id);
     },
 
     _recreateButtons: function() {

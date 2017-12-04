@@ -25,6 +25,13 @@ qx.Class.define("app2.Application",
 
   members :
   {
+    _model: null,
+    _availableServicesView: null,
+    _settingsView: null,
+    _threeDView: null,
+    _resultsView: null,
+    _workbenchView: null,
+
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
@@ -80,7 +87,7 @@ qx.Class.define("app2.Application",
         quarterWidth = parseInt(quarterWidth);
       }
 
-      var model = qx.data.marshal.Json.createModel(this._getInitialStore());
+      this._model = qx.data.marshal.Json.createModel(this._getInitialStore());
       var availableServicesObj = this._getAvailableServices();
       var availableServicesArr = [];
       for (var key in availableServicesObj) {
@@ -90,44 +97,47 @@ qx.Class.define("app2.Application",
         availableServicesArr.push(availableServicesObj[key]);
       };
       var availableServicesArrQx = new qx.data.Array(availableServicesArr);
-      model.setAvailableServices(availableServicesArrQx);
-      var baseColor = model.getBaseColor();
+      this._model.setAvailableServices(availableServicesArrQx);
+      var baseColor = this._model.getBaseColor();
 
-      var availableServicesUI = new app2.ui.AvailableServicesView(
+      this._availableServicesView = new app2.ui.AvailableServicesView(
         servicesHeight,
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
-      availableServicesUI.SetAvailableServices(model.getAvailableServices().toArray());
-      availableServicesUI.addListener("serviceRequested", function(e) {
-        console.log("serviceRequested: ", e.getData());
-      }, this);
+      this._availableServicesView.SetAvailableServices(this._model.getAvailableServices().toArray());
 
-      var settingsWindow = new app2.ui.SettingsView(
+      this._settingsView = new app2.ui.SettingsView(
         padding, servicesHeight + padding, quarterWidth, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
-      var threeDWindow = new app2.ui.ThreeDView(
+      this._threeDView = new app2.ui.ThreeDView(
         2*padding + quarterWidth, servicesHeight + padding, quarterWidth, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
-      var resultsWindow = new app2.ui.ResultsView(
+      this._resultsView = new app2.ui.ResultsView(
         3*padding + 2*quarterWidth, servicesHeight + padding, halfWidth, docHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
       );
-      var workbenchWindow = new app2.ui.WorkbenchView(
+      this._workbenchView = new app2.ui.WorkbenchView(
         padding, servicesHeight + padding + halfHeight + padding, halfWidth - padding, halfHeight - padding,
         this._getStyle3(baseColor).color, this._getStyle3(baseColor).backgroundColor
       );
 
-      doc.add(availableServicesUI, {left: 0, top: 0, width: "100%"});
-      settingsWindow.open();
-      threeDWindow.open();
-      resultsWindow.open();
-      workbenchWindow.open();
+      this._availableServicesView.addListener("newServiceRequested", function(e) {
+        this._newServiceRequested(e.getData());
+      }, this);
 
-      setTimeout( function() {
-        threeDWindow.setSphereRadius(2);
-      }, 3000);
+      doc.add(this._availableServicesView, {left: 0, top: 0, width: "100%"});
+      this._settingsView.open();
+      this._threeDView.open();
+      this._resultsView.open();
+      this._workbenchView.open();
+
+      this._settingsView.setModel(this._model);
+
+      setTimeout( function(self) {
+        this._threeDView.setSphereRadius(2);
+      }.bind(this), 3000);
     },
 
     _getAvailableServices : function() {
@@ -304,6 +314,66 @@ qx.Class.define("app2.Application",
       return myStore;
     },
 
+    uuidv4 : function() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    },
+
+    _newServiceRequested : function(service_id) {
+      for (var i = 0; i < this._model.getAvailableServices().length; i++) {
+        if (service_id === this._model.getAvailableServices().getItem(i).id) {
+          var copiedService = JSON.parse(JSON.stringify(this._model.getAvailableServices().getItem(i)));
+          copiedService.id = this.uuidv4();
+
+          var newNode = {
+            uniqueName: copiedService.text + '_S' + Number(this._model.getWorkbench().getNodes().length+1),
+            service: copiedService,
+          };
+          if ('input' in copiedService && copiedService.input !== 'none') {
+            newNode['input'] = {
+              nameId: 'in'
+            };
+          }
+
+          if ('output' in copiedService && copiedService.output !== 'none') {
+            newNode['output'] = {
+              nameId: 'out'
+            };
+          }
+          this._model.getWorkbench().getNodes().push(newNode);
+
+          if (this._model.getWorkbench().getSelected().length > 0 && this._model.getWorkbench().getSelected().getItem(0)) {
+            let newConn = {
+              nameId: 'Conn_' + (this._model.getWorkbench().getConnections().length + 1),
+              input: {
+                node: this._model.getWorkbench().getSelected().getItem(0).uniqueName,
+                port: 'out'
+              },
+              output: {
+                node: newNode.uniqueName,
+                port: 'in'
+              }
+            };
+            this._model.getWorkbench().getConnections().push(newConn);
+          }
+
+          this._model.getWorkbench().getSelected().removeAll();
+          this._model.getWorkbench().getSelected().push(newNode);
+
+          this._settingsView.updateSettings(copiedService);
+
+          //this.fireDataEvent("serviceSelected", this._model.getWorkbench().getSelected().getItem(0));
+
+          break;
+        }
+      }
+      //this._model.getWorkbench().setSelected(e.getData());
+      //workbenchWindow.AddService(e.getData());
+      //console.log(this._model);
+    },
+
     _getStyle1 : function(baseClr) {
       var baseColor = baseClr + 0;
       var textColor = 255 - baseColor;
@@ -330,5 +400,10 @@ qx.Class.define("app2.Application",
         color: 'rgb(' + textColor + ',' + textColor + ',' + textColor + ')'
       };
     }
+  },
+
+  events : {
+    "addNewServiceRequested": "qx.event.type.Data",
+    "serviceSelected": "qx.event.type.Data"
   }
 });
