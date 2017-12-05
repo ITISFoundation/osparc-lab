@@ -147,16 +147,44 @@
         left: 20 + nNodes*175,
         service: copiedService,
         properties: {
-          title: copiedService.text +  'S' + Number(nNodes+1),
+          title: copiedService.text +  '_S' + Number(nNodes+1),
           inputs: nodeInputs,
           outputs: nodeOutputs
         }
       };
-
       this._workbenchData.operators[operatorId] = operatorData;
       $('#example').flowchart('createOperator', operatorId, operatorData);
-
       this._model.getWorkbench().getNodes().push(operatorData);
+
+      if (this._model.getSelected().length > 0) {
+        var selectedId = this._model.getSelected().getItem(0).id;
+        var selectedOperatorKey = null;
+        for (var key in this._workbenchData.operators) {
+          if (this._workbenchData.operators.hasOwnProperty(key)) {
+            if (this._workbenchData.operators[key].service.id === selectedId) {
+              if (this._workbenchData.operators[key].service.output === copiedService.input) {
+                selectedOperatorKey = key;
+              }
+              break;
+            }
+          }
+        }
+
+        if (selectedOperatorKey) {
+          var nLinks = Object.keys(this._workbenchData.links).length;
+
+          var linkId = 'link_' + Number(nLinks+1);
+          var linkData = {
+            fromOperator: selectedOperatorKey,
+            fromConnector: 'output_1',
+            toOperator: operatorId,
+            toConnector: 'input_1',
+          }
+          this._workbenchData.links[linkId] = linkData;
+          $('#example').flowchart('createLink', linkId, linkData);
+          this._model.getWorkbench().getConnections().push(operatorData);
+        }
+      }
     },
 
     _nodeSelected: function(operatorId) {
