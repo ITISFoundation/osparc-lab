@@ -1,0 +1,11 @@
+# Use containers instead of full VMs for faster startup.
+sudo: false
+
+language: python
+python:
+  - "2.7"
+
+# command to run tests
+script:
+  - python ./TestDemosFileStructure.py
+
