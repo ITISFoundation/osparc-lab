@@ -125,6 +125,14 @@ qx.Class.define("app2.Application",
         this._newServiceRequested(e.getData());
       }, this);
 
+      this._workbenchView.addListener("nodeSelected", function(e) {
+        this._serviceSelected(e.getData());
+      }, this);
+
+      this._workbenchView.addListener("nodeUnselected", function(e) {
+        this._serviceUnselected();
+      }, this);
+
       doc.add(this._availableServicesView, {left: 0, top: 0, width: "100%"});
       this._settingsView.open();
       this._threeDView.open();
@@ -330,10 +338,11 @@ qx.Class.define("app2.Application",
           // Workbench View
           this._workbenchView.addService(copiedService);
 
-          // Settings View
           this._model.getSelected().removeAll();
           this._model.getSelected().push(copiedService);
-          this._settingsView.updateSettings(copiedService);
+
+          // Settings View
+          this._settingsView.updateSettings();
 
           // Available Services View
           this._availableServicesView.RecreateButtons();
@@ -341,6 +350,29 @@ qx.Class.define("app2.Application",
           break;
         }
       }
+    },
+
+    _serviceSelected : function(service_id) {
+      for (var i = 0; i < this._model.getWorkbench().getNodes().length; i++) {
+        if (service_id === this._model.getWorkbench().getNodes().getItem(i).service.id) {
+          this._model.getSelected().removeAll();
+          this._model.getSelected().push(this._model.getWorkbench().getNodes().getItem(i).service);
+
+          // Settings View
+          this._settingsView.updateSettings();
+
+          // Available Services View
+          this._availableServicesView.RecreateButtons();
+        }
+      }
+    },
+
+    _serviceUnselected : function() {
+      this._model.getSelected().removeAll();
+      this._settingsView.updateSettings();
+
+      // Available Services View
+      this._availableServicesView.RecreateButtons();
     },
 
     _getStyle1 : function(baseClr) {

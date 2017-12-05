@@ -154,12 +154,15 @@
       };
 
       this._workbenchData.operators[operatorId] = operatorData;
-      console.log(operatorId);
       $('#example').flowchart('createOperator', operatorId, operatorData);
+
+      this._model.getWorkbench().getNodes().push(operatorData);
     },
 
     _nodeSelected: function(operatorId) {
-      this.fireDataEvent("nodeSelected", operatorId);
+      if (operatorId in this._workbenchData.operators) {
+        this.fireDataEvent("nodeSelected", this._workbenchData.operators[operatorId].service.id);
+      }
     },
 
     _nodeUnselected: function() {
