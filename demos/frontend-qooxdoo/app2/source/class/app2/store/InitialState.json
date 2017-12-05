@@ -3,8 +3,8 @@
 	"sphereRadius": 1,
 	"baseColor": 66,
 	"outputPath": "",
+	"selected": [],
 	"workbench": {
-		"selected": [],
 		"nodes": [],
 		"connections": []
 	}

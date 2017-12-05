@@ -305,8 +305,8 @@ qx.Class.define("app2.Application",
         "sphereRadius": 1,
         "baseColor": 66,
         "outputPath": "",
+        "selected": [],
         "workbench": {
-          "selected": [],
           "nodes": [],
           "connections": []
         }
@@ -346,11 +346,11 @@ qx.Class.define("app2.Application",
           }
           this._model.getWorkbench().getNodes().push(newNode);
 
-          if (this._model.getWorkbench().getSelected().length > 0 && this._model.getWorkbench().getSelected().getItem(0)) {
+          if (this._model.getSelected().length > 0 && this._model.getSelected().getItem(0)) {
             let newConn = {
               nameId: 'Conn_' + (this._model.getWorkbench().getConnections().length + 1),
               input: {
-                node: this._model.getWorkbench().getSelected().getItem(0).uniqueName,
+                node: this._model.getSelected().getItem(0).uniqueName,
                 port: 'out'
               },
               output: {
@@ -361,8 +361,8 @@ qx.Class.define("app2.Application",
             this._model.getWorkbench().getConnections().push(newConn);
           }
 
-          this._model.getWorkbench().getSelected().removeAll();
-          this._model.getWorkbench().getSelected().push(newNode);
+          this._model.getSelected().removeAll();
+          this._model.getSelected().push(newNode);
 
           // Settings View
           this._settingsView.updateSettings(copiedService);
