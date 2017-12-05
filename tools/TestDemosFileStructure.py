@@ -58,13 +58,13 @@ def TestFileStructure():
 			
 			# Makefile checks
 			if not os.path.exists( os.path.join( folder, 'Makefile' ) ):
-				all_fine.Error( 'File "Makefile" does not exist (case sensitive?)' )
+				all_fine.Error( 'File "Makefile" does not exist (case sensitive!)' )
 			else:
 				CheckMakefile( folder, all_fine )
 			
 			# Readme check
 			if not os.path.exists( os.path.join( folder, 'README.md' ) ):
-				all_fine.Error( 'File "README.md" does not exist (case sensitive?)' )
+				all_fine.Error( 'File "README.md" does not exist (case sensitive!)' )
 			else:
 				if 0 == len( file( os.path.join( folder, 'README.md' ) ).readlines() ):
 					all_fine.Error( 'Readme file seems empty' )
