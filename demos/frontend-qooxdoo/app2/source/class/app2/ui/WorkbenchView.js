@@ -136,9 +136,44 @@
   members: {
     _workbenchViewer: null,
     _workbenchData: null,
+    _model: null,
 
-    AddService: function(service_id) {
-      return true;
+    setModel : function(model) {
+      this._model = model;
+    },
+
+    addService: function(copiedService) {
+      var newNode = {
+        uniqueName: copiedService.text + '_S' + Number(this._model.getWorkbench().getNodes().length+1),
+        service: copiedService,
+      };
+      if ('input' in copiedService && copiedService.input !== 'none') {
+        newNode['input'] = {
+          nameId: 'in'
+        };
+      }
+
+      if ('output' in copiedService && copiedService.output !== 'none') {
+        newNode['output'] = {
+          nameId: 'out'
+        };
+      }
+      this._model.getWorkbench().getNodes().push(newNode);
+
+      if (this._model.getSelected().length > 0 && this._model.getSelected().getItem(0)) {
+        let newConn = {
+          nameId: 'Conn_' + (this._model.getWorkbench().getConnections().length + 1),
+          input: {
+            node: this._model.getSelected().getItem(0).uniqueName,
+            port: 'out'
+          },
+          output: {
+            node: newNode.uniqueName,
+            port: 'in'
+          }
+        };
+        this._model.getWorkbench().getConnections().push(newConn);
+      }
     },
 
     /**

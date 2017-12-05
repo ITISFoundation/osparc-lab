@@ -134,6 +134,7 @@ qx.Class.define("app2.Application",
       this._workbenchView.open();
 
       this._settingsView.setModel(this._model);
+      this._workbenchView.setModel(this._model);
 
       setTimeout( function(self) {
         this._threeDView.setSphereRadius(2);
@@ -328,52 +329,16 @@ qx.Class.define("app2.Application",
           copiedService.id = this.uuidv4();
 
           // Workbench View
-          //this._workbenchView.addNewNode(copiedService);
-          var newNode = {
-            uniqueName: copiedService.text + '_S' + Number(this._model.getWorkbench().getNodes().length+1),
-            service: copiedService,
-          };
-          if ('input' in copiedService && copiedService.input !== 'none') {
-            newNode['input'] = {
-              nameId: 'in'
-            };
-          }
-
-          if ('output' in copiedService && copiedService.output !== 'none') {
-            newNode['output'] = {
-              nameId: 'out'
-            };
-          }
-          this._model.getWorkbench().getNodes().push(newNode);
-
-          if (this._model.getSelected().length > 0 && this._model.getSelected().getItem(0)) {
-            let newConn = {
-              nameId: 'Conn_' + (this._model.getWorkbench().getConnections().length + 1),
-              input: {
-                node: this._model.getSelected().getItem(0).uniqueName,
-                port: 'out'
-              },
-              output: {
-                node: newNode.uniqueName,
-                port: 'in'
-              }
-            };
-            this._model.getWorkbench().getConnections().push(newConn);
-          }
+          this._workbenchView.addService(copiedService);
 
           // Settings View
           this._model.getSelected().removeAll();
           this._model.getSelected().push(copiedService);
           this._settingsView.updateSettings(copiedService);
 
-          console.log(this._model);
-
           break;
         }
       }
-      //this._model.getWorkbench().setSelected(e.getData());
-      //workbenchWindow.AddService(e.getData());
-      //console.log(this._model);
     },
 
     _getStyle1 : function(baseClr) {
