@@ -65,54 +65,16 @@
       widget.addListenerOnce('appear', function() {
 
         $(document).ready(function() {
-          this._workbenchData = {
-          	operators: {
-          		operator_1: {
-          			top: 20,
-          			left: 20,
-          			properties: {
-          				title: 'Operator 1',
-          				inputs: {},
-          				outputs: {
-          					output_1: {
-          						label: 'Output 1',
-          					}
-          				}
-          			}
-          		},
-          		operator_2: {
-          			top: 80,
-          			left: 300,
-          			properties: {
-          				title: 'Operator 2',
-          				inputs: {
-          					input_1: {
-          						label: 'Input 1',
-          					},
-          					input_2: {
-          						label: 'Input 2',
-          					},
-          				},
-          				outputs: {}
-          			}
-          		},
-          	},
-          	links: {
-          		link_1: {
-          			fromOperator: 'operator_1',
-          			fromConnector: 'output_1',
-          			toOperator: 'operator_2',
-          			toConnector: 'input_2',
-          		},
-          	}
-          };
-
+          /*
           // Apply the plugin on a standard, empty div...
           $('#example').flowchart({
             data: this._workbenchData
           });
+          */
         });
       }, this);
+
+      this._fillEmptyWorkbench();
 
       widget.getContentElement().setAttribute('id', 'example');
       widget.getContentElement().setAttribute('height', height+'px');
@@ -142,37 +104,51 @@
       this._model = model;
     },
 
+    _fillEmptyWorkbench : function() {
+      this._workbenchData = {
+        operators: {},
+        links: {}
+      }
+    },
+
     addService: function(copiedService) {
-      var newNode = {
-        uniqueName: copiedService.text + '_S' + Number(this._model.getWorkbench().getNodes().length+1),
+      var nNodes = Object.keys(this._workbenchData.operators).length;
+
+      var operatorId = copiedService.text + '_S' + Number(nNodes+1);
+      var nodeInputs = {};
+      if (copiedService.input !== "none") {
+        nodeInputs.input_1 = {
+          label: 'Input 1'
+        }
+      }
+      var nodeOutputs = {};
+      if (copiedService.output !== "none") {
+        nodeOutputs.output_1 = {
+          label: 'Output 1'
+        }
+      }
+      var operatorData = {
+        top: 20,
+        left: 20 + nNodes*175,
         service: copiedService,
+        properties: {
+          title: copiedService.text +  'S' + Number(nNodes+1),
+          inputs: nodeInputs,
+          outputs: nodeOutputs
+        }
       };
-      if ('input' in copiedService && copiedService.input !== 'none') {
-        newNode['input'] = {
-          nameId: 'in'
-        };
-      }
 
-      if ('output' in copiedService && copiedService.output !== 'none') {
-        newNode['output'] = {
-          nameId: 'out'
-        };
-      }
-      this._model.getWorkbench().getNodes().push(newNode);
+      this._workbenchData.operators[operatorId] = operatorData;
 
-      if (this._model.getSelected().length > 0 && this._model.getSelected().getItem(0)) {
-        let newConn = {
-          nameId: 'Conn_' + (this._model.getWorkbench().getConnections().length + 1),
-          input: {
-            node: this._model.getSelected().getItem(0).uniqueName,
-            port: 'out'
-          },
-          output: {
-            node: newNode.uniqueName,
-            port: 'in'
-          }
-        };
-        this._model.getWorkbench().getConnections().push(newConn);
+      console.log(this._workbenchData);
+
+      // Apply the plugin on a standard, empty div...
+      if (nNodes === 0) {
+        $('#example').flowchart({
+          data: this._workbenchData
+        });
+      } else {
+        $('#example').flowchart('createOperator', operatorId, operatorData);
       }
     },
 
