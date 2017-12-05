@@ -71,6 +71,8 @@
           var $flowchart = $('#example');
           $flowchart.flowchart({
             data: this._workbenchData,
+            multipleLinksOnOutput: true,
+            multipleLinksOnInput: true,
             onOperatorSelect: function(operatorId) {
               $operatorTitle.val($flowchart.flowchart('getOperatorTitle', operatorId));
               self._nodeSelected(operatorId);
