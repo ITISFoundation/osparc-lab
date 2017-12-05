@@ -20,7 +20,8 @@ qx.Class.define("app2.ui.SettingsView",
     this._settingsViewer = new qx.ui.container.Composite(new qx.ui.layout.Flow()).set({
       allowShrinkY: false,
       textColor: color,
-      backgroundColor: backgrdColor
+      backgroundColor: backgrdColor,
+      padding: 15
     });
     scroller.add(this._settingsViewer);
 
@@ -82,14 +83,23 @@ qx.Class.define("app2.ui.SettingsView",
                 break;
             }
             if (input) {
+              input.set({
+                textColor: 'black'
+              })
               form.add(input, myServiceSetts[i].text, null, myServiceSetts[i].name);
             }
           }
 
           // form with Compute and reset button
           var computeButton = new qx.ui.form.Button("Compute");
+          computeButton.set({
+            textColor: 'black'
+          })
           form.addButton(computeButton);
           var resetButton = new qx.ui.form.Button("Reset");
+          resetButton.set({
+            textColor: 'black'
+          })
           form.addButton(resetButton);
 
           var controller = new qx.data.controller.Form(null, form);
