@@ -63,8 +63,9 @@
       this.add(widget);
 
       widget.addListenerOnce('appear', function() {
-
-        $(document).ready(function() {
+        var self = this;
+        $(document).ready( init );
+        function init() {
           // Apply the plugin on a standard, empty div...
           var $operatorTitle = $('#operator_title');
           var $flowchart = $('#example');
@@ -72,16 +73,15 @@
             data: this._workbenchData,
             onOperatorSelect: function(operatorId) {
               $operatorTitle.val($flowchart.flowchart('getOperatorTitle', operatorId));
-              console.log(operatorId);
-              //this._nodeSelected(operatorId);
+              self._nodeSelected(operatorId);
               return true;
             },
             onOperatorUnselect: function() {
-              //this._nodeUnselected();
+              self._nodeUnselected();
               return true;
             },
           });
-        });
+        };
       }, this);
 
       this._fillEmptyWorkbench();
@@ -103,6 +103,11 @@
 
   properties: {
     LibReady: { check : "Boolean" }
+  },
+
+  events : {
+    "serviceSelected": "qx.event.type.Data",
+    "serviceUnselected": "qx.event.type.Data"
   },
 
   members: {
@@ -154,11 +159,11 @@
     },
 
     _nodeSelected: function(operatorId) {
-      console.log('nodeSelected', operatorId);
+      this.fireDataEvent("nodeSelected", operatorId);
     },
 
     _nodeUnselected: function() {
-      console.log('nodeUnselected');
+      this.fireDataEvent("nodeUnselected");
     },
 
     /**
