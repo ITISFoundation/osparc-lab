@@ -13,6 +13,7 @@ class AllFine:
 		print '[WARNING]: ' + msg
 		
 	def Okay( self ):
+		print
 		if self.__ok:
 			print 'All tests passed'
 		else:
@@ -22,6 +23,8 @@ class AllFine:
 		
 def CheckMakefile( folder, all_fine ):
 	print 'Checking makefile'
+	
+	# not sure, if these tests make sense ... feel free to change and/or extend
 	has_demo = False
 	has_start = False
 	has_stop = False
