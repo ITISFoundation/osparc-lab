@@ -23,7 +23,7 @@ qx.Class.define("app2.ui.AvailableServicesView",
       backgroundColor: this.getBackgrdColor()
     });
 
-    this._recreateButtons();
+    this.RecreateButtons();
   },
 
   properties: {
@@ -35,23 +35,34 @@ qx.Class.define("app2.ui.AvailableServicesView",
   events : {
     "newServiceRequested": "qx.event.type.Data"
   },
-  
+
   members: {
     _AvailableServices: {},
+    _model: null,
+
+    setModel : function(model) {
+      this._model = model;
+      this.SetAvailableServices(this._model.getAvailableServices());
+    },
+
     SetAvailableServices: function(availableServices) {
       this._AvailableServices = availableServices;
-      this._recreateButtons();
+      this.RecreateButtons();
     },
 
     _checkInputConnections: function(checkThisService) {
-      return true;
+      if (checkThisService.input === 'none')
+        return true;
+
+      if (this._model.getSelected().length > 0 && this._model.getSelected().getItem(0)) {
+        return (this._model.getSelected().getItem(0).output === checkThisService.input);
     },
 
     _onServiceRequested: function(service_id) {
       this.fireDataEvent("newServiceRequested", service_id);
     },
 
-    _recreateButtons: function() {
+    RecreateButtons: function() {
       this.removeAll();
 
       var label = new qx.ui.basic.Label("Available Services: ").set({
@@ -63,8 +74,8 @@ qx.Class.define("app2.ui.AvailableServicesView",
       if (this._AvailableServices) {
         var filteredServices = [];
         for (var i = 0; i < this._AvailableServices.length; i++) {
-          if (this._checkInputConnections(this._AvailableServices[i])) {
-              filteredServices.push(this._AvailableServices[i]);
+          if (this._checkInputConnections(this._AvailableServices.getItem(i))) {
+              filteredServices.push(this._AvailableServices.getItem(i));
           }
         }
 

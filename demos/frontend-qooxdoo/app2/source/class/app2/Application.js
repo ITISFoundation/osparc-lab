@@ -104,8 +104,6 @@ qx.Class.define("app2.Application",
         servicesHeight,
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
-      this._availableServicesView.SetAvailableServices(this._model.getAvailableServices().toArray());
-
       this._settingsView = new app2.ui.SettingsView(
         padding, servicesHeight + padding, quarterWidth, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
@@ -133,12 +131,13 @@ qx.Class.define("app2.Application",
       this._resultsView.open();
       this._workbenchView.open();
 
+      this._availableServicesView.setModel(this._model);
       this._settingsView.setModel(this._model);
       this._workbenchView.setModel(this._model);
 
       setTimeout( function(self) {
         this._threeDView.setSphereRadius(2);
-      }.bind(this), 3000);
+      }.bind(this), 5000);
     },
 
     _getAvailableServices : function() {
@@ -335,6 +334,9 @@ qx.Class.define("app2.Application",
           this._model.getSelected().removeAll();
           this._model.getSelected().push(copiedService);
           this._settingsView.updateSettings(copiedService);
+
+          // Available Services View
+          this._availableServicesView.RecreateButtons();
 
           break;
         }
