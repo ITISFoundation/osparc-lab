@@ -65,12 +65,10 @@
       widget.addListenerOnce('appear', function() {
 
         $(document).ready(function() {
-          /*
           // Apply the plugin on a standard, empty div...
           $('#example').flowchart({
             data: this._workbenchData
           });
-          */
         });
       }, this);
 
@@ -140,16 +138,7 @@
 
       this._workbenchData.operators[operatorId] = operatorData;
 
-      console.log(this._workbenchData);
-
-      // Apply the plugin on a standard, empty div...
-      if (nNodes === 0) {
-        $('#example').flowchart({
-          data: this._workbenchData
-        });
-      } else {
-        $('#example').flowchart('createOperator', operatorId, operatorData);
-      }
+      $('#example').flowchart('createOperator', operatorId, operatorData);
     },
 
     /**
