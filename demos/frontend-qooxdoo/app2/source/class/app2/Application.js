@@ -361,10 +361,9 @@ qx.Class.define("app2.Application",
             this._model.getWorkbench().getConnections().push(newConn);
           }
 
-          this._model.getSelected().removeAll();
-          this._model.getSelected().push(newNode);
-
           // Settings View
+          this._model.getSelected().removeAll();
+          this._model.getSelected().push(copiedService);
           this._settingsView.updateSettings(copiedService);
 
           console.log(this._model);

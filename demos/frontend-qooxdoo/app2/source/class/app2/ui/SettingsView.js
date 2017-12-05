@@ -46,12 +46,11 @@ qx.Class.define("app2.ui.SettingsView",
     _buildForm : function() {
       this._settingsViewer.removeAll();
 
-      if ("service" in this._model.getSelected().getItem(0) &&
-          "settings" in this._model.getSelected().getItem(0).service) {
-        var myServiceSetts = this._model.getSelected().getItem(0).service.settings;
+      if (this._model.getSelected().length > 0) {
+        var myServiceSetts = this._model.getSelected().getItem(0).settings;
 
         if (myServiceSetts.length > 0) {
-          var data = this._model.getSelected().getItem(0).service.settings;
+          var data = this._model.getSelected().getItem(0).settings;
           var model = qx.data.marshal.Json.createModel(data);
 
           var form = new qx.ui.form.Form();
@@ -98,9 +97,9 @@ qx.Class.define("app2.ui.SettingsView",
 
           computeButton.addListener("execute", function() {
             if (form.validate()) {
-              for (var i = 0; i < this._model.getSelected().getItem(0).service.settings.length; i++) {
-                var settKey = this._model.getSelected().getItem(0).service.settings[i].name;
-                this._model.getSelected().getItem(0).service.settings[i].value = model.get(settKey);
+              for (var i = 0; i < this._model.getSelected().getItem(0).settings.length; i++) {
+                var settKey = this._model.getSelected().getItem(0).settings[i].name;
+                this._model.getSelected().getItem(0).settings[i].value = model.get(settKey);
               }
             }
           }, this);
