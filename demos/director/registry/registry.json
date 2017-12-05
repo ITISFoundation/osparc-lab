@@ -1,0 +1,107 @@
+{
+  "0" : {
+    "name": "scatter_data_producer",
+    "tooltip": "Creates random data for 2d plot"
+  },
+  "1" : {
+    "name": "scatter_data_viewer",
+    "tooltip" : "Visualizes 2d data"
+  },
+  "2" : {
+    "name": "DBP-Clancy-Rabbit-Single-Cell",
+    "tooltip" : "DBP-Clancy-Rabbit-Single-Cell",
+    "settings" : [
+     	{
+		"text":	"Na blocker drug concentration",
+		"name": "NaValue",
+		"type": "number",
+		"value" : 10
+    	},
+     	{
+		"text":	"Kr blocker drug concentration",
+		"name": "KrValue",
+		"type": "number",
+		"value": 10
+     	},
+     	{
+		"text":	"Basic cycle length (BCL)",
+		"name": "BCLValue",
+		"type": "number",
+		"value": 10
+     	},
+     	{
+		"text":	"Number of beats",
+		"name": "beatsValue",
+		"type": "number",
+		"value": 10
+     	},
+     	{
+		"text":	"Ligand concentration",
+		"name": "LigandValue",
+		"type": "number",
+		"value": 10
+     	},
+     	{
+		"text":	"Adjust cAMKII activity level",
+		"name": "cAMKIIValue",
+		"type": "select",
+		"options" : ["A", "B", "C", "D"],
+		"value": 0
+     	}
+    ],
+    "input" : [
+        {
+                "name": "NaValue",
+                "value" : 10
+        },
+        {
+                "name": "KrValue",
+                "value": 10
+        },
+        {
+                "name": "BCLValue",
+                "value": 10
+        },
+        {
+                "name": "beatsValue",
+                "value": 10
+        },
+        {
+                "name": "LigandValue",
+                "value": 10
+        },
+        {
+                "name": "cAMKIIValue",
+                "value": 10
+        }
+    ],
+    "output": [
+	{
+		"name": "outputFolder",
+		"type": "folder",
+		"value": "url"
+
+	},
+	{
+		"name": "Allresults",
+		"type": "csv",
+		"order": [
+			"t",
+		       	"I_Ca_store",
+		       	"Ito",
+		       	"Itof",
+		       	"Itos",
+		       	"INa",
+		       	"IK1",
+		       	"s1",
+			"k1",
+			"Jserca",
+			"Iks",
+			"Jleak",
+			"ICFTR",
+			"Incx"
+		]
+	}
+    ]
+  }
+}

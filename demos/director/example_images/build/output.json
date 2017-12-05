@@ -1,0 +1,29 @@
+{
+	"output": [
+	    {
+		"name": "outputFolder", 
+                "type": "folder", 
+                "value": "url"
+            }, 
+            {
+                "name": "Allresults", 
+                "order": [
+                    "t", 
+                    "I_Ca_store", 
+                    "Ito", 
+                    "Itof", 
+                    "Itos", 
+                    "INa", 
+                    "IK1", 
+                    "s1", 
+                    "k1", 
+                    "Jserca", 
+                    "Iks", 
+                    "Jleak", 
+                    "ICFTR", 
+                    "Incx"
+                ], 
+                "type": "csv"
+            }
+        ]
+} 
