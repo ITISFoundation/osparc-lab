@@ -66,8 +66,20 @@
 
         $(document).ready(function() {
           // Apply the plugin on a standard, empty div...
-          $('#example').flowchart({
-            data: this._workbenchData
+          var $operatorTitle = $('#operator_title');
+          var $flowchart = $('#example');
+          $flowchart.flowchart({
+            data: this._workbenchData,
+            onOperatorSelect: function(operatorId) {
+              $operatorTitle.val($flowchart.flowchart('getOperatorTitle', operatorId));
+              console.log(operatorId);
+              //this._nodeSelected(operatorId);
+              return true;
+            },
+            onOperatorUnselect: function() {
+              //this._nodeUnselected();
+              return true;
+            },
           });
         });
       }, this);
@@ -137,8 +149,16 @@
       };
 
       this._workbenchData.operators[operatorId] = operatorData;
-
+      console.log(operatorId);
       $('#example').flowchart('createOperator', operatorId, operatorData);
+    },
+
+    _nodeSelected: function(operatorId) {
+      console.log('nodeSelected', operatorId);
+    },
+
+    _nodeUnselected: function() {
+      console.log('nodeUnselected');
     },
 
     /**

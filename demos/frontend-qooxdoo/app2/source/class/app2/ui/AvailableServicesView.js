@@ -56,6 +56,7 @@ qx.Class.define("app2.ui.AvailableServicesView",
 
       if (this._model.getSelected().length > 0 && this._model.getSelected().getItem(0)) {
         return (this._model.getSelected().getItem(0).output === checkThisService.input);
+      }
     },
 
     _onServiceRequested: function(service_id) {
