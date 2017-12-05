@@ -1,28 +1,31 @@
 import os
 import os.path
 import sys
+import logging
 
-class AllFine:
+logging.getLogger().setLevel( logging.INFO )
+
+class AllFine(object):
 	def __init__(self):
 		self.__ok = True
-	def Error( self, msg ):
-		print '[ERROR]: ' + msg
+	def error( self, msg ):
+		logging.error( msg )
 		self.__ok = False
 		
-	def Warning( self, msg ):
-		print '[WARNING]: ' + msg
+	def warning( self, msg ):
+		logging.warning( msg )
 		
-	def Okay( self ):
+	def okay( self ):
 		print
 		if self.__ok:
-			print 'All tests passed'
+			logging.info( 'All tests passed' )
 		else:
-			self.Error( 'Some tests failed' )
+			logging.error( 'Some tests failed' )
 		return self.__ok
 
 		
 def CheckMakefile( folder, all_fine ):
-	print 'Checking makefile'
+	logging.info( 'Checking makefile' )
 	
 	# not sure, if these tests make sense ... feel free to change and/or extend
 	has_demo = False
@@ -38,15 +41,15 @@ def CheckMakefile( folder, all_fine ):
 				has_stop = True
 				
 	if not has_demo:
-		all_fine.Warning( 'No "demo" target' )
+		all_fine.warning( 'No "demo" target' )
 	if not has_start:
-		all_fine.Warning( 'No "start" target' )
+		all_fine.warning( 'No "start" target' )
 	if not has_stop:
-		all_fine.Warning( 'No "stop" target' )
+		all_fine.warning( 'No "stop" target' )
 		
 def TestFileStructure():
 
-	print 'Testing file structure in demos folder'
+	logging.info( 'Testing file structure in demos folder' )
 
 	all_fine = AllFine()
 
@@ -54,26 +57,25 @@ def TestFileStructure():
 	for sub_folder in os.listdir('demos'):
 		folder = os.path.join( root_folder, sub_folder )
 		if os.path.isdir( folder ):
-			print 'Testing folder: ' + folder
+			logging.info( 'Testing folder: ' + folder )
 			
 			# Makefile checks
 			if not os.path.exists( os.path.join( folder, 'Makefile' ) ):
-				all_fine.Error( 'File "Makefile" does not exist (case sensitive!)' )
+				all_fine.error( 'File "Makefile" does not exist (case sensitive!)' )
 			else:
 				CheckMakefile( folder, all_fine )
 			
 			# Readme check
 			if not os.path.exists( os.path.join( folder, 'README.md' ) ):
-				all_fine.Error( 'File "README.md" does not exist (case sensitive!)' )
+				all_fine.error( 'File "README.md" does not exist (case sensitive!)' )
 			else:
 				if 0 == len( file( os.path.join( folder, 'README.md' ) ).readlines() ):
-					all_fine.Error( 'Readme file seems empty' )
+					all_fine.error( 'Readme file seems empty' )
 			
-	return all_fine.Okay()
+	return all_fine.okay()
 
 if __name__=='__main__':
 	if TestFileStructure():
 		sys.exit(0)
 	else:
 		sys.exit(1)
-		
