@@ -7,5 +7,5 @@ python:
 
 # command to run tests
 script:
-  - python ./TestDemosFileStructure.py
+  - python ./tools/TestDemosFileStructure.py
 
