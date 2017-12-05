@@ -111,6 +111,7 @@ qx.Class.define("app2.ui.SettingsView",
                 var settKey = this._model.getSelected().getItem(0).settings[i].name;
                 this._model.getSelected().getItem(0).settings[i].value = model.get(settKey);
               }
+              this.fireDataEvent("computeService", this._model.getSelected().getItem(0).id);
             }
           }, this);
 

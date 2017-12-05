@@ -72,7 +72,7 @@ qx.Class.define("app2.Application",
       var docHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
       var docWidth = Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth );
       var servicesHeight = 60;
-      var padding = 10;
+      var padding = 5;
       docHeight = docHeight - servicesHeight;
       var quarterWidth = (docWidth - 6*padding) / 4;
       var halfHeight = (docHeight - 2*padding) / 2;
@@ -123,6 +123,10 @@ qx.Class.define("app2.Application",
 
       this._availableServicesView.addListener("newServiceRequested", function(e) {
         this._newServiceRequested(e.getData());
+      }, this);
+
+      this._settingsView.addListener("computeService", function(e) {
+        this._computeService(e.getData());
       }, this);
 
       this._workbenchView.addListener("nodeSelected", function(e) {
@@ -347,6 +351,42 @@ qx.Class.define("app2.Application",
           // Available Services View
           this._availableServicesView.RecreateButtons();
 
+          break;
+        }
+      }
+    },
+
+    calculateRandomValue : function(service) {
+      var sleepFor = 3000; //ms
+      setTimeout( function() {
+        var min = Number(service.settings[0].value);
+        var max = Number(service.settings[1].value);
+        var newRand = Math.floor(Math.random() * (max - min + 1) + min);
+        this._threeDView.setSphereRadius(newRand);
+      }.bind(this), sleepFor);
+    },
+
+    _computeService : function(service_id) {
+      for (var i = 0; i < this._model.getWorkbench().getNodes().length; i++) {
+        if (service_id === this._model.getWorkbench().getNodes().getItem(i).service.id) {
+          var computeThis = this._model.getWorkbench().getNodes().getItem(i).service;
+          if (computeThis.name === 'randomizer')
+          {
+            this.calculateRandomValue(computeThis);
+          }
+          else if (computeThis.name === 'single-cell')
+          {
+            this.calculateRandomValue(computeThis);
+            /*
+            var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
+            var outputDataStructure = dirTree(localDir);
+            client.emit('outputDataStructure', {
+                type:'outputDataStructure',
+                value: outputDataStructure,
+                jobId: uniqueName
+            });
+            */
+          }
           break;
         }
       }
