@@ -327,6 +327,8 @@ qx.Class.define("app2.Application",
           var copiedService = JSON.parse(JSON.stringify(this._model.getAvailableServices().getItem(i)));
           copiedService.id = this.uuidv4();
 
+          // Workbench View
+          //this._workbenchView.addNewNode(copiedService);
           var newNode = {
             uniqueName: copiedService.text + '_S' + Number(this._model.getWorkbench().getNodes().length+1),
             service: copiedService,
@@ -362,9 +364,10 @@ qx.Class.define("app2.Application",
           this._model.getWorkbench().getSelected().removeAll();
           this._model.getWorkbench().getSelected().push(newNode);
 
+          // Settings View
           this._settingsView.updateSettings(copiedService);
 
-          //this.fireDataEvent("serviceSelected", this._model.getWorkbench().getSelected().getItem(0));
+          console.log(this._model);
 
           break;
         }
