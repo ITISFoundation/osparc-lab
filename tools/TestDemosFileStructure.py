@@ -69,8 +69,9 @@ def TestFileStructure():
 			if not os.path.exists( os.path.join( folder, 'README.md' ) ):
 				all_fine.error( 'File "README.md" does not exist (case sensitive!)' )
 			else:
-				if 0 == len( file( os.path.join( folder, 'README.md' ) ).readlines() ):
-					all_fine.error( 'Readme file seems empty' )
+				with open( os.path.join( folder, 'README.md' ) ) as f:
+					if 0 == len( f.readlines() ):
+						all_fine.error( 'Readme file seems empty' )
 			
 	return all_fine.okay()
 
