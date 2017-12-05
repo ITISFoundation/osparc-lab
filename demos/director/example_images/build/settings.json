@@ -1,0 +1,46 @@
+{
+	"settings": [
+            {
+                "name": "NaValue", 
+                "text": "Na blocker drug concentration", 
+                "type": "number", 
+                "value": 10
+            }, 
+            {
+                "name": "KrValue", 
+                "text": "Kr blocker drug concentration", 
+                "type": "number", 
+                "value": 10
+            }, 
+            {
+                "name": "BCLValue", 
+                "text": "Basic cycle length (BCL)", 
+                "type": "number", 
+                "value": 10
+            }, 
+            {
+                "name": "beatsValue", 
+                "text": "Number of beats", 
+                "type": "number", 
+                "value": 10
+            }, 
+            {
+                "name": "LigandValue", 
+                "text": "Ligand concentration", 
+                "type": "number", 
+                "value": 10
+            }, 
+            {
+                "name": "cAMKIIValue", 
+                "options": [
+                    "A", 
+                    "B", 
+                    "C", 
+                    "D"
+                ], 
+                "text": "Adjust cAMKII activity level", 
+                "type": "select", 
+                "value": 0
+            }
+        ]
+} 
