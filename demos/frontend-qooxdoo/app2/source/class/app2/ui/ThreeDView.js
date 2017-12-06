@@ -59,11 +59,17 @@
       this._camera.position.z = 20;
       this._scene.add(this._camera);
 
-      var pointLight = new THREE.PointLight(0xFFFFFF);
+      var pointLight = new THREE.PointLight(0xBBBBBB);
       pointLight.position.x = -10;
       pointLight.position.y = 10;
       pointLight.position.z = 40;
       this._scene.add(pointLight);
+
+      var pointLight2 = new THREE.PointLight(0xFFFFFF);
+      pointLight2.position.x = 10;
+      pointLight2.position.y = -10;
+      pointLight2.position.z = -40;
+      this._scene.add(pointLight2);
 
       this._renderer = new THREE.WebGLRenderer();
       this._renderer.setSize(this.getWidth(), this.getHeight());
@@ -84,7 +90,8 @@
         this._scene.add(this._transformControls);
 
         this._render();
-        this._addSphere(1);
+        //this._addSphere(1);
+        this._addFromFile();
       }, this);
 
       widget.addListener('resize', function() {
@@ -136,7 +143,7 @@
 
     _radiusChanged : function(scale)
     {
-        this._addSphere(scale);
+        //this._addSphere(scale);
     },
 
     _addSphere : function(radius)
@@ -152,6 +159,27 @@
       this._scene.add(this._sphereMesh);
       this._transformControls.attach(this._sphereMesh);
       this._render();
+    },
+
+    _addFromFile : function()
+    {
+      // instantiate a loader
+      var loader = new THREE.ObjectLoader();
+
+      var self = this;
+      // load a resource
+      loader.load(
+        'resource/three/3D_models/standard-male-figure-threejs/standard-male-figure.json',
+        function (obj) {
+          self._scene.add(obj);
+        },
+        function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        function (xhr) {
+            console.error('An error happened');
+        }
+      );
     }
   }
 });
