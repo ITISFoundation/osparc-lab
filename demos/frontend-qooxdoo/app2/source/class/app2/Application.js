@@ -376,16 +376,7 @@ qx.Class.define("app2.Application",
           }
           else if (computeThis.name === 'single-cell')
           {
-            this.calculateRandomValue(computeThis);
-            /*
-            var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
-            var outputDataStructure = dirTree(localDir);
-            client.emit('outputDataStructure', {
-                type:'outputDataStructure',
-                value: outputDataStructure,
-                jobId: uniqueName
-            });
-            */
+            var uniqueName = this._model.getWorkbench().getNodes().getItem(i).properties.title;
           }
           break;
         }

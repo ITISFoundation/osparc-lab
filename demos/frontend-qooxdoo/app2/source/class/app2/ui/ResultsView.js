@@ -41,9 +41,13 @@ qx.Class.define("app2.ui.ResultsView",
     splitpane.add(this._resultsFolderUI, 1);
 
     // Right
-    this._resultsViewerUI = new qx.ui.form.TextArea("Results Viewer");
-    this._resultsViewerUI.setDecorator(null);
-    this._resultsViewerUI.setWrap(true);
+    this._resultsViewerUI = new qx.ui.embed.Iframe().set({
+      width: 400,
+      height: 300,
+      minWidth: 200,
+      minHeight: 150,
+      decorator : null
+    });
 
     // Add the label
     splitpane.add(this._resultsViewerUI, 2);
@@ -56,47 +60,51 @@ qx.Class.define("app2.ui.ResultsView",
   properties :
   {
     resultsFolder : { check : "String", apply : "_changeResultsFolder" },
-    selectedResult : { check : "String", apply : "_changeSelectedResult" }
+    selectedResult : { check : "String", apply : "_changeSelectedResult" },
+    LibReady: { check : "Boolean" }
   },
 
   members :
   {
     _resultsFolderUI: null,
     _resultsViewerUI: null,
+
     _changeResultsFolder : function(value) {
       console.log('changeResultsFolder', value);
     },
+
     _changeSelectedResult : function(value) {
       console.log('changeSelectedResult', value);
     },
+
     _addTreeDataModel: function() {
       // tree data model
       var dataModel = this._resultsFolderUI.getDataModel();
-
-      var te1 = dataModel.addBranch(null, "Desktop", true);
-
+      var te1 = dataModel.addBranch(null, "Output", true);
       var te;
-      dataModel.addBranch(te1, "Files", true);
-
-      te = dataModel.addBranch(te1, "Workspace", true);
-      dataModel.addLeaf(te, "Windows (C:)");
-      dataModel.addLeaf(te, "Documents (D:)");
-
-      dataModel.addBranch(te1, "Network", true);
-      dataModel.addBranch(te1, "Trash", true);
-
+      te = dataModel.addBranch(te1, "Pub-Websites", true);
+      var node1 = dataModel.addLeaf(te, "qooxdoo");
+      var node2 = dataModel.addLeaf(te, "IT'IS");
+      te = dataModel.addBranch(te1, "Own-Websites", true);
+      var node3 = dataModel.addLeaf(te, "Output1");
+      var node4 = dataModel.addLeaf(te, "Output2");
       dataModel.setData();
+
+      var myNode1 = dataModel.getNode(node1-1);
+      myNode1.url = "http://qooxdoo.org";
+      var myNode2 = dataModel.getNode(node2-1);
+      myNode2.url = "https://www.itis.ethz.ch";
+      var myNode3 = dataModel.getNode(node3-1);
+      myNode3.url = "resource/outputs/Output1.html";
+      var myNode4 = dataModel.getNode(node4-1);
+      myNode4.url = "resource/outputs/Output2.html";
 
       this._resultsFolderUI.addListener("changeSelection", function(e)
       {
-        var text = "Selected labels:";
         var selectedNodes = e.getData();
-        for (var i = 0; i < selectedNodes.length; i++)
-        {
-          text += "\n  " + selectedNodes[i].label;
-        }
-        this._resultsViewerUI.setValue(text);
-      },this);
+        var newUrl = selectedNodes[0].url;
+        this._resultsViewerUI.setSource(newUrl);
+      }, this);
     }
   }
 });

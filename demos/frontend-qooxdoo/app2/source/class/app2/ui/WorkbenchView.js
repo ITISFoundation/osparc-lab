@@ -149,7 +149,7 @@
         left: 20 + nNodes*175,
         service: copiedService,
         properties: {
-          title: copiedService.text +  '_S' + Number(nNodes+1),
+          title: operatorId,
           inputs: nodeInputs,
           outputs: nodeOutputs
         }
