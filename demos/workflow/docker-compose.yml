@@ -7,9 +7,10 @@ services:
     volumes:
       - ./director:/work
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
     ports:
       - "8010:8010"
+    depends_on:
+      - rabbit
   sidecar:
     build:
       context: .
@@ -20,7 +21,6 @@ services:
       - log:/log
       - ./sidecar:/work
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
     ports:
       - "8000:8000"
     dns:
@@ -45,6 +45,25 @@ services:
       - ME_CONFIG_MONGODB_SERVER=database
     depends_on:
       - database
+  rabbit:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=z43
+      - RABBITMQ_DEFAULT_PASS=z43
+    ports:
+      - "15672:15672"
+  flower:
+    image: totem/celery-flower-docker
+    ports:
+      - "5555:5555"
+    environment:
+      - AMQP_USERNAME=z43
+      - AMQP_ADMIN_USERNAME=z43
+      - AMQP_PASSWORD=z43
+      - AMQP_ADMIN_PASSWORD=z43
+      - AMQP_HOST=rabbit
+    depends_on:
+      - director
 volumes:
   input:
   output:

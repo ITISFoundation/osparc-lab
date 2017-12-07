@@ -112,7 +112,7 @@ def hash_job_output():
             for names in files:
                 filepath = os.path.join(root,names)
                 try:
-                    f1 = open(filepath, 'r')
+                    f1 = open(filepath, 'rb')
                 except:
                     # You can't open the file for some reason
                     f1.close()
@@ -122,7 +122,7 @@ def hash_job_output():
                     # Read file in as little chunks
                     buf = f1.read(4096)
                     if not buf : break
-                    output_hash.update(hashlib.sha256(buf))
+                    output_hash.update(buf)
                 f1.close()
     except:
         import traceback

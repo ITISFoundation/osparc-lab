@@ -5,11 +5,16 @@ from pymongo import MongoClient
 from bson import ObjectId
 from werkzeug.exceptions import NotFound, ServiceUnavailable
 import requests
+from worker import celery
+from celery.result import AsyncResult
+import celery.states as states
 
 import docker
 import sys
 
 app = Flask(__name__)
+
+#celery = Celery(app.name, broker='amqp://z43:z43@rabbit:5672', backend='rpc://')
 
 task_info = {}
 
@@ -26,9 +31,9 @@ def output_exists(output_hash):
     return not exists is None
    
 def parse_input_data(data):
-    if data.has_key("input"):
+    if "input" in data:
         inp = data["input"]
-        data_hash = hashlib.sha256(json.dumps(inp, sort_keys=True)).hexdigest()
+        data_hash = hashlib.sha256(json.dumps(inp, sort_keys=True).encode('utf-8')).hexdigest()
         db_client = MongoClient("mongodb://database:27017/")
         input_database = db_client.input_database
         input_collections = input_database.input_collections
@@ -41,7 +46,7 @@ def parse_input_data(data):
         return [data_hash, not exists is None]
 
 def parse_container_data(data):
-    if data.has_key("container"):
+    if "container" in data:
         container = data["container"]
         container_name = container["name"]
         container_tag = container['tag']
@@ -64,6 +69,21 @@ def start_computation(data):
     except requests.exceptions.ConnectionError:
         raise ServiceUnavailable("The computational service is unavailable.")
 
+@app.route('/add/<int:param1>/<int:param2>')
+def add(param1,param2):
+    task = celery.send_task('mytasks.add', args=[param1, param2], kwargs={})
+    return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
+                url=url_for('check_task',id=task.id,_external=True))
+
+@app.route('/check/<string:id>')
+def check_task(id):
+    res = celery.AsyncResult(id)
+    if res.state==states.PENDING:
+        return res.state
+    else:
+        return str(res.result)
+
+
 @app.route("/services", methods=['GET'])
 def services():
     return nice_json(registered_services)
@@ -85,17 +105,29 @@ def run_pipeline():
     container_hash = parse_container_data(data)
 
     combined = hashlib.sha256()
-    combined.update(input_hash)
-    combined.update(container_hash)
+    combined.update(input_hash.encode('utf-8'))
+    combined.update(container_hash.encode('utf-8'))
     output_hash = combined.hexdigest()
 
     output_ready = output_exists(output_hash)
     if not output_ready:
+#        start_computation_celery.delay(data)  
         start_computation(data)  
 
     return nice_json({"input_hash" : str(input_hash), "input_exists" : str(input_exists),
         "output_hash" : str(output_hash), "output_exists" : str(output_ready),
         "input_data": data})
+
+
+@celery.task
+def start_computation_celery(data):
+    try:
+       req = requests.post("http://sidecar:8000/run", json = data)
+
+    except requests.exceptions.ConnectionError:
+        raise ServiceUnavailable("The computational service is unavailable.")
+
+    return 1
 
 
 if __name__ == "__main__":
