@@ -197,15 +197,15 @@
         var textureLoader = new THREE.TextureLoader();
 				var material = new THREE.MeshPhongMaterial({
 					specular: 0x111111,
-					map: textureLoader.load( 'resource/three/3D_models/head/Map-COL.jpg' ),
-					specularMap: textureLoader.load( 'resource/three/3D_models/head/Map-SPEC.jpg' ),
-					normalMap: textureLoader.load( 'resource/three/3D_models/head/Infinite-Level_02_Tangent_SmoothUV.jpg' ),
+					map: textureLoader.load('resource/three/3D_models/head/Map-COL.jpg'),
+					specularMap: textureLoader.load('resource/three/3D_models/head/Map-SPEC.jpg'),
+					normalMap: textureLoader.load('resource/three/3D_models/head/Infinite-Level_02_Tangent_SmoothUV.jpg'),
 					shininess: 25
 				});
 				var mesh = new THREE.Mesh(geometry, material);
 				self._scene.add(mesh);
 				mesh.scale.set(1, 1, 1);
-        self._transformControls.attach(obj);
+        //self._transformControls.attach(mesh);
         self._camera.position.z = 100;
         self._render();
 			});
