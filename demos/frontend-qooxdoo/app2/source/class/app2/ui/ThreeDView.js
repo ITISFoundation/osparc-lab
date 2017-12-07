@@ -98,11 +98,14 @@
       }, this);
 
       widget.addListener('resize', function() {
-        this._camera.aspect = this.getWidth() /this.getHeight();
+        var width = widget.getBounds().width;
+        var height = widget.getBounds().height;
+        this._camera.aspect = width / height;
         this._camera.updateProjectionMatrix();
-        this._orbitControls.handleResize();
-        this._orbitControls.update();
-        this._renderer.setSize(this.getWidth(), this.getHeight());
+        //this._orbitControls.handleResize();
+        //this._orbitControls.update();
+        this._renderer.setSize(width, height);
+        this._render();
       }, this);
 
       this.moveTo(left, top);
@@ -135,11 +138,13 @@
       this._renderer.render(this._scene, this._camera);
     },
 
-    _updateOrbitControls : function() {
+    _updateOrbitControls : function()
+    {
       this._render();
     },
 
-    _updateTransformControls : function() {
+    _updateTransformControls : function()
+    {
       this._transformControls.update();
       this._render();
     },
@@ -198,10 +203,10 @@
   				mapHeight.anisotropy = 4;
   				mapHeight.wrapS = mapHeight.wrapT = THREE.RepeatWrapping;
   				mapHeight.format = THREE.RGBFormat;
-  				//var mapSpecular = textureLoader.load( "resource/three/3D_models/head/Map-SPEC.jpg" );
-  				//mapSpecular.anisotropy = 4;
-  				//mapSpecular.wrapS = mapSpecular.wrapT = THREE.RepeatWrapping;
-  				//mapSpecular.format = THREE.RGBFormat;
+  				var mapSpecular = textureLoader.load( "resource/three/3D_models/head/Map-SPEC.jpg" );
+  				mapSpecular.anisotropy = 4;
+  				mapSpecular.wrapS = mapSpecular.wrapT = THREE.RepeatWrapping;
+  				mapSpecular.format = THREE.RGBFormat;
   				var mapColor = textureLoader.load( "resource/three/3D_models/head/Face_Color.jpg" );
   				mapColor.anisotropy = 4;
   				mapColor.wrapS = mapColor.wrapT = THREE.RepeatWrapping;
@@ -216,7 +221,7 @@
   				//uniforms["tBeckmann"].value = composerBeckmann.renderTarget1.texture;
   				uniforms["tDiffuse"].value = mapColor;
   				uniforms["bumpMap"].value = mapHeight;
-  				//uniforms["specularMap"].value = mapSpecular;
+  				uniforms["specularMap"].value = mapSpecular;
   				//uniforms["diffuse"].value.setHex( 0xa0a0a0 );
           uniforms["uDiffuseColor"].value.setHex( 0xa0a0a0 );
   				//uniforms["specular"].value.setHex( 0xa0a0a0 );
