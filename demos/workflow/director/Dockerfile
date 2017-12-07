@@ -10,5 +10,4 @@ EXPOSE 8010
 
 WORKDIR /work
 
-#ADD test_celery/*.py /work/test_celery/
 CMD ["python", "director.py"]

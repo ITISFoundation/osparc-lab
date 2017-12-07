@@ -70,6 +70,26 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+  rabbit:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=z43
+      - RABBITMQ_DEFAULT_PASS=z43
+    ports:
+      - "15672:15672"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  flower:
+    image: ondrejit/flower:latest
+    command: --broker=amqp://z43:z43@rabbit:5672
+    ports:
+      - 5555:5555
+    depends_on:
+      - director
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 volumes:
   input:
   output:
