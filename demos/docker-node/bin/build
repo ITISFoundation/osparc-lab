@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=itis/nodejs
+IMAGE_NAME=itisfoundation/sandbox:nodejs
 
 # Build docker
 docker build -t ${IMAGE_NAME} .
