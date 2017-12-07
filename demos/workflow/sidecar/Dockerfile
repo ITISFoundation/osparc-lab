@@ -2,11 +2,11 @@ FROM continuumio/miniconda3
 MAINTAINER Manuel Guidon <guidon@itis.ethz.ch>
 
 RUN conda install flask plotly pymongo
-RUN conda install -c conda-forge pika
+RUN conda install -c conda-forge celery
 
 RUN pip install docker
 
 EXPOSE 8000
 
 WORKDIR /work
-CMD ["python", "sidecar.py"]
+ENTRYPOINT celery -A sidecar worker --loglevel=info

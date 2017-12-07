@@ -1,7 +1,4 @@
-from flask import Flask, make_response, request
 import json
-import requests
-import pika
 import hashlib
 import docker
 import os
@@ -9,23 +6,33 @@ import sys
 import time
 import shutil
 import uuid
+from celery import Celery
 from concurrent.futures import ThreadPoolExecutor
 from pymongo import MongoClient
 
-executor = ThreadPoolExecutor(16)
 
-app = Flask(__name__)
+env=os.environ
+CELERY_BROKER_URL=env.get('CELERY_BROKER_URL','amqp://z43:z43@rabbit:5672'),
+CELERY_RESULT_BACKEND=env.get('CELERY_RESULT_BACKEND','rpc://')
+
+celery= Celery('tasks',
+                broker=CELERY_BROKER_URL,
+                backend=CELERY_RESULT_BACKEND)
+
+
+@celery.task(name='mytasks.add')
+def add(x, y):
+    time.sleep(5) # lets sleep for a while before doing the gigantic addition task!
+    return x + y
+
+
+executor = ThreadPoolExecutor(16)
 
 io_dirs = {}
 buddy = None
 buddy_image =""
 buddy_image = 'solver'
 job_id = ""
-
-def nice_json(arg):
-    response = make_response(json.dumps(arg, sort_keys = True, indent=4))
-    response.headers['Content-type'] = "application/json"
-    return response
 
 def delete_contents(folder):
     for the_file in os.listdir(folder):
@@ -163,53 +170,11 @@ def store_job_output(output_hash):
         traceback.print_exc()
         return -2
 
-@app.route("/setup", methods=['POST'])
-def setup():
-    create_directories()
-    # add files if any and dump json
-    data = request.get_json()
-    prepare_input_and_container(data)
-
-    return "done"
-
-@app.route("/preprocess", methods=['GET'])
-def preprocess():
-    global buddy
-    global buddy_image
-    client = docker.from_env(version='auto')
-
-    buddy = client.containers.run(buddy_image, "preprocess", detach=False,
-     volumes = {'sidecar_input' :{'bind' : '/input'}, 'sidecar_output' : {'bind' : '/output'}})
-
-    return nice_json({"status" : "preprocess hello nik"})
-
-@app.route("/process", methods=['GET'])
-def process():
-    global buddy_image
-    client = docker.from_env(version='auto')
-    buddy = client.containers.run(buddy_image,"process", detach=True,
-     volumes = {'sidecar_input' :{'bind' : '/input'}, 'sidecar_output' : {'bind' : '/output'}})
-    
-    dump_log()
-
-    return nice_json({"status" : "asdfasfd"})
-
-@app.route("/postprocess", methods=['GET'])
-def postprocess():
-    global buddy
-    client = docker.from_env(version='auto')
-    buddy = client.containers.run(buddy_image,"postprocess", detach=True,
-    volumes = {'sidecar_input' :{'bind' : '/input'}, 'sidecar_output' : {'bind' : '/output'}})
-
-    return nice_json({"status" : "postprocessing"})
-
-@app.route("/run", methods=['POST'])
-def run():
+def run(data):
     global buddy_image
     global job_id
     create_directories()
     # add files if any and dump json
-    data = request.get_json()
 
     prepare_input_and_container(data)
     io_env = []
@@ -218,8 +183,9 @@ def run():
     io_env.append("LOG_FOLDER=/log/"+job_id)
  
   
-    executor.submit(start_container, buddy_image, "run", io_env)
-    return nice_json({"status" : "Running pipeline"})
+#    executor.submit(start_container, buddy_image, "run", io_env)
+    start_container(buddy_image, "run", io_env)
+    return 
 
-if __name__ == "__main__":
-  app.run(port=8000, debug=True, host='0.0.0.0')
+#if __name__ == "__main__":
+#  app.run(port=8000, debug=True, host='0.0.0.0')
