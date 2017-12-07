@@ -42,10 +42,12 @@
     var three_path = "resource/three/three" + min + ".js";
     var orbit_path = "resource/three/OrbitControls.js";
     var tranform_path = "resource/three/TransformControls.js";
+    var shader_skin_path = "resource/three/ShaderSkin.js";
     var dynLoader = new qx.util.DynamicScriptLoader([
       three_path,
       orbit_path,
-      tranform_path
+      tranform_path,
+      shader_skin_path
     ]);
 
     dynLoader.addListenerOnce('ready', function(e) {
@@ -91,7 +93,8 @@
 
         this._render();
         //this._addSphere(1);
-        this._addFromFile();
+        this._addBody();
+        //this._addHead();
       }, this);
 
       widget.addListener('resize', function() {
@@ -161,23 +164,76 @@
       this._render();
     },
 
-    _addFromFile : function()
+    _addBody : function()
     {
-      // instantiate a loader
       var loader = new THREE.ObjectLoader();
 
       var self = this;
-      // load a resource
       loader.load(
-        'resource/three/3D_models/standard-male-figure-threejs/standard-male-figure.json',
+        'resource/three/3D_models/body/standard-male-figure.json',
         function (obj) {
           self._scene.add(obj);
+          self._transformControls.attach(obj);
+          self._render();
         },
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
         },
         function (xhr) {
             console.error('An error happened');
+        }
+      );
+    },
+
+    _addHead : function()
+    {
+      //var loader = new THREE.JSONLoader();
+      var loader = new THREE.ObjectLoader();
+      var self = this;
+      loader.load(
+        'resource/three/3D_models/head/lee-perry-smith-head-scan.json',
+        function (geometry) {
+  				var textureLoader = new THREE.TextureLoader();
+  				var mapHeight = textureLoader.load( "resource/three/3D_models/head/Face_Disp.jpg" );
+  				mapHeight.anisotropy = 4;
+  				mapHeight.wrapS = mapHeight.wrapT = THREE.RepeatWrapping;
+  				mapHeight.format = THREE.RGBFormat;
+  				//var mapSpecular = textureLoader.load( "resource/three/3D_models/head/Map-SPEC.jpg" );
+  				//mapSpecular.anisotropy = 4;
+  				//mapSpecular.wrapS = mapSpecular.wrapT = THREE.RepeatWrapping;
+  				//mapSpecular.format = THREE.RGBFormat;
+  				var mapColor = textureLoader.load( "resource/three/3D_models/head/Face_Color.jpg" );
+  				mapColor.anisotropy = 4;
+  				mapColor.wrapS = mapColor.wrapT = THREE.RepeatWrapping;
+  				mapColor.format = THREE.RGBFormat;
+  				var shader = THREE.ShaderSkin["skinSimple"];
+  				var fragmentShader = shader.fragmentShader;
+  				var vertexShader = shader.vertexShader;
+  				var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+          console.log('uniforms', uniforms);
+  				uniforms["enableBump"].value = true;
+  				uniforms["enableSpecular"].value = true;
+  				//uniforms["tBeckmann"].value = composerBeckmann.renderTarget1.texture;
+  				uniforms["tDiffuse"].value = mapColor;
+  				uniforms["bumpMap"].value = mapHeight;
+  				//uniforms["specularMap"].value = mapSpecular;
+  				//uniforms["diffuse"].value.setHex( 0xa0a0a0 );
+          uniforms["uDiffuseColor"].value.setHex( 0xa0a0a0 );
+  				//uniforms["specular"].value.setHex( 0xa0a0a0 );
+          uniforms["uSpecularColor"].value.setHex( 0xa0a0a0 );
+  				uniforms["uRoughness"].value = 0.2;
+  				uniforms["uSpecularBrightness"].value = 0.5;
+  				uniforms["bumpScale"].value = 8;
+  				var material = new THREE.ShaderMaterial( { fragmentShader: fragmentShader, vertexShader: vertexShader, uniforms: uniforms, lights: true } );
+  				material.extensions.derivatives = true;
+  				var mesh = new THREE.Mesh(geometry, material);
+  				mesh.position.y = -50;
+  				mesh.scale.set(100, 100, 100);
+  				mesh.castShadow = true;
+  				mesh.receiveShadow = true;
+  				self._scene.add(mesh);
+          self._transformControls.attach(mesh);
+          self._render();
         }
       );
     }
