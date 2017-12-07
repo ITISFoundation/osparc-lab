@@ -1,0 +1,44 @@
+version: '2'
+services:
+  director:
+    build:
+      context: .
+      dockerfile: ./director/Dockerfile
+    volumes:
+      - ./director:/work
+      - ./registry:/registry
+    ports:
+      - "8010:8010"
+    depends_on:
+      - rabbitmq
+  producer:
+    build:
+      context: .
+      dockerfile: ./producer/Dockerfile
+    volumes:
+      - ./producer:/work
+      - ./database:/database
+    ports:
+      - "5011:5011"
+    depends_on: 
+      - database
+      - rabbitmq
+  viewer:
+    build:
+      context: .
+      dockerfile: ./viewer/Dockerfile
+    volumes:
+      - ./viewer:/work
+      - ./database:/database
+    ports:
+      - "5010:5010"
+    depends_on: 
+      - database
+  database:
+    image: mongo:3.4.0
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+

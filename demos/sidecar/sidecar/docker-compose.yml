@@ -1,0 +1,19 @@
+version: '2'
+services:
+  sidecar:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - input:/input
+      - output:/output
+      - /home/guidon/playground/docker-sdk/sidecar:/work
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - "8000:8000"
+    dns:
+      - 172.16.8.15
+volumes:
+  input:
+  output:

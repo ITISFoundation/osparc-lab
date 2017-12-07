@@ -1,6 +1,6 @@
 # Makefile with shortcuts for most common operations with react-app
 CURRDIR = $(shell pwd)
-IMAGENAME = itis/frontend-react
+IMAGENAME = itisfoundation/sandbox:frontend-react
 # TODO: image should have the name of containing directory
 
 
@@ -14,7 +14,13 @@ build:
 	docker build -t ${IMAGENAME} ./app
 
 run:
-	docker run -it --rm -p 6001:6001 --name react-demo ${IMAGENAME}
+	docker run -idt --rm -p 6001:6001 --name react-demo ${IMAGENAME}
 
+
+
+demo: build run
+	open http:/localhost:6001
+	
 stop:
 	docker stop react-demo
+	docker rm react-demo
