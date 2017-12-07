@@ -9,4 +9,4 @@ RUN pip install docker
 EXPOSE 8000
 
 WORKDIR /work
-ENTRYPOINT celery -A sidecar worker --loglevel=info
+ENTRYPOINT celery -A sidecar worker -c 1 --loglevel=info
