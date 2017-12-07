@@ -93,8 +93,8 @@
 
         this._render();
         //this._addSphere(1);
-        this._addBody();
-        //this._addHead();
+        //this._addBody();
+        this._addHead();
       }, this);
 
       widget.addListener('resize', function() {
@@ -102,8 +102,6 @@
         var height = widget.getBounds().height;
         this._camera.aspect = width / height;
         this._camera.updateProjectionMatrix();
-        //this._orbitControls.handleResize();
-        //this._orbitControls.update();
         this._renderer.setSize(width, height);
         this._render();
       }, this);
@@ -179,6 +177,7 @@
         function (obj) {
           self._scene.add(obj);
           self._transformControls.attach(obj);
+          self._camera.position.z = 50;
           self._render();
         },
         function (xhr) {
@@ -192,55 +191,24 @@
 
     _addHead : function()
     {
-      //var loader = new THREE.JSONLoader();
-      var loader = new THREE.ObjectLoader();
+			var loader = new THREE.JSONLoader();
       var self = this;
-      loader.load(
-        'resource/three/3D_models/head/lee-perry-smith-head-scan.json',
-        function (geometry) {
-  				var textureLoader = new THREE.TextureLoader();
-  				var mapHeight = textureLoader.load( "resource/three/3D_models/head/Face_Disp.jpg" );
-  				mapHeight.anisotropy = 4;
-  				mapHeight.wrapS = mapHeight.wrapT = THREE.RepeatWrapping;
-  				mapHeight.format = THREE.RGBFormat;
-  				var mapSpecular = textureLoader.load( "resource/three/3D_models/head/Map-SPEC.jpg" );
-  				mapSpecular.anisotropy = 4;
-  				mapSpecular.wrapS = mapSpecular.wrapT = THREE.RepeatWrapping;
-  				mapSpecular.format = THREE.RGBFormat;
-  				var mapColor = textureLoader.load( "resource/three/3D_models/head/Face_Color.jpg" );
-  				mapColor.anisotropy = 4;
-  				mapColor.wrapS = mapColor.wrapT = THREE.RepeatWrapping;
-  				mapColor.format = THREE.RGBFormat;
-  				var shader = THREE.ShaderSkin["skinSimple"];
-  				var fragmentShader = shader.fragmentShader;
-  				var vertexShader = shader.vertexShader;
-  				var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
-          console.log('uniforms', uniforms);
-  				uniforms["enableBump"].value = true;
-  				uniforms["enableSpecular"].value = true;
-  				//uniforms["tBeckmann"].value = composerBeckmann.renderTarget1.texture;
-  				uniforms["tDiffuse"].value = mapColor;
-  				uniforms["bumpMap"].value = mapHeight;
-  				uniforms["specularMap"].value = mapSpecular;
-  				//uniforms["diffuse"].value.setHex( 0xa0a0a0 );
-          uniforms["uDiffuseColor"].value.setHex( 0xa0a0a0 );
-  				//uniforms["specular"].value.setHex( 0xa0a0a0 );
-          uniforms["uSpecularColor"].value.setHex( 0xa0a0a0 );
-  				uniforms["uRoughness"].value = 0.2;
-  				uniforms["uSpecularBrightness"].value = 0.5;
-  				uniforms["bumpScale"].value = 8;
-  				var material = new THREE.ShaderMaterial( { fragmentShader: fragmentShader, vertexShader: vertexShader, uniforms: uniforms, lights: true } );
-  				material.extensions.derivatives = true;
-  				var mesh = new THREE.Mesh(geometry, material);
-  				mesh.position.y = -50;
-  				mesh.scale.set(100, 100, 100);
-  				mesh.castShadow = true;
-  				mesh.receiveShadow = true;
-  				self._scene.add(mesh);
-          self._transformControls.attach(mesh);
-          self._render();
-        }
-      );
+			loader.load( 'resource/three/3D_models/head/LeePerrySmith.js', function(geometry) {
+        var textureLoader = new THREE.TextureLoader();
+				var material = new THREE.MeshPhongMaterial({
+					specular: 0x111111,
+					map: textureLoader.load( 'resource/three/3D_models/head/Map-COL.jpg' ),
+					specularMap: textureLoader.load( 'resource/three/3D_models/head/Map-SPEC.jpg' ),
+					normalMap: textureLoader.load( 'resource/three/3D_models/head/Infinite-Level_02_Tangent_SmoothUV.jpg' ),
+					shininess: 25
+				});
+				var mesh = new THREE.Mesh(geometry, material);
+				self._scene.add(mesh);
+				mesh.scale.set(1, 1, 1);
+        self._transformControls.attach(obj);
+        self._camera.position.z = 100;
+        self._render();
+			});
     }
   }
 });
