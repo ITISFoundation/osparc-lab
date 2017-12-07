@@ -250,6 +250,8 @@ choosePort(HOST, DEFAULT_PORT)
 
       io.on('connection', (client) => {
 
+        console.log('client connected');
+
         client.on('requestAvailableServices', function() {
           getServices(client);
         });

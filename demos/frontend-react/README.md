@@ -24,7 +24,7 @@
  - Development setup is done *by hand*  running directly a *nodejs* image and setting up the react project using the container's bash
 ```bash
   cd frontend-react
-  sudo docker run -it -v $(pwd)/app:/home/node/app -w /home/node/app -p 6001:6001 --rm node:6.11.5 bash
+  sudo docker run -it -v $(pwd)/app:/home/node/app -w /home/node/app -p 6001:6001 --rm node:8.9.2 bash
 
   # now in container's bash
   # Add --no-bin-links flag if it complains about 'read-only file system, symlink...'
