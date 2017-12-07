@@ -53,15 +53,10 @@ services:
     ports:
       - "15672:15672"
   flower:
-    image: totem/celery-flower-docker
+    image: ondrejit/flower:latest
+    command: --broker=amqp://z43:z43@rabbit:5672
     ports:
-      - "5555:5555"
-    environment:
-      - AMQP_USERNAME=z43
-      - AMQP_ADMIN_USERNAME=z43
-      - AMQP_PASSWORD=z43
-      - AMQP_ADMIN_PASSWORD=z43
-      - AMQP_HOST=rabbit
+      - 5555:5555
     depends_on:
       - director
 volumes:
