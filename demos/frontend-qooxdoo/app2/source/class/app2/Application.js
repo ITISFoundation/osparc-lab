@@ -27,6 +27,7 @@ qx.Class.define("app2.Application",
   {
     _model: null,
     _availableServicesView: null,
+    _switchThemeView: null,
     _settingsView: null,
     _threeDView: null,
     _resultsView: null,
@@ -104,6 +105,10 @@ qx.Class.define("app2.Application",
         servicesHeight,
         this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
       );
+      this._switchThemeView = new app2.ui.SwitchThemeView(
+        servicesHeight,
+        this._getStyle1(baseColor).color, this._getStyle1(baseColor).backgroundColor
+      );
       this._settingsView = new app2.ui.SettingsView(
         padding, servicesHeight + padding, quarterWidth, halfHeight,
         this._getStyle2(baseColor).color, this._getStyle2(baseColor).backgroundColor
@@ -124,7 +129,9 @@ qx.Class.define("app2.Application",
       this._availableServicesView.addListener("newServiceRequested", function(e) {
         this._newServiceRequested(e.getData());
       }, this);
-
+      this._switchThemeView.addListener("themeSwitched", function(e) {
+        this.switchTheme(e.getData());
+      }, this);
       this._settingsView.addListener("computeService", function(e) {
         this._computeService(e.getData());
       }, this);
@@ -138,6 +145,7 @@ qx.Class.define("app2.Application",
       }, this);
 
       doc.add(this._availableServicesView, {left: 0, top: 0, width: "100%"});
+      doc.add(this._switchThemeView, {left: 0, top: 0, width: "10%"});
       this._settingsView.open();
       this._threeDView.open();
       this._resultsView.open();
@@ -387,6 +395,27 @@ qx.Class.define("app2.Application",
 
           break;
         }
+      }
+    },
+
+    switchTheme : function(selectedTheme) {
+      switch (selectedTheme)
+      {
+        case 0:
+          qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Indigo);
+          break;
+        case 1:
+          qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
+          break;
+        case 2:
+          qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+          break;
+        case 3:
+          qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Simple);
+          break;
+        default:
+          qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
+          break;
       }
     },
 
