@@ -5,7 +5,7 @@ module.exports = class ServiceManager {
     this.AvailableServices = []
 
     this.AvailableServices.push({
-      uuid: uuid.v4(),
+      id: uuid.v4(),
       name: 'randomizer',
       text: 'Random',
       tooltip: 'Creates a random number in the given range',
@@ -28,7 +28,7 @@ module.exports = class ServiceManager {
     })
 
     this.AvailableServices.push({
-      uuid: uuid.v4(),
+      id: uuid.v4(),
       name: 'adder',
       text: 'Adder',
       tooltip: 'Adds the value in the settings to the input',
@@ -45,7 +45,7 @@ module.exports = class ServiceManager {
     })
 
     this.AvailableServices.push({
-      uuid: uuid.v4(),
+      id: uuid.v4(),
       name: 'multiplier',
       text: 'Multiplier',
       tooltip: 'Multiplies the input by the value in the settings',
@@ -62,7 +62,7 @@ module.exports = class ServiceManager {
     })
 
     this.AvailableServices.push({
-      uuid: uuid.v4(),
+      id: uuid.v4(),
       name: 'divider',
       text: 'Divider',
       tooltip: 'Divides the input by the value in the settings',
@@ -79,7 +79,7 @@ module.exports = class ServiceManager {
     })
 
     this.AvailableServices.push({
-      uuid: uuid.v4(),
+      id: uuid.v4(),
       name: 'requestWhatInItalia',
       text: 'Italia',
       tooltip: 'You know what it does',
