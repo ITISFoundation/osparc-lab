@@ -1,7 +1,7 @@
 {
   "classInfo": {
     "app2.Application": {
-      "mtime": "2017-12-06T13:43:18.142Z",
+      "mtime": "2017-12-08T12:38:01.128Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -19,10 +19,16 @@
         "qx.data.marshal.Json": {},
         "qx.data.Array": {},
         "app2.ui.AvailableServicesView": {},
+        "app2.ui.SwitchThemeView": {},
         "app2.ui.SettingsView": {},
         "app2.ui.ThreeDView": {},
         "app2.ui.ResultsView": {},
-        "app2.ui.WorkbenchView": {}
+        "app2.ui.WorkbenchView": {},
+        "qx.theme.manager.Meta": {},
+        "qx.theme.Indigo": {},
+        "qx.theme.Classic": {},
+        "qx.theme.Modern": {},
+        "qx.theme.Simple": {}
       },
       "extends": "qx.application.Standalone",
       "include": [],
@@ -38,7 +44,7 @@
       ]
     },
     "app2.theme.Theme": {
-      "mtime": "2017-11-27T08:32:07.607Z",
+      "mtime": "2017-12-07T15:10:20.872Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Theme": {
@@ -311,7 +317,7 @@
       }
     },
     "app2.theme.Color": {
-      "mtime": "2017-11-27T08:32:07.604Z",
+      "mtime": "2017-12-07T15:10:20.869Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Theme": {
@@ -327,7 +333,7 @@
       "implement": []
     },
     "app2.theme.Decoration": {
-      "mtime": "2017-11-27T08:32:07.605Z",
+      "mtime": "2017-12-07T15:10:20.870Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Theme": {
@@ -343,7 +349,7 @@
       "implement": []
     },
     "app2.theme.Font": {
-      "mtime": "2017-11-27T08:32:07.606Z",
+      "mtime": "2017-12-07T15:10:20.871Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Theme": {
@@ -372,7 +378,7 @@
       "implement": []
     },
     "app2.theme.Appearance": {
-      "mtime": "2017-11-27T08:32:07.603Z",
+      "mtime": "2017-12-07T15:10:20.868Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Theme": {
@@ -8502,7 +8508,7 @@
       "implement": []
     },
     "app2.ui.SettingsView": {
-      "mtime": "2017-12-05T15:06:30.901Z",
+      "mtime": "2017-12-08T08:50:48.259Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -8531,6 +8537,7 @@
         "qx.ui.form.TextField": {},
         "qx.ui.form.SelectBox": {},
         "qx.ui.form.ListItem": {},
+        "qx.ui.form.CheckBox": {},
         "qx.ui.form.Button": {},
         "qx.data.controller.Form": {},
         "qx.ui.form.renderer.Single": {},
@@ -8573,7 +8580,7 @@
       "implement": []
     },
     "app2.ui.ResultsView": {
-      "mtime": "2017-12-07T10:55:38.652Z",
+      "mtime": "2017-12-07T15:10:20.874Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -8644,7 +8651,7 @@
       "implement": []
     },
     "app2.ui.WorkbenchView": {
-      "mtime": "2017-12-05T15:29:42.445Z",
+      "mtime": "2017-12-08T09:21:45.746Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -12605,7 +12612,7 @@
       "implement": []
     },
     "app2.ui.ThreeDView": {
-      "mtime": "2017-12-07T11:16:59.630Z",
+      "mtime": "2017-12-08T09:33:13.520Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -12629,7 +12636,8 @@
           "construct": true
         },
         "qx.core.Environment": {
-          "construct": true
+          "construct": true,
+          "load": true
         },
         "qx.util.DynamicScriptLoader": {
           "construct": true
@@ -12645,6 +12653,24 @@
           "load": true
         },
         "qx.ui.core.FocusHandler": {
+          "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        },
+        "qx.ui.layout.Abstract": {
+          "load": true
+        },
+        "qx.core.Object": {
+          "load": true
+        },
+        "qx.theme.manager.Meta": {
+          "load": true
+        },
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -12733,7 +12759,7 @@
       "hasDefer": true
     },
     "app2.ui.AvailableServicesView": {
-      "mtime": "2017-12-05T10:08:04.756Z",
+      "mtime": "2017-12-07T15:10:20.873Z",
       "libraryName": "app2",
       "dependsOn": {
         "qx.Class": {
@@ -15113,6 +15139,443 @@
         }
       },
       "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.Classic": {
+      "mtime": "2017-11-27T08:29:10.994Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.theme.classic.Color": {
+          "load": true
+        },
+        "qx.theme.classic.Decoration": {
+          "load": true
+        },
+        "qx.theme.classic.Font": {
+          "load": true
+        },
+        "qx.theme.classic.Appearance": {
+          "load": true
+        },
+        "qx.theme.icon.Oxygen": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.classic.Color": {
+      "mtime": "2017-11-27T08:29:10.998Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.core.Environment": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.bom.client.Css": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "environment": {
+        "provided": [],
+        "required": {
+          "css.rgba": {
+            "load": true,
+            "className": "qx.bom.client.Css"
+          }
+        }
+      }
+    },
+    "qx.theme.classic.Decoration": {
+      "mtime": "2017-11-27T08:29:10.998Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.classic.Font": {
+      "mtime": "2017-11-27T08:29:10.999Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.classic.Appearance": {
+      "mtime": "2017-11-27T08:29:10.997Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "assets": [
+        "qx/icon/Oxygen/16/apps/office-calendar.png",
+        "qx/icon/Oxygen/16/places/folder-open.png",
+        "qx/icon/Oxygen/16/places/folder.png",
+        "qx/icon/Oxygen/16/mimetypes/text-plain.png",
+        "qx/icon/Oxygen/16/actions/view-refresh.png",
+        "qx/icon/Oxygen/16/actions/window-close.png",
+        "qx/icon/Oxygen/16/actions/dialog-cancel.png",
+        "qx/icon/Oxygen/16/actions/dialog-ok.png",
+        "qx/decoration/Classic/*"
+      ]
+    },
+    "qx.theme.icon.Oxygen": {
+      "mtime": "2017-11-27T08:29:11.000Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.Indigo": {
+      "mtime": "2017-11-27T08:29:10.995Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.theme.indigo.Color": {
+          "load": true
+        },
+        "qx.theme.indigo.Decoration": {
+          "load": true
+        },
+        "qx.theme.indigo.Font": {
+          "load": true
+        },
+        "qx.theme.indigo.Appearance": {
+          "load": true
+        },
+        "qx.theme.icon.Tango": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.Modern": {
+      "mtime": "2017-11-27T08:29:10.995Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.theme.modern.Color": {
+          "load": true
+        },
+        "qx.theme.modern.Decoration": {
+          "load": true
+        },
+        "qx.theme.modern.Font": {
+          "load": true
+        },
+        "qx.theme.modern.Appearance": {
+          "load": true
+        },
+        "qx.theme.icon.Tango": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.Simple": {
+      "mtime": "2017-11-27T08:29:10.996Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.theme.simple.Color": {
+          "load": true
+        },
+        "qx.theme.simple.Decoration": {
+          "load": true
+        },
+        "qx.theme.simple.Font": {
+          "load": true
+        },
+        "qx.theme.simple.Appearance": {
+          "load": true
+        },
+        "qx.theme.icon.Tango": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "qx.theme.modern.Color": {
+      "mtime": "2017-11-27T08:29:11.009Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.core.Environment": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.bom.client.Css": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "environment": {
+        "provided": [],
+        "required": {
+          "css.rgba": {
+            "load": true,
+            "className": "qx.bom.client.Css"
+          }
+        }
+      }
+    },
+    "qx.theme.modern.Decoration": {
+      "mtime": "2017-11-27T08:29:11.010Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "assets": [
+        "qx/decoration/Modern/toolbar/toolbar-part.gif"
+      ]
+    },
+    "qx.theme.modern.Font": {
+      "mtime": "2017-11-27T08:29:11.010Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.core.Environment": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.bom.client.OperatingSystem": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "environment": {
+        "provided": [],
+        "required": {
+          "os.name": {
+            "load": true,
+            "className": "qx.bom.client.OperatingSystem"
+          },
+          "os.version": {
+            "load": true,
+            "className": "qx.bom.client.OperatingSystem"
+          }
+        }
+      }
+    },
+    "qx.theme.modern.Appearance": {
+      "mtime": "2017-11-27T08:29:11.008Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "assets": [
+        "qx/icon/Tango/16/places/folder-open.png",
+        "qx/icon/Tango/16/places/folder.png",
+        "qx/icon/Tango/16/mimetypes/office-document.png",
+        "qx/icon/Tango/16/actions/window-close.png",
+        "qx/icon/Tango/22/places/folder-open.png",
+        "qx/icon/Tango/22/places/folder.png",
+        "qx/icon/Tango/22/mimetypes/office-document.png",
+        "qx/icon/Tango/32/places/folder-open.png",
+        "qx/icon/Tango/32/places/folder.png",
+        "qx/icon/Tango/32/mimetypes/office-document.png",
+        "qx/icon/Tango/16/apps/office-calendar.png",
+        "qx/icon/Tango/16/apps/utilities-color-chooser.png",
+        "qx/icon/Tango/16/actions/view-refresh.png",
+        "qx/icon/Tango/16/actions/dialog-cancel.png",
+        "qx/icon/Tango/16/actions/dialog-ok.png",
+        "qx/decoration/Modern/cursors/*",
+        "qx/decoration/Modern/scrollbar/scrollbar-left.png",
+        "qx/decoration/Modern/scrollbar/scrollbar-right.png",
+        "qx/decoration/Modern/scrollbar/scrollbar-up.png",
+        "qx/decoration/Modern/scrollbar/scrollbar-down.png",
+        "qx/decoration/Modern/toolbar/toolbar-handle-knob.gif",
+        "qx/decoration/Modern/tree/open-selected.png",
+        "qx/decoration/Modern/tree/closed-selected.png",
+        "qx/decoration/Modern/tree/open.png",
+        "qx/decoration/Modern/tree/closed.png",
+        "qx/decoration/Modern/form/checked.png",
+        "qx/decoration/Modern/form/undetermined.png",
+        "qx/decoration/Modern/form/tooltip-error-arrow-right.png",
+        "qx/decoration/Modern/form/tooltip-error-arrow.png",
+        "qx/decoration/Modern/window/minimize-active-hovered.png",
+        "qx/decoration/Modern/window/minimize-active.png",
+        "qx/decoration/Modern/window/minimize-inactive.png",
+        "qx/decoration/Modern/window/restore-active-hovered.png",
+        "qx/decoration/Modern/window/restore-active.png",
+        "qx/decoration/Modern/window/restore-inactive.png",
+        "qx/decoration/Modern/window/maximize-active-hovered.png",
+        "qx/decoration/Modern/window/maximize-active.png",
+        "qx/decoration/Modern/window/maximize-inactive.png",
+        "qx/decoration/Modern/window/close-active-hovered.png",
+        "qx/decoration/Modern/window/close-active.png",
+        "qx/decoration/Modern/window/close-inactive.png",
+        "qx/decoration/Modern/splitpane/knob-horizontal.png",
+        "qx/decoration/Modern/splitpane/knob-vertical.png",
+        "qx/decoration/Modern/arrows/down.png",
+        "qx/decoration/Modern/arrows/up.png",
+        "qx/decoration/Modern/arrows/right.png",
+        "qx/decoration/Modern/arrows/left.png",
+        "qx/decoration/Modern/arrows/rewind.png",
+        "qx/decoration/Modern/arrows/forward.png",
+        "qx/decoration/Modern/arrows/up-invert.png",
+        "qx/decoration/Modern/arrows/down-invert.png",
+        "qx/decoration/Modern/arrows/right-invert.png",
+        "qx/decoration/Modern/arrows/up-small.png",
+        "qx/decoration/Modern/arrows/down-small.png",
+        "qx/decoration/Modern/menu/checkbox-invert.gif",
+        "qx/decoration/Modern/menu/checkbox.gif",
+        "qx/decoration/Modern/menu/radiobutton-invert.gif",
+        "qx/decoration/Modern/menu/radiobutton.gif",
+        "qx/decoration/Modern/table/select-column-order.png",
+        "qx/decoration/Modern/table/ascending.png",
+        "qx/decoration/Modern/table/descending.png",
+        "qx/decoration/Modern/table/boolean-true.png",
+        "qx/decoration/Modern/table/boolean-false.png",
+        "qx/static/blank.gif",
+        "qx/static/blank.png",
+        "qx/decoration/Modern/colorselector/*"
+      ]
+    },
+    "qx.theme.simple.Color": {
+      "mtime": "2017-11-27T08:29:11.012Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.core.Environment": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.bom.client.Css": {
+          "load": true
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": [],
+      "environment": {
+        "provided": [],
+        "required": {
+          "css.rgba": {
+            "load": true,
+            "className": "qx.bom.client.Css"
+          }
+        }
+      }
+    },
+    "qx.theme.simple.Font": {
+      "mtime": "2017-11-27T08:29:11.013Z",
+      "libraryName": "qx",
+      "dependsOn": {
+        "qx.Theme": {
+          "load": true,
+          "usage": "dynamic"
+        }
+      },
+      "extends": null,
+      "include": [],
+      "implement": []
+    },
+    "app2.ui.SwitchThemeView": {
+      "mtime": "2017-12-08T12:37:44.885Z",
+      "libraryName": "app2",
+      "dependsOn": {
+        "qx.Class": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.ui.container.Composite": {
+          "load": true,
+          "construct": true
+        },
+        "qx.ui.form.SelectBox": {
+          "construct": true
+        },
+        "qx.ui.form.ListItem": {
+          "construct": true
+        },
+        "qx.ui.layout.HBox": {
+          "construct": true
+        },
+        "qx.ui.core.Widget": {
+          "load": true
+        },
+        "qx.ui.core.LayoutItem": {
+          "load": true
+        }
+      },
+      "extends": "qx.ui.container.Composite",
       "include": [],
       "implement": []
     }

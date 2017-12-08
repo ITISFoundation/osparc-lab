@@ -4458,122 +4458,194 @@
       "qx/decoration/Classic/arrows/down-invert.gif": {
         "mtime": "2017-11-27T08:29:11.345Z",
         "width": 7,
-        "height": 4
+        "height": 4,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -38,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/down-small-invert.gif": {
         "mtime": "2017-11-27T08:29:11.346Z",
         "width": 5,
-        "height": 3
+        "height": 3,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -87,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/down-small.gif": {
         "mtime": "2017-11-27T08:29:11.347Z",
         "width": 5,
-        "height": 3
+        "height": 3,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -53,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/down.gif": {
         "mtime": "2017-11-27T08:29:11.347Z",
         "width": 7,
-        "height": 4
+        "height": 4,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -113,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/forward-invert.gif": {
         "mtime": "2017-11-27T08:29:11.348Z",
         "width": 8,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -30,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/forward.gif": {
         "mtime": "2017-11-27T08:29:11.348Z",
         "width": 8,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -18,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/left-invert.gif": {
         "mtime": "2017-11-27T08:29:11.348Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -92,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/left-small-invert.gif": {
         "mtime": "2017-11-27T08:29:11.349Z",
         "width": 3,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -58,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/left-small.gif": {
         "mtime": "2017-11-27T08:29:11.349Z",
         "width": 3,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -15,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/left.gif": {
         "mtime": "2017-11-27T08:29:11.350Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -120,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/next-invert.gif": {
         "mtime": "2017-11-27T08:29:11.350Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -80,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/next.gif": {
         "mtime": "2017-11-27T08:29:11.351Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -109,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/previous-invert.gif": {
         "mtime": "2017-11-27T08:29:11.351Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -69,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/previous.gif": {
         "mtime": "2017-11-27T08:29:11.352Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -65,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/rewind-invert.gif": {
         "mtime": "2017-11-27T08:29:11.352Z",
         "width": 8,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -45,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/rewind.gif": {
         "mtime": "2017-11-27T08:29:11.352Z",
         "width": 8,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -101,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/right-invert.gif": {
         "mtime": "2017-11-27T08:29:11.353Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -61,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/right-small-invert.gif": {
         "mtime": "2017-11-27T08:29:11.353Z",
         "width": 3,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/right-small.gif": {
         "mtime": "2017-11-27T08:29:11.354Z",
         "width": 3,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -84,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/right.gif": {
         "mtime": "2017-11-27T08:29:11.354Z",
         "width": 4,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -26,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/up-invert.gif": {
         "mtime": "2017-11-27T08:29:11.355Z",
         "width": 7,
-        "height": 4
+        "height": 4,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -73,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/up-small-invert.gif": {
         "mtime": "2017-11-27T08:29:11.355Z",
         "width": 5,
-        "height": 3
+        "height": 3,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -96,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/up-small.gif": {
         "mtime": "2017-11-27T08:29:11.356Z",
         "width": 5,
-        "height": 3
+        "height": 3,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -3,
+        "y": 0
       },
       "qx/decoration/Classic/arrows/up.gif": {
         "mtime": "2017-11-27T08:29:11.356Z",
         "width": 7,
-        "height": 4
+        "height": 4,
+        "composite": "qx/decoration/Classic/arrows-combined.gif",
+        "x": -8,
+        "y": 0
       },
       "qx/decoration/Classic/colorselector/brightness-field.png": {
         "mtime": "2017-11-27T08:29:11.359Z",
@@ -4583,7 +4655,10 @@
       "qx/decoration/Classic/colorselector/brightness-handle.gif": {
         "mtime": "2017-11-27T08:29:11.359Z",
         "width": 35,
-        "height": 11
+        "height": 11,
+        "composite": "qx/decoration/Classic/colorselector-combined.gif",
+        "x": -11,
+        "y": 0
       },
       "qx/decoration/Classic/colorselector/huesaturation-field.jpg": {
         "mtime": "2017-11-27T08:29:11.360Z",
@@ -4593,27 +4668,42 @@
       "qx/decoration/Classic/colorselector/huesaturation-handle.gif": {
         "mtime": "2017-11-27T08:29:11.360Z",
         "width": 11,
-        "height": 11
+        "height": 11,
+        "composite": "qx/decoration/Classic/colorselector-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/cursors/alias.gif": {
         "mtime": "2017-11-27T08:29:11.362Z",
         "width": 19,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/cursors-combined.gif",
+        "x": -52,
+        "y": 0
       },
       "qx/decoration/Classic/cursors/copy.gif": {
         "mtime": "2017-11-27T08:29:11.362Z",
         "width": 19,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/cursors-combined.gif",
+        "x": -20,
+        "y": 0
       },
       "qx/decoration/Classic/cursors/move.gif": {
         "mtime": "2017-11-27T08:29:11.363Z",
         "width": 13,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Classic/cursors-combined.gif",
+        "x": -39,
+        "y": 0
       },
       "qx/decoration/Classic/cursors/nodrop.gif": {
         "mtime": "2017-11-27T08:29:11.363Z",
         "width": 20,
-        "height": 20
+        "height": 20,
+        "composite": "qx/decoration/Classic/cursors-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/datechooser/last-month-invert.png": {
         "mtime": "2017-11-27T08:29:11.364Z",
@@ -4658,87 +4748,138 @@
       "qx/decoration/Classic/form/checkbox-checked-disabled.png": {
         "mtime": "2017-11-27T08:29:11.368Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -336,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-focused-invalid.png": {
         "mtime": "2017-11-27T08:29:11.368Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -28,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-focused.png": {
         "mtime": "2017-11-27T08:29:11.369Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -462,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-hovered-invalid.png": {
         "mtime": "2017-11-27T08:29:11.369Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -112,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-hovered.png": {
         "mtime": "2017-11-27T08:29:11.370Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -140,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-invalid.png": {
         "mtime": "2017-11-27T08:29:11.370Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -98,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-pressed-invalid.png": {
         "mtime": "2017-11-27T08:29:11.371Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -308,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked-pressed.png": {
         "mtime": "2017-11-27T08:29:11.371Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-checked.png": {
         "mtime": "2017-11-27T08:29:11.371Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -266,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-disabled.png": {
         "mtime": "2017-11-27T08:29:11.372Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -84,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-focused-invalid.png": {
         "mtime": "2017-11-27T08:29:11.372Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -476,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-focused.png": {
         "mtime": "2017-11-27T08:29:11.373Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -392,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-hovered-invalid.png": {
         "mtime": "2017-11-27T08:29:11.373Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -196,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-hovered.png": {
         "mtime": "2017-11-27T08:29:11.374Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -154,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-invalid.png": {
         "mtime": "2017-11-27T08:29:11.374Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -350,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-pressed-invalid.png": {
         "mtime": "2017-11-27T08:29:11.375Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -448,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-pressed.png": {
         "mtime": "2017-11-27T08:29:11.375Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -70,
+        "y": 0
       },
       "qx/decoration/Classic/form/checkbox-undetermined-disabled.png": {
         "mtime": "2017-11-27T08:29:11.376Z",
@@ -4778,132 +4919,210 @@
       "qx/decoration/Classic/form/checkbox.png": {
         "mtime": "2017-11-27T08:29:11.379Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -490,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-disabled.png": {
         "mtime": "2017-11-27T08:29:11.379Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -210,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-focused-invalid.png": {
         "mtime": "2017-11-27T08:29:11.380Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -406,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-focused.png": {
         "mtime": "2017-11-27T08:29:11.380Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -378,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-hovered-invalid.png": {
         "mtime": "2017-11-27T08:29:11.381Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -252,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-hovered.png": {
         "mtime": "2017-11-27T08:29:11.381Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -182,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-invalid.png": {
         "mtime": "2017-11-27T08:29:11.382Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -294,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-pressed-invalid.png": {
         "mtime": "2017-11-27T08:29:11.382Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -420,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked-pressed.png": {
         "mtime": "2017-11-27T08:29:11.383Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -56,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-checked.png": {
         "mtime": "2017-11-27T08:29:11.383Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -322,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-disabled.png": {
         "mtime": "2017-11-27T08:29:11.384Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -364,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-focused-invalid.png": {
         "mtime": "2017-11-27T08:29:11.384Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -434,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-focused.png": {
         "mtime": "2017-11-27T08:29:11.385Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -168,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-hovered-invalid.png": {
         "mtime": "2017-11-27T08:29:11.385Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -126,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-hovered.png": {
         "mtime": "2017-11-27T08:29:11.386Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -42,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-invalid.png": {
         "mtime": "2017-11-27T08:29:11.386Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -280,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-pressed-invalid.png": {
         "mtime": "2017-11-27T08:29:11.386Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -238,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton-pressed.png": {
         "mtime": "2017-11-27T08:29:11.387Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -14,
+        "y": 0
       },
       "qx/decoration/Classic/form/radiobutton.png": {
         "mtime": "2017-11-27T08:29:11.387Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Classic/checkbox-radiobutton-combined.png",
+        "x": -224,
+        "y": 0
       },
       "qx/decoration/Classic/menu/checkbox-invert.gif": {
         "mtime": "2017-11-27T08:29:11.389Z",
         "width": 16,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/menu-combined.gif",
+        "x": -16,
+        "y": 0
       },
       "qx/decoration/Classic/menu/checkbox.gif": {
         "mtime": "2017-11-27T08:29:11.390Z",
         "width": 16,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Classic/menu-combined.gif",
+        "x": -32,
+        "y": 0
       },
       "qx/decoration/Classic/menu/radiobutton-invert.gif": {
         "mtime": "2017-11-27T08:29:11.390Z",
         "width": 16,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/menu-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/menu/radiobutton.gif": {
         "mtime": "2017-11-27T08:29:11.390Z",
         "width": 16,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/menu-combined.gif",
+        "x": -48,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-b.png": {
         "mtime": "2017-11-27T08:29:11.395Z",
         "width": 15,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/shadow-tb-combined.png",
+        "x": 0,
+        "y": -30
       },
       "qx/decoration/Classic/shadow/shadow-bl.png": {
         "mtime": "2017-11-27T08:29:11.395Z",
         "width": 15,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/shadow-tb-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-br.png": {
         "mtime": "2017-11-27T08:29:11.396Z",
         "width": 15,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/shadow-tb-combined.png",
+        "x": 0,
+        "y": -60
       },
       "qx/decoration/Classic/shadow/shadow-c.png": {
         "mtime": "2017-11-27T08:29:11.396Z",
@@ -4913,27 +5132,42 @@
       "qx/decoration/Classic/shadow/shadow-l.png": {
         "mtime": "2017-11-27T08:29:11.397Z",
         "width": 15,
-        "height": 382
+        "height": 382,
+        "composite": "qx/decoration/Classic/shadow-lr-combined.png",
+        "x": -15,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-small-b.png": {
         "mtime": "2017-11-27T08:29:11.398Z",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/shadow-small-tb-combined.png",
+        "x": 0,
+        "y": -25
       },
       "qx/decoration/Classic/shadow/shadow-r.png": {
         "mtime": "2017-11-27T08:29:11.397Z",
         "width": 15,
-        "height": 382
+        "height": 382,
+        "composite": "qx/decoration/Classic/shadow-lr-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-small-bl.png": {
         "mtime": "2017-11-27T08:29:11.398Z",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/shadow-small-tb-combined.png",
+        "x": 0,
+        "y": -20
       },
       "qx/decoration/Classic/shadow/shadow-small-br.png": {
         "mtime": "2017-11-27T08:29:11.399Z",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/shadow-small-tb-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-small-c.png": {
         "mtime": "2017-11-27T08:29:11.399Z",
@@ -4943,27 +5177,42 @@
       "qx/decoration/Classic/shadow/shadow-small-l.png": {
         "mtime": "2017-11-27T08:29:11.399Z",
         "width": 5,
-        "height": 136
+        "height": 136,
+        "composite": "qx/decoration/Classic/shadow-small-lr-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-small-r.png": {
         "mtime": "2017-11-27T08:29:11.400Z",
         "width": 5,
-        "height": 136
+        "height": 136,
+        "composite": "qx/decoration/Classic/shadow-small-lr-combined.png",
+        "x": -5,
+        "y": 0
       },
       "qx/decoration/Classic/shadow/shadow-small-t.png": {
         "mtime": "2017-11-27T08:29:11.400Z",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/shadow-small-tb-combined.png",
+        "x": 0,
+        "y": -5
       },
       "qx/decoration/Classic/shadow/shadow-small-tl.png": {
         "mtime": "2017-11-27T08:29:11.401Z",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/shadow-small-tb-combined.png",
+        "x": 0,
+        "y": -15
       },
       "qx/decoration/Classic/shadow/shadow-small-tr.png": {
         "mtime": "2017-11-27T08:29:11.401Z",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Classic/shadow-small-tb-combined.png",
+        "x": 0,
+        "y": -10
       },
       "qx/decoration/Classic/shadow/shadow-small.png": {
         "mtime": "2017-11-27T08:29:11.402Z",
@@ -4973,17 +5222,26 @@
       "qx/decoration/Classic/shadow/shadow-t.png": {
         "mtime": "2017-11-27T08:29:11.402Z",
         "width": 15,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/shadow-tb-combined.png",
+        "x": 0,
+        "y": -75
       },
       "qx/decoration/Classic/shadow/shadow-tl.png": {
         "mtime": "2017-11-27T08:29:11.403Z",
         "width": 15,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/shadow-tb-combined.png",
+        "x": 0,
+        "y": -45
       },
       "qx/decoration/Classic/shadow/shadow-tr.png": {
         "mtime": "2017-11-27T08:29:11.403Z",
         "width": 15,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Classic/shadow-tb-combined.png",
+        "x": 0,
+        "y": -15
       },
       "qx/decoration/Classic/shadow/shadow.png": {
         "mtime": "2017-11-27T08:29:11.403Z",
@@ -5003,37 +5261,58 @@
       "qx/decoration/Classic/table/ascending-invert.png": {
         "mtime": "2017-11-27T08:29:11.406Z",
         "width": 10,
-        "height": 10
+        "height": 10,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": -62,
+        "y": 0
       },
       "qx/decoration/Classic/table/ascending.png": {
         "mtime": "2017-11-27T08:29:11.407Z",
         "width": 10,
-        "height": 10
+        "height": 10,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": -52,
+        "y": 0
       },
       "qx/decoration/Classic/table/boolean-false.png": {
         "mtime": "2017-11-27T08:29:11.407Z",
         "width": 11,
-        "height": 11
+        "height": 11,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": -31,
+        "y": 0
       },
       "qx/decoration/Classic/table/boolean-true.png": {
         "mtime": "2017-11-27T08:29:11.408Z",
         "width": 11,
-        "height": 11
+        "height": 11,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": -10,
+        "y": 0
       },
       "qx/decoration/Classic/table/descending-invert.png": {
         "mtime": "2017-11-27T08:29:11.408Z",
         "width": 10,
-        "height": 10
+        "height": 10,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": -42,
+        "y": 0
       },
       "qx/decoration/Classic/table/descending.png": {
         "mtime": "2017-11-27T08:29:11.408Z",
         "width": 10,
-        "height": 10
+        "height": 10,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/table/select-column-order.png": {
         "mtime": "2017-11-27T08:29:11.409Z",
         "width": 10,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Classic/table-combined.png",
+        "x": -21,
+        "y": 0
       },
       "qx/decoration/Classic/tree/minus.gif": {
         "mtime": "2017-11-27T08:29:11.409Z",
@@ -5108,22 +5387,34 @@
       "qx/decoration/Classic/window/close.gif": {
         "mtime": "2017-11-27T08:29:11.417Z",
         "width": 10,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Classic/window-captionbar-buttons-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Classic/window/maximize.gif": {
         "mtime": "2017-11-27T08:29:11.417Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Classic/window-captionbar-buttons-combined.gif",
+        "x": -10,
+        "y": 0
       },
       "qx/decoration/Classic/window/minimize.gif": {
         "mtime": "2017-11-27T08:29:11.418Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Classic/window-captionbar-buttons-combined.gif",
+        "x": -19,
+        "y": 0
       },
       "qx/decoration/Classic/window/restore.gif": {
         "mtime": "2017-11-27T08:29:11.418Z",
         "width": 8,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Classic/window-captionbar-buttons-combined.gif",
+        "x": -28,
+        "y": 0
       },
       "qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf": {},
       "qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff": {},
@@ -5131,7 +5422,10 @@
       "qx/decoration/Modern/arrows/down-invert.png": {
         "mtime": "2017-11-27T08:29:11.423Z",
         "width": 8,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -74,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/down-small-invert.png": {
         "mtime": "2017-11-27T08:29:11.423Z",
@@ -5141,17 +5435,26 @@
       "qx/decoration/Modern/arrows/down-small.png": {
         "mtime": "2017-11-27T08:29:11.424Z",
         "width": 5,
-        "height": 3
+        "height": 3,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -49,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/down.png": {
         "mtime": "2017-11-27T08:29:11.425Z",
         "width": 8,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -20,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/forward.png": {
         "mtime": "2017-11-27T08:29:11.425Z",
         "width": 10,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -59,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/left-invert.png": {
         "mtime": "2017-11-27T08:29:11.426Z",
@@ -5161,37 +5464,58 @@
       "qx/decoration/Modern/arrows/left.png": {
         "mtime": "2017-11-27T08:29:11.426Z",
         "width": 5,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -44,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/rewind.png": {
         "mtime": "2017-11-27T08:29:11.427Z",
         "width": 10,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -10,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/right-invert.png": {
         "mtime": "2017-11-27T08:29:11.427Z",
         "width": 5,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -5,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/right.png": {
         "mtime": "2017-11-27T08:29:11.428Z",
         "width": 5,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -54,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/up-invert.png": {
         "mtime": "2017-11-27T08:29:11.428Z",
         "width": 8,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -28,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/up-small.png": {
         "mtime": "2017-11-27T08:29:11.429Z",
         "width": 5,
-        "height": 3
+        "height": 3,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -82,
+        "y": 0
       },
       "qx/decoration/Modern/arrows/up.png": {
         "mtime": "2017-11-27T08:29:11.429Z",
         "width": 8,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/arrows-combined.png",
+        "x": -36,
+        "y": 0
       },
       "qx/decoration/Modern/colorselector/brightness-field.png": {
         "mtime": "2017-11-27T08:29:11.434Z",
@@ -5201,7 +5525,10 @@
       "qx/decoration/Modern/colorselector/brightness-handle.gif": {
         "mtime": "2017-11-27T08:29:11.434Z",
         "width": 35,
-        "height": 11
+        "height": 11,
+        "composite": "qx/decoration/Modern/colorselector-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/colorselector/huesaturation-field.jpg": {
         "mtime": "2017-11-27T08:29:11.435Z",
@@ -5211,27 +5538,42 @@
       "qx/decoration/Modern/colorselector/huesaturation-handle.gif": {
         "mtime": "2017-11-27T08:29:11.435Z",
         "width": 11,
-        "height": 11
+        "height": 11,
+        "composite": "qx/decoration/Modern/colorselector-combined.gif",
+        "x": -35,
+        "y": 0
       },
       "qx/decoration/Modern/cursors/alias.gif": {
         "mtime": "2017-11-27T08:29:11.437Z",
         "width": 19,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Modern/cursors-combined.gif",
+        "x": -52,
+        "y": 0
       },
       "qx/decoration/Modern/cursors/copy.gif": {
         "mtime": "2017-11-27T08:29:11.437Z",
         "width": 19,
-        "height": 15
+        "height": 15,
+        "composite": "qx/decoration/Modern/cursors-combined.gif",
+        "x": -33,
+        "y": 0
       },
       "qx/decoration/Modern/cursors/move.gif": {
         "mtime": "2017-11-27T08:29:11.438Z",
         "width": 13,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/cursors-combined.gif",
+        "x": -20,
+        "y": 0
       },
       "qx/decoration/Modern/cursors/nodrop.gif": {
         "mtime": "2017-11-27T08:29:11.438Z",
         "width": 20,
-        "height": 20
+        "height": 20,
+        "composite": "qx/decoration/Modern/cursors-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/groupbox/groupbox-b.png": {
         "mtime": "2017-11-27T08:29:11.512Z",
@@ -6051,22 +6393,34 @@
       "qx/decoration/Modern/menu/checkbox-invert.gif": {
         "mtime": "2017-11-27T08:29:11.519Z",
         "width": 16,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Modern/menu-checkradio-combined.gif",
+        "x": -16,
+        "y": 0
       },
       "qx/decoration/Modern/menu/checkbox.gif": {
         "mtime": "2017-11-27T08:29:11.519Z",
         "width": 16,
-        "height": 7
+        "height": 7,
+        "composite": "qx/decoration/Modern/menu-checkradio-combined.gif",
+        "x": -48,
+        "y": 0
       },
       "qx/decoration/Modern/menu/radiobutton-invert.gif": {
         "mtime": "2017-11-27T08:29:11.520Z",
         "width": 16,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/menu-checkradio-combined.gif",
+        "x": -32,
+        "y": 0
       },
       "qx/decoration/Modern/menu/radiobutton.gif": {
         "mtime": "2017-11-27T08:29:11.520Z",
         "width": 16,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/menu-checkradio-combined.gif",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/pane/pane-b.png": {
         "mtime": "2017-11-27T08:29:11.522Z",
@@ -6151,22 +6505,34 @@
       "qx/decoration/Modern/scrollbar/scrollbar-down.png": {
         "mtime": "2017-11-27T08:29:11.531Z",
         "width": 6,
-        "height": 4
+        "height": 4,
+        "composite": "qx/decoration/Modern/scrollbar-combined.png",
+        "x": -28,
+        "y": 0
       },
       "qx/decoration/Modern/scrollbar/scrollbar-left.png": {
         "mtime": "2017-11-27T08:29:11.532Z",
         "width": 4,
-        "height": 6
+        "height": 6,
+        "composite": "qx/decoration/Modern/scrollbar-combined.png",
+        "x": -50,
+        "y": 0
       },
       "qx/decoration/Modern/scrollbar/scrollbar-right.png": {
         "mtime": "2017-11-27T08:29:11.532Z",
         "width": 4,
-        "height": 6
+        "height": 6,
+        "composite": "qx/decoration/Modern/scrollbar-combined.png",
+        "x": -46,
+        "y": 0
       },
       "qx/decoration/Modern/scrollbar/scrollbar-up.png": {
         "mtime": "2017-11-27T08:29:11.533Z",
         "width": 6,
-        "height": 4
+        "height": 4,
+        "composite": "qx/decoration/Modern/scrollbar-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/scrollbar/slider-knob-background.png": {
         "mtime": "2017-11-27T08:29:11.533Z",
@@ -6276,32 +6642,50 @@
       "qx/decoration/Modern/splitpane/knob-horizontal.png": {
         "mtime": "2017-11-27T08:29:11.549Z",
         "width": 1,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/splitpane-knobs-combined.png",
+        "x": 0,
+        "y": -1
       },
       "qx/decoration/Modern/splitpane/knob-vertical.png": {
         "mtime": "2017-11-27T08:29:11.549Z",
         "width": 8,
-        "height": 1
+        "height": 1,
+        "composite": "qx/decoration/Modern/splitpane-knobs-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/table/ascending.png": {
         "mtime": "2017-11-27T08:29:11.551Z",
         "width": 8,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/table-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/table/boolean-false.png": {
         "mtime": "2017-11-27T08:29:11.551Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Modern/table-combined.png",
+        "x": -80,
+        "y": 0
       },
       "qx/decoration/Modern/table/boolean-true.png": {
         "mtime": "2017-11-27T08:29:11.552Z",
         "width": 14,
-        "height": 14
+        "height": 14,
+        "composite": "qx/decoration/Modern/table-combined.png",
+        "x": -26,
+        "y": 0
       },
       "qx/decoration/Modern/table/descending.png": {
         "mtime": "2017-11-27T08:29:11.552Z",
         "width": 8,
-        "height": 5
+        "height": 5,
+        "composite": "qx/decoration/Modern/table-combined.png",
+        "x": -18,
+        "y": 0
       },
       "qx/decoration/Modern/table/header-cell.png": {
         "mtime": "2017-11-27T08:29:11.553Z",
@@ -6311,7 +6695,10 @@
       "qx/decoration/Modern/table/select-column-order.png": {
         "mtime": "2017-11-27T08:29:11.553Z",
         "width": 10,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/table-combined.png",
+        "x": -8,
+        "y": 0
       },
       "qx/decoration/Modern/tabview/tab-button-bottom-active-b.png": {
         "mtime": "2017-11-27T08:29:11.578Z",
@@ -6786,22 +7173,34 @@
       "qx/decoration/Modern/tree/closed-selected.png": {
         "mtime": "2017-11-27T08:29:11.631Z",
         "width": 8,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/tree-combined.png",
+        "x": -24,
+        "y": 0
       },
       "qx/decoration/Modern/tree/closed.png": {
         "mtime": "2017-11-27T08:29:11.632Z",
         "width": 8,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/tree-combined.png",
+        "x": -16,
+        "y": 0
       },
       "qx/decoration/Modern/tree/open-selected.png": {
         "mtime": "2017-11-27T08:29:11.632Z",
         "width": 8,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/tree-combined.png",
+        "x": -8,
+        "y": 0
       },
       "qx/decoration/Modern/tree/open.png": {
         "mtime": "2017-11-27T08:29:11.633Z",
         "width": 8,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/tree-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/window/captionbar-active-b.png": {
         "mtime": "2017-11-27T08:29:11.640Z",
@@ -6907,62 +7306,98 @@
       "qx/decoration/Modern/window/close-active-hovered.png": {
         "mtime": "2017-11-27T08:29:11.651Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -27,
+        "y": 0
       },
       "qx/decoration/Modern/window/close-active.png": {
         "mtime": "2017-11-27T08:29:11.651Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -9,
+        "y": 0
       },
       "qx/decoration/Modern/window/close-inactive.png": {
         "mtime": "2017-11-27T08:29:11.651Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -90,
+        "y": 0
       },
       "qx/decoration/Modern/window/maximize-active-hovered.png": {
         "mtime": "2017-11-27T08:29:11.652Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -18,
+        "y": 0
       },
       "qx/decoration/Modern/window/maximize-active.png": {
         "mtime": "2017-11-27T08:29:11.652Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -81,
+        "y": 0
       },
       "qx/decoration/Modern/window/maximize-inactive.png": {
         "mtime": "2017-11-27T08:29:11.653Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -54,
+        "y": 0
       },
       "qx/decoration/Modern/window/minimize-active-hovered.png": {
         "mtime": "2017-11-27T08:29:11.653Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -63,
+        "y": 0
       },
       "qx/decoration/Modern/window/minimize-active.png": {
         "mtime": "2017-11-27T08:29:11.654Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -72,
+        "y": 0
       },
       "qx/decoration/Modern/window/minimize-inactive.png": {
         "mtime": "2017-11-27T08:29:11.654Z",
         "width": 9,
-        "height": 9
+        "height": 9,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -36,
+        "y": 0
       },
       "qx/decoration/Modern/window/restore-active-hovered.png": {
         "mtime": "2017-11-27T08:29:11.655Z",
         "width": 9,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": 0,
+        "y": 0
       },
       "qx/decoration/Modern/window/restore-active.png": {
         "mtime": "2017-11-27T08:29:11.655Z",
         "width": 9,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -99,
+        "y": 0
       },
       "qx/decoration/Modern/window/restore-inactive.png": {
         "mtime": "2017-11-27T08:29:11.656Z",
         "width": 9,
-        "height": 8
+        "height": 8,
+        "composite": "qx/decoration/Modern/window-captionbar-buttons-combined.png",
+        "x": -45,
+        "y": 0
       },
       "qx/decoration/Modern/window/statusbar-b.png": {
         "mtime": "2017-11-27T08:29:11.656Z",
@@ -20858,7 +21293,7 @@
     },
     "app2": {
       "app2/test.png": {
-        "mtime": "2017-11-27T08:29:09.844Z",
+        "mtime": "2017-12-07T15:10:20.880Z",
         "width": 32,
         "height": 32
       },
@@ -20878,7 +21313,7 @@
       "outputs/Output2.html": {},
       "three/ShaderSkin.js": {},
       "three/3D_models/head/Map-SPEC.jpg": {
-        "mtime": "2017-12-07T10:28:46.754Z",
+        "mtime": "2017-12-07T15:10:20.942Z",
         "width": 1024,
         "height": 1024
       },
@@ -20886,12 +21321,12 @@
       "three/three.js": {},
       "three/three.min.js": {},
       "three/3D_models/head/Infinite-Level_02_Disp_NoSmoothUV-4096.jpg": {
-        "mtime": "2017-12-07T10:27:43.816Z",
+        "mtime": "2017-12-07T15:10:20.925Z",
         "width": 4096,
         "height": 4096
       },
       "three/3D_models/head/Infinite-Level_02_Tangent_SmoothUV.jpg": {
-        "mtime": "2017-12-07T10:28:06.413Z",
+        "mtime": "2017-12-07T15:10:20.927Z",
         "width": 1024,
         "height": 1024
       },
@@ -20899,7 +21334,7 @@
       "three/3D_models/head/LeePerrySmith.obj": {},
       "three/3D_models/head/LeePerrySmith_License.txt": {},
       "three/3D_models/head/Map-COL.jpg": {
-        "mtime": "2017-12-07T10:28:33.486Z",
+        "mtime": "2017-12-07T15:10:20.939Z",
         "width": 1024,
         "height": 1024
       }
