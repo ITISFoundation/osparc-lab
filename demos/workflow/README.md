@@ -80,3 +80,7 @@ Example:
 }
 
 ```
+
+### Orchestration diagram
+![workflow](images/comp.backend.png)
+
