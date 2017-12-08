@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     double p = static_cast<double>(i) / static_cast<double>(N) * 100.f;
     output << x << "\t" << y << std::endl;
     std::cout << "Progress: " << p << " %" << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
   output.close();
 

@@ -156,8 +156,10 @@ def run_pipeline():
     return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
                   url=url_for('check_task',id=task.id,_external=True))
 
-@app.route("/calc", methods=['GET'])
-def calc():
+
+# @app.route("/calc", methods=['GET'])
+@app.route('/calc/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
+def calc(x_min, x_max, N, f):
     #ata = request.get_json()
    
     data_str = """{
@@ -165,19 +167,19 @@ def calc():
     [
            {
            	"name": "N", 
-               	"value": 10
+               	"value": %s
            }, 
            {
            	"name": "xmin", 
-               	"value": -1.0
+               	"value": %f
            }, 
            {
            	"name": "xmax", 
-               	"value": 1.0
+               	"value": %f
            },
            {
                	"name": "func", 
-               	"value": "exp(x)*sin(x)"
+               	"value": %s
            }
     ],
     "container":
@@ -185,7 +187,7 @@ def calc():
     	"name": "masu.speag.com/comp.services/sidecar-solver",
         "tag": "1.1"
     }
-    }"""
+    }""" % (N, x_min, x_max, f) 
 
     data = json.loads(data_str)
     print(type(data))
