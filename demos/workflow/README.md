@@ -44,7 +44,7 @@ localhost:5000
 
 ### Registry
 Visualization of simcore docker registry
-````
+```
 masu.speag.com:5001
 ```
 
