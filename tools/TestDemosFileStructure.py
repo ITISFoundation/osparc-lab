@@ -9,6 +9,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 class AllFine(object):
+
     '''This class gathers the outcome state (okay or failure) and some helpers'''
 
     def __init__(self):
