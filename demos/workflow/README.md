@@ -55,23 +55,23 @@ Example:
 {
   "input": 
   [
-        {
-          "name": "N", 
-            "value": 10
-        }, 
-        {
-          "name": "xmin", 
-            "value": -1.0
-        }, 
-        {
-          "name": "xmax", 
-            "value": 1.0
-        },
     {
-          "name": "func", 
-            "value": "exp(x)*sin(x)"
-        }
-    ],
+      "name": "N", 
+      "value": 10
+    }, 
+    {
+      "name": "xmin", 
+      "value": -1.0
+    }, 
+    {
+      "name": "xmax", 
+      "value": 1.0
+    },
+    {
+      "name": "func", 
+      "value": "exp(x)*sin(x)"
+    }
+  ],
   "container":
   {
     "name": "masu.speag.com/comp.services/sidecar-solver",
