@@ -78,6 +78,12 @@ qx.Class.define("app2.ui.SettingsView",
                   input.add(optionItem);
                 }
                 break;
+              case "boolean":
+                input = new qx.ui.form.CheckBox();
+                input.set({
+                  value: (myServiceSetts[i].value === 1)
+                });
+                break;
               default:
                 input = null;
                 break;
