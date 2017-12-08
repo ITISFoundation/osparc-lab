@@ -5,7 +5,7 @@ ADD_TEST( NAME DemosFileStructure
 
 
 ADD_TEST( NAME PythonOveralPep8
-	COMMAND ./tools/check_pep8.sh .
+	COMMAND ./tools/check_pep8.sh ./tools  # for now no demos
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
