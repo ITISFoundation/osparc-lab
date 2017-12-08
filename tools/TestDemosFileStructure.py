@@ -17,7 +17,7 @@ class AllFine(object):
 
     def error(self, msg):
         '''
-        Helper function to display an error message as well as setting 
+        Helper function to display an error message as well as setting
         the outcome to failure
         '''
         logging.error(msg)
@@ -65,7 +65,7 @@ def check_makefile(folder, all_fine):
 
 def test_file_structure():
     '''
-    Looping through the "demos" folder's subfolder and check some 
+    Looping through the "demos" folder's subfolder and check some
     assumptions
     '''
 
