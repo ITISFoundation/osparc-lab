@@ -92,9 +92,6 @@
         this._scene.add(this._transformControls);
 
         this._render();
-        //this._addSphere(1);
-        //this._addBody();
-        this._addHead();
       }, this);
 
       widget.addListener('resize', function() {
@@ -129,7 +126,7 @@
     _renderer: null,
     _orbitControls: null,
     _transformControls: null,
-    _sphereMesh: null,
+    _meshes: [],
 
     _render : function()
     {
@@ -149,25 +146,41 @@
 
     _radiusChanged : function(scale)
     {
-        //this._addSphere(scale);
+      var meshLenght = this._meshes.length;
+      if (meshLenght === 0)
+        return;
+
+      var last_mesh = this._meshes[meshLenght - 1];
+      last_mesh.scale.set(scale, scale, scale);
+      this._render();
     },
 
-    _addSphere : function(radius)
+    ClearScene : function()
     {
-      this._scene.remove(this._sphereMesh);
-      var geometry = new THREE.SphereGeometry(radius, 32, 16);
+      var i = this._meshes.length;
+      while(i--)
+      {
+        this._scene.remove(this._meshes[i]);
+      }
+    },
+
+    AddSphere : function(scale=1, wTransformer=false)
+    {
+      var geometry = new THREE.SphereGeometry(scale, 32, 16);
       var material = new THREE.MeshPhongMaterial({
         wireframe: true,
         wireframeLinewidth: 3,
         color: 0xFF0000
       });
-      this._sphereMesh = new THREE.Mesh(geometry, material);
-      this._scene.add(this._sphereMesh);
-      this._transformControls.attach(this._sphereMesh);
+      var mesh = new THREE.Mesh(geometry, material);
+      this._scene.add(mesh);
+      if (wTransformer)
+        this._transformControls.attach(mesh);
+      this._meshes.push(mesh);
       this._render();
     },
 
-    _addBody : function()
+    AddBody : function(scale=1, wTransformer=false)
     {
       var loader = new THREE.ObjectLoader();
 
@@ -176,8 +189,11 @@
         'resource/three/3D_models/body/standard-male-figure.json',
         function (obj) {
           self._scene.add(obj);
-          self._transformControls.attach(obj);
-          self._camera.position.z = 50;
+  				obj.scale.set(scale, scale, scale);
+          if (wTransformer)
+            self._transformControls.attach(obj);
+          self._camera.position.z = scale*50;
+          self._meshes.push(obj);
           self._render();
         },
         function (xhr) {
@@ -189,7 +205,7 @@
       );
     },
 
-    _addHead : function()
+    AddHead : function(scale=1, wTransformer=false)
     {
 			var loader = new THREE.JSONLoader();
       var self = this;
@@ -204,9 +220,11 @@
 				});
 				var mesh = new THREE.Mesh(geometry, material);
 				self._scene.add(mesh);
-				mesh.scale.set(1, 1, 1);
-        //self._transformControls.attach(mesh);
-        self._camera.position.z = 100;
+				mesh.scale.set(scale, scale, scale);
+        if (wTransformer)
+          self._transformControls.attach(mesh);
+        self._camera.position.z = scale*100;
+        self._meshes.push(mesh);
         self._render();
 			});
     }
