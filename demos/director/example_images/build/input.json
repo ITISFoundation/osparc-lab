@@ -1,0 +1,28 @@
+{
+	"input": [
+            {
+                "name": "NaValue", 
+                "value": 10
+            }, 
+            {
+                "name": "KrValue", 
+                "value": 10
+            }, 
+            {
+                "name": "BCLValue", 
+                "value": 10
+            }, 
+            {
+                "name": "beatsValue", 
+                "value": 10
+            }, 
+            {
+                "name": "LigandValue", 
+                "value": 10
+            }, 
+            {
+                "name": "cAMKIIValue", 
+                "value": 10
+            }
+        ] 
+}

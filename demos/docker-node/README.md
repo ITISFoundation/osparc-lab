@@ -1,5 +1,7 @@
 # Dockerized node-js
 
+Veeeery basic way to create a docker.
+
 ## Setup
 ``` bash
 cd docker-node
