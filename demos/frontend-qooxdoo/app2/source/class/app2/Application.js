@@ -129,11 +129,11 @@ qx.Class.define("app2.Application",
         this._computeService(e.getData());
       }, this);
 
-      this._workbenchView.addListener("nodeSelected", function(e) {
+      this._workbenchView.addListener("serviceSelected", function(e) {
         this._serviceSelected(e.getData());
       }, this);
 
-      this._workbenchView.addListener("nodeUnselected", function(e) {
+      this._workbenchView.addListener("serviceUnselected", function(e) {
         this._serviceUnselected();
       }, this);
 
@@ -146,10 +146,6 @@ qx.Class.define("app2.Application",
       this._availableServicesView.setModel(this._model);
       this._settingsView.setModel(this._model);
       this._workbenchView.setModel(this._model);
-
-      setTimeout( function(self) {
-        this._threeDView.setSphereRadius(2);
-      }.bind(this), 5000);
     },
 
     _getAvailableServices : function() {
@@ -176,49 +172,49 @@ qx.Class.define("app2.Application",
       		"input": "none",
       		"output": "folder",
       		"settings": [
-              {
-      			"name": "NaValue",
-                  "text": "Na blocker drug concentration",
-                  "type": "number",
-                  "value": 10
-              },
-              {
-                  "name": "KrValue",
-                  "text": "Kr blocker drug concentration",
-                  "type": "number",
-                  "value": 10
-              },
-              {
-      			"name": "BCLValue",
-                  "text": "Basic cycle length (BCL)",
-                  "type": "number",
-                  "value": 10
-              },
-              {
-                  "name": "beatsValue",
-                  "text": "Number of beats",
-                  "type": "number",
-                  "value": 10
-              },
-              {
-                  "name": "LigandValue",
-                  "text": "Ligand concentration",
-                  "type": "number",
-                  "value": 10
-              },
-              {
-                  "name": "cAMKIIValue",
-                  "options": [
-      				"A",
-                      "B",
-                      "C",
-                      "D"
-                  ],
-                  "text": "Adjust cAMKII activity level",
-                  "type": "select",
-                  "value": 0
-              }
-              ]
+          {
+            "name": "NaValue",
+            "text": "Na blocker drug concentration",
+            "type": "number",
+            "value": 10
+          },
+          {
+            "name": "KrValue",
+            "text": "Kr blocker drug concentration",
+            "type": "number",
+            "value": 10
+          },
+          {
+      		  "name": "BCLValue",
+            "text": "Basic cycle length (BCL)",
+            "type": "number",
+            "value": 10
+          },
+          {
+            "name": "beatsValue",
+            "text": "Number of beats",
+            "type": "number",
+            "value": 10
+          },
+          {
+            "name": "LigandValue",
+            "text": "Ligand concentration",
+            "type": "number",
+            "value": 10
+          },
+          {
+            "name": "cAMKIIValue",
+            "options": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ],
+            "text": "Adjust cAMKII activity level",
+            "type": "select",
+            "value": 0
+          }
+          ]
       	},
       	"00000-00001" : {
       		"id": "00000-00001",
@@ -305,6 +301,45 @@ qx.Class.define("app2.Application",
       			"value": 2
       		}
       		]
+      	},
+      	"00000-00006" : {
+      		"id": "00000-00006",
+      		"name": "modeler",
+      		"text": "Modeler",
+      		"tooltip": "Provides 3D models",
+      		"input": "none",
+      		"output": "3D_model",
+      		"settings": [
+          {
+            "name": "3D_model_option",
+            "options": [
+              "Sphere",
+              "Body",
+              "Head"
+            ],
+            "text": "Add 3D model",
+            "type": "select",
+            "value": 0
+          },
+      		{
+      			"name": "scale",
+      			"text": "Scale",
+      			"type": "number",
+      			"value": 1
+      		},
+      		{
+      			"name": "add_transform",
+      			"text": "Add Transform Control",
+      			"type": "boolean",
+      			"value": 0
+      		},
+      		{
+      			"name": "clear_scene",
+      			"text": "Clear 3D view",
+      			"type": "boolean",
+      			"value": 1
+      		}
+      		]
       	}
       };
       return myList;
@@ -314,7 +349,6 @@ qx.Class.define("app2.Application",
       // store/InitialStore.json
       var myStore = {
         "availableServices": [],
-        "sphereRadius": 1,
         "baseColor": 66,
         "outputPath": "",
         "selected": [],
@@ -366,6 +400,32 @@ qx.Class.define("app2.Application",
       }.bind(this), sleepFor);
     },
 
+    addSelectedModel : function(service) {
+      var modelType = service.settings[0].value;
+      var scale = service.settings[1].value;
+      var addTransorm = service.settings[2].value;
+      var clearScene = service.settings[3].value;
+      if (clearScene) {
+        // Clear scene
+        this._threeDView.ClearScene();
+      }
+      switch (modelType)
+      {
+        case 0:
+          this._threeDView.AddSphere(scale, addTransorm);
+          break;
+        case 1:
+          this._threeDView.AddBody(scale, addTransorm);
+          break;
+        case 2:
+          this._threeDView.AddHead(scale, addTransorm);
+          break;
+        default:
+          console.log('Not supported')
+          break;
+      }
+    },
+
     _computeService : function(service_id) {
       for (var i = 0; i < this._model.getWorkbench().getNodes().length; i++) {
         if (service_id === this._model.getWorkbench().getNodes().getItem(i).service.id) {
@@ -378,7 +438,11 @@ qx.Class.define("app2.Application",
           {
             var uniqueName = this._model.getWorkbench().getNodes().getItem(i).properties.title;
           }
-          break;
+          else if (computeThis.name === 'modeler')
+          {
+            this.addSelectedModel(computeThis);
+          }
+          return;
         }
       }
     },

@@ -191,12 +191,12 @@
 
     _nodeSelected: function(operatorId) {
       if (operatorId in this._workbenchData.operators) {
-        this.fireDataEvent("nodeSelected", this._workbenchData.operators[operatorId].service.id);
+        this.fireDataEvent("serviceSelected", this._workbenchData.operators[operatorId].service.id);
       }
     },
 
     _nodeUnselected: function() {
-      this.fireDataEvent("nodeUnselected");
+      this.fireDataEvent("serviceUnselected");
     },
 
     /**

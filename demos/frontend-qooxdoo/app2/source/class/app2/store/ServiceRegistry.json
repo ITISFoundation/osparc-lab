@@ -122,5 +122,44 @@
 			"type": "number",
 			"value": 2
 		}]
+	},
+	"00000-00006" : {
+		"id": "00000-00006",
+		"name": "modeler",
+		"text": "Modeler",
+		"tooltip": "Provides 3D models",
+		"input": "none",
+		"output": "3D_model",
+		"settings": [
+		{
+			"name": "3D_model_option",
+			"options": [
+				"Sphere",
+				"Body",
+				"Head"
+			],
+			"text": "Add 3D model",
+			"type": "select",
+			"value": 0
+		},
+		{
+			"name": "scale",
+			"text": "Scale",
+			"type": "number",
+			"value": 1
+		},
+		{
+			"name": "add_transform",
+			"text": "Add Transform Control",
+			"type": "boolean",
+			"value": 0
+		},
+		{
+			"name": "clear_scene",
+			"text": "Clear 3D view",
+			"type": "boolean",
+			"value": 1
+		}
+		]
 	}
 }
