@@ -48,3 +48,35 @@ Visualization of simcore docker registry
 masu.speag.com:5001
 ```
 
+
+### Pipeline descriptor
+Example:
+```
+{
+  "input": 
+  [
+        {
+          "name": "N", 
+            "value": 10
+        }, 
+        {
+          "name": "xmin", 
+            "value": -1.0
+        }, 
+        {
+          "name": "xmax", 
+            "value": 1.0
+        },
+    {
+          "name": "func", 
+            "value": "exp(x)*sin(x)"
+        }
+    ],
+  "container":
+  {
+    "name": "masu.speag.com/comp.services/sidecar-solver",
+    "tag": "1.1"
+  }
+}
+
+```
