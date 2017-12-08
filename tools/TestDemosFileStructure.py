@@ -10,13 +10,16 @@ logging.getLogger().setLevel(logging.INFO)
 
 class AllFine(object):
 
-    '''This class gathers the outcome state (okay or failure) and some helpers'''
+    '''This class gathers the outcome state (okay or failure)'''
 
     def __init__(self):
         self.__ok = True
 
     def error(self, msg):
-        '''Helper function to display an error message as well as setting the outcome to failure'''
+        '''
+        Helper function to display an error message as well as setting 
+        the outcome to failure
+        '''
         logging.error(msg)
         self.__ok = False
 
@@ -39,7 +42,7 @@ def check_makefile(folder, all_fine):
     '''Checking the structure of the Makefile's involved'''
     logging.info('Checking makefile')
 
-    # not sure, if these tests make sense ... feel free to change and/or extend
+    # not sure, if these tests make sense: feel free to change/extend
     has_demo = False
     has_start = False
     has_stop = False
@@ -61,7 +64,10 @@ def check_makefile(folder, all_fine):
 
 
 def test_file_structure():
-    '''Looping through the "demos" folder's subfolder and check some assumptions'''
+    '''
+    Looping through the "demos" folder's subfolder and check some 
+    assumptions
+    '''
 
     logging.info('Testing file structure in demos folder')
 
