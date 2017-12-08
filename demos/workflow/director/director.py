@@ -1,22 +1,42 @@
-from flask import Flask, make_response, request, url_for
+from flask import Flask, make_response, request, url_for, render_template
 import json
 import hashlib
 from pymongo import MongoClient
+import gridfs
 from bson import ObjectId
 from werkzeug.exceptions import NotFound, ServiceUnavailable
 import requests
 from worker import celery
 from celery.result import AsyncResult
 import celery.states as states
-
+from celery import signature
+import numpy as np
 import docker
 import sys
+import plotly
 
 app = Flask(__name__)
 
-#celery = Celery(app.name, broker='amqp://z43:z43@rabbit:5672', backend='rpc://')
 
 task_info = {}
+
+def create_graph(x,y):
+    graph = [
+        dict(
+            data=[
+                dict(
+                    x=x,
+                    y=y,
+                    type='scatter'
+                  ),
+              ],
+              layout=dict(
+                  title='scatter plot'
+              )
+          )
+          ]
+    return graph
+ 
 
 def nice_json(arg):
     response = make_response(json.dumps(arg, sort_keys = True, indent=4))
@@ -81,6 +101,27 @@ def check_task(id):
     if res.state==states.PENDING:
         return res.state
     else:
+        db_client = MongoClient("mongodb://database:27017/")
+        output_database = db_client.output_database
+        output_collections = output_database.output_collections
+        exists = output_collections.find_one({"_hash" : str(res.result)})
+        if exists is not None:
+            file_db = db_client.file_db
+            fs = gridfs.GridFS(file_db)
+            for file_id in exists["ids"]:
+                data = fs.get(file_id).read()
+                data_array = np.fromstring(data, sep="\t")
+                x = data_array[0::2]
+                y = data_array[1::2]
+                graph = create_graph(x, y)
+                ids = ['graph-{}'.format(i) for i, _ in enumerate(graph)]
+                # objects to their JSON equivalents
+                graphJSON = json.dumps(graph, cls=plotly.utils.PlotlyJSONEncoder)
+                
+                return render_template('layouts/index.html',
+                                       ids=ids,
+                                       graphJSON=graphJSON)
+
         return str(res.result)
 
 
@@ -103,31 +144,67 @@ def run_pipeline():
     [input_hash, input_exists] = parse_input_data(data)
    
     container_hash = parse_container_data(data)
-
+    
     combined = hashlib.sha256()
     combined.update(input_hash.encode('utf-8'))
     combined.update(container_hash.encode('utf-8'))
     output_hash = combined.hexdigest()
-
+   
     output_ready = output_exists(output_hash)
-    if not output_ready:
-#        start_computation_celery.delay(data)  
-        start_computation(data)  
+    task = celery.send_task('mytasks.run', args=[data], kwargs={})
+         
+    return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
+                  url=url_for('check_task',id=task.id,_external=True))
 
-    return nice_json({"input_hash" : str(input_hash), "input_exists" : str(input_exists),
-        "output_hash" : str(output_hash), "output_exists" : str(output_ready),
-        "input_data": data})
+@app.route("/calc", methods=['GET'])
+def calc():
+    #ata = request.get_json()
+   
+    data_str = """{
+    "input": 
+    [
+           {
+           	"name": "N", 
+               	"value": 10
+           }, 
+           {
+           	"name": "xmin", 
+               	"value": -1.0
+           }, 
+           {
+           	"name": "xmax", 
+               	"value": 1.0
+           },
+           {
+               	"name": "func", 
+               	"value": "exp(x)*sin(x)"
+           }
+    ],
+    "container":
+    {
+    	"name": "masu.speag.com/comp.services/sidecar-solver",
+        "tag": "1.1"
+    }
+    }"""
 
-
-@celery.task
-def start_computation_celery(data):
-    try:
-       req = requests.post("http://sidecar:8000/run", json = data)
-
-    except requests.exceptions.ConnectionError:
-        raise ServiceUnavailable("The computational service is unavailable.")
-
-    return 1
+    data = json.loads(data_str)
+    print(type(data))
+    sys.stdout.flush()
+    hashstr = ""
+    [input_hash, input_exists] = parse_input_data(data)
+   
+    container_hash = parse_container_data(data)
+    
+    combined = hashlib.sha256()
+    combined.update(input_hash.encode('utf-8'))
+    combined.update(container_hash.encode('utf-8'))
+    output_hash = combined.hexdigest()
+   
+    output_ready = output_exists(output_hash)
+    task = celery.send_task('mytasks.run', args=[data], kwargs={})
+         
+    return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
+                  url=url_for('check_task',id=task.id,_external=True))
 
 
 if __name__ == "__main__":

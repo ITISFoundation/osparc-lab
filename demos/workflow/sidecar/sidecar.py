@@ -9,7 +9,7 @@ import uuid
 from celery import Celery
 from concurrent.futures import ThreadPoolExecutor
 from pymongo import MongoClient
-
+import gridfs
 
 env=os.environ
 CELERY_BROKER_URL=env.get('CELERY_BROKER_URL','amqp://z43:z43@rabbit:5672'),
@@ -19,14 +19,6 @@ celery= Celery('tasks',
                 broker=CELERY_BROKER_URL,
                 backend=CELERY_RESULT_BACKEND)
 
-
-@celery.task(name='mytasks.add')
-def add(x, y):
-    time.sleep(5) # lets sleep for a while before doing the gigantic addition task!
-    return x + y
-
-
-executor = ThreadPoolExecutor(16)
 
 io_dirs = {}
 buddy = None
@@ -90,7 +82,6 @@ def dump_log():
     global buddy_image
 
 def start_container(name, stage, io_env):
-
     client = docker.from_env(version='auto')
     buddy = client.containers.run(buddy_image, "run", 
          detach=False, remove=True,
@@ -103,9 +94,9 @@ def start_container(name, stage, io_env):
     # hash output
     output_hash = hash_job_output()
 
-
     store_job_output(output_hash)
     
+    return output_hash
 
 def hash_job_output():
     output_hash = hashlib.sha256()
@@ -140,28 +131,32 @@ def hash_job_output():
     return output_hash.hexdigest() 
 
 def store_job_output(output_hash):
-    sys.stdout.flush()
-    sys.stderr.flush()
-
     db_client = MongoClient("mongodb://database:27017/")
     output_database = db_client.output_database
     output_collections = output_database.output_collections
-    
+    file_db = db_client.file_db
+    fs = gridfs.GridFS(file_db)
     directory = io_dirs['output']
     data = {}
     if not os.path.exists (directory):
         return
     try:
         output_file_list = []
+        ids = []
         for root, dirs, files in os.walk(directory):
             for names in files:
                 filepath = os.path.join(root,names)
+                file_id = fs.put(open(filepath,'rb'))
+                ids.append(file_id)
                 with open(filepath, 'rb') as f:
                     file_data = f.read()
                     current = { 'filename' : names, 'contents' : file_data }
                     output_file_list.append(current)
+
         data["output"] = output_file_list
         data["_hash"] = output_hash
+        data["ids"] = ids
+
         output_collections.insert_one(data)
 
     except:
@@ -170,10 +165,9 @@ def store_job_output(output_hash):
         traceback.print_exc()
         return -2
 
-def run(data):
+def do_run(data):
     global buddy_image
     global job_id
-    create_directories()
     # add files if any and dump json
 
     prepare_input_and_container(data)
@@ -183,9 +177,15 @@ def run(data):
     io_env.append("LOG_FOLDER=/log/"+job_id)
  
   
-#    executor.submit(start_container, buddy_image, "run", io_env)
-    start_container(buddy_image, "run", io_env)
-    return 
+    return start_container(buddy_image, "run", io_env)
 
-#if __name__ == "__main__":
-#  app.run(port=8000, debug=True, host='0.0.0.0')
+@celery.task(name='mytasks.add')
+def add(x, y):
+    time.sleep(5) # lets sleep for a while before doing the gigantic addition task!
+    return x + y
+
+@celery.task(name='mytasks.run')
+def run(data):
+    create_directories()
+    return str(do_run(data))
+
