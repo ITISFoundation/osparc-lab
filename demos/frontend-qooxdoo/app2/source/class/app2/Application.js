@@ -331,13 +331,13 @@ qx.Class.define("app2.Application",
       			"name": "add_transform",
       			"text": "Add Transform Control",
       			"type": "boolean",
-      			"value": 0
+      			"value": 1
       		},
       		{
       			"name": "clear_scene",
       			"text": "Clear 3D view",
       			"type": "boolean",
-      			"value": 1
+      			"value": 0
       		}
       		]
       	}
