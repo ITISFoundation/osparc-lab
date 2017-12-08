@@ -16,7 +16,8 @@
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "bootstrap-vue": "^1.0.0-beta.9",
+    "bootstrap": "^3.3.7",
+    "bootstrap-vue": "^1.3.0",
     "popper.js": "^1.12.5",
     "python-shell": "^0.4.0",
     "socket.io": "^2.0.3",
@@ -27,7 +28,8 @@
     "vue-port-graph": "0.0.16",
     "vue-resource": "^1.3.4",
     "vue-router": "^3.0.1",
-    "vue-socket.io": "^2.1.1-a"
+    "vue-socket.io": "^2.1.1-a",
+    "vue-splitpane": "^1.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
