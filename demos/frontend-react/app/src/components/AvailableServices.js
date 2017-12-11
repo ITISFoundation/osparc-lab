@@ -11,7 +11,7 @@ class AvailableServices extends Component {
 
   onServiceClicked(service_id) {
     for (var i = 0; i < this.props.availableServices.length; i++) {
-      if (service_id === this.props.availableServices[i].uuid) {
+      if (service_id === this.props.availableServices[i].id) {
         this.props.newServiceRequested(this.props.availableServices[i]);
         return;
       }
@@ -43,7 +43,7 @@ class AvailableServices extends Component {
         {
           buttons.push(
             <Button key={i} bsStyle="primary"
-              onClick={this.onServiceClicked.bind(this, filteredServices[i].uuid)}>
+              onClick={this.onServiceClicked.bind(this, filteredServices[i].id)}>
               {filteredServices[i].text}
             </Button>
           );
