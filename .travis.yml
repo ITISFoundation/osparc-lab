@@ -9,9 +9,14 @@ addons:
   apt:
     packages:
     - pylint
+    - clang
+    - clang-tidy
+    - clang-format
 
 # configure and buid
 install:
+  - export CC=/usr/bin/clang
+  - export CXX=/usr/bin/clang++
   - mkdir _bin
   - cd _bin
   - cmake ..
