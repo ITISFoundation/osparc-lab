@@ -68,6 +68,18 @@ qx.Class.define("app2.Application",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
 
+      /*
+      // openning web socket
+      var ws = new app2.api.WebSocket();
+      //Connect with previous setted properties
+      ws.connect();
+
+      ws.emit("achannel", "hello");
+      ws.on("achannel", function(result) {
+        console.log(result);
+      }, this);
+      */
+
       var body = document.body;
       var html = document.documentElement;
       var docHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
