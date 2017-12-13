@@ -9,7 +9,8 @@ addons:
   apt:
     packages:
     - pylint
-    - clang
+    - clang-3.8
+    - llvm-3.8
 
 # configure and buid
 install:
