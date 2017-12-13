@@ -10,8 +10,6 @@ addons:
     packages:
     - pylint
     - clang
-    - clang-tidy
-    - clang-format
 
 # configure and buid
 install:
