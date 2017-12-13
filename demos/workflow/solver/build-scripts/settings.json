@@ -1,0 +1,16 @@
+{
+	"settings": [
+            {
+                "name": "N", 
+                "text": "Number of iterations", 
+                "type": "int", 
+                "value":5 
+            }, 
+            {
+                "name": "inputfile",
+                "text": "Inputfile for solver", 
+                "type": "url", 
+                "value": ""
+            }
+        ]
+} 
