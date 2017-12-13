@@ -5,6 +5,7 @@ Analyze Python Code via clang's code coverage
 import subprocess
 import os
 import logging
+import sys
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -18,10 +19,10 @@ def test_executable(exe_name):
         os.environ, LLVM_PROFILE_FILE=raw_prof_file_name))
 
     merged_prof_file_name = exe_name + '.profdata'
-    subprocess.call(('/usr/bin/llvm-profdata-4.0 merge -sparse ' +
+    subprocess.call(('/usr/bin/llvm-profdata-3.8 merge ' +
                      raw_prof_file_name + ' -o ' + merged_prof_file_name).split())
 
-    report = subprocess.check_output(('llvm-cov-4.0 report ./' + exe_name + ' -instr-profile=' +
+    report = subprocess.check_output(('llvm-cov-3.8 report ./' + exe_name + ' -instr-profile=' +
                                       merged_prof_file_name).split()).decode()
 
     logging.info('Full test coverage report:\n\n' +
@@ -48,5 +49,4 @@ def test_executable(exe_name):
     return exit_code
 
 if __name__ == '__main__':
-    import sys
     sys.exit(test_executable(sys.argv[1]))
