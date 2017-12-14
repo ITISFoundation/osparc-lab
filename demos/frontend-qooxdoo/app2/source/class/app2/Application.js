@@ -26,6 +26,7 @@ qx.Class.define("app2.Application",
   members :
   {
     _model: null,
+    _socket: null,
     _availableServicesView: null,
     _switchThemeView: null,
     _settingsView: null,
@@ -68,17 +69,9 @@ qx.Class.define("app2.Application",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
 
-      /*
       // openning web socket
-      var ws = new app2.api.WebSocket();
-      //Connect with previous setted properties
-      ws.connect();
-
-      ws.emit("achannel", "hello");
-      ws.on("achannel", function(result) {
-        console.log(result);
-      }, this);
-      */
+      this._socket = new app2.api.WebSocket('app2');
+      this._socket.connect();
 
       var body = document.body;
       var html = document.documentElement;
@@ -101,16 +94,6 @@ qx.Class.define("app2.Application",
       }
 
       this._model = qx.data.marshal.Json.createModel(this._getInitialStore());
-      var availableServicesObj = this._getAvailableServices();
-      var availableServicesArr = [];
-      for (var key in availableServicesObj) {
-        if (!availableServicesObj.hasOwnProperty(key)) {
-          continue;
-        }
-        availableServicesArr.push(availableServicesObj[key]);
-      };
-      var availableServicesArrQx = new qx.data.Array(availableServicesArr);
-      this._model.setAvailableServices(availableServicesArrQx);
       var baseColor = this._model.getBaseColor();
 
       this._availableServicesView = new app2.ui.AvailableServicesView(
@@ -137,6 +120,19 @@ qx.Class.define("app2.Application",
         padding, servicesHeight + padding + halfHeight + padding, halfWidth - padding, halfHeight - padding,
         this._getStyle3(baseColor).color, this._getStyle3(baseColor).backgroundColor
       );
+
+      this._socket.addListener("connect", function() {
+        console.log("Connection stablished");
+
+        this._socket.emit("requestAvailableServices");
+        this._socket.on("availableServices", function(val) {
+          if (val.type === "availableServices") {
+            var availableServicesArrQx = new qx.data.Array(val.value);
+            this._model.setAvailableServices(availableServicesArrQx);
+            this._availableServicesView.RecreateButtons();
+          }
+        }, this);
+      }, this);
 
       this._availableServicesView.addListener("newServiceRequested", function(e) {
         this._newServiceRequested(e.getData());
@@ -166,203 +162,6 @@ qx.Class.define("app2.Application",
       this._availableServicesView.setModel(this._model);
       this._settingsView.setModel(this._model);
       this._workbenchView.setModel(this._model);
-    },
-
-    _getAvailableServices : function() {
-      /*
-      var payload = {};
-      var url = 'https://outbox.zurichmedtech.com/maiz/ServiceRegistry.json';
-      var req = new qx.io.remote.Request(url);
-      //req.setRequestHeader('Content-Type','application/json');
-      //req.setCrossDomain(true);
-      req.addListener("completed", function(e) {
-        console.log('completed');
-        var res = e.getContent();
-        console.log('getResponse', res);
-      }, this);
-      req.send();
-      */
-      // store/ServiceRegistry.json
-      var myList = {
-      	"00000-00000" : {
-      		"id": "00000-00000",
-      		"name": "single-cell",
-      		"text": "SingleCell",
-      		"tooltip": "Single Cell TT",
-      		"input": "none",
-      		"output": "folder",
-      		"settings": [
-          {
-            "name": "NaValue",
-            "text": "Na blocker drug concentration",
-            "type": "number",
-            "value": 10
-          },
-          {
-            "name": "KrValue",
-            "text": "Kr blocker drug concentration",
-            "type": "number",
-            "value": 10
-          },
-          {
-      		  "name": "BCLValue",
-            "text": "Basic cycle length (BCL)",
-            "type": "number",
-            "value": 10
-          },
-          {
-            "name": "beatsValue",
-            "text": "Number of beats",
-            "type": "number",
-            "value": 10
-          },
-          {
-            "name": "LigandValue",
-            "text": "Ligand concentration",
-            "type": "number",
-            "value": 10
-          },
-          {
-            "name": "cAMKIIValue",
-            "options": [
-              "A",
-              "B",
-              "C",
-              "D"
-            ],
-            "text": "Adjust cAMKII activity level",
-            "type": "select",
-            "value": 0
-          }
-          ]
-      	},
-      	"00000-00001" : {
-      		"id": "00000-00001",
-      		"name": "requestWhatInItalia",
-      		"text": "Italia",
-      		"tooltip": "You know what it does",
-      		"input": "none",
-      		"output": "bool",
-      		"settings": [
-      		{
-      			"name": "day",
-      			"text": "Day",
-      			"type": "number",
-      			"value": 0
-      		}
-      		]
-      	},
-      	"00000-00002" : {
-      		"id": "00000-00002",
-      		"name": "randomizer",
-      		"text": "Random",
-      		"tooltip": "Creates a random number in the given range",
-      		"input": "none",
-      		"output": "number",
-      		"settings": [
-      		{
-      			"name": "lowerLimit",
-      			"text": "Lower Limit",
-      			"type": "number",
-      			"value": 1
-      		},
-      		{
-      			"name": "upperLimit",
-      			"text": "Upper Limit",
-      			"type": "number",
-      			"value": 10
-      		}
-      		]
-      	},
-      	"00000-00003" : {
-      		"id": "00000-00003",
-      		"name": "adder",
-      		"text": "Adder",
-      		"tooltip": "Adds the value in the settings to the input",
-      		"input": "number",
-      		"output": "number",
-      		"settings": [
-      		{
-      			"name": "add",
-      			"text": "Add",
-      			"type": "number",
-      			"value": 5
-      		}
-      		]
-      	},
-      	"00000-00004" : {
-      		"id": "00000-00004",
-      		"name": "multiplier",
-      		"text": "Multiplier",
-      		"tooltip": "Multiplies the input by the value in the settings",
-      		"input": "number",
-      		"output": "number",
-      		"settings": [
-      		{
-      			"name": "multiply",
-      			"text": "Multiply by",
-      			"type": "number",
-      			"value": 2
-      		}
-      		]
-      	},
-      	"00000-00005" : {
-      		"id": "00000-00005",
-      		"name": "divider",
-      		"text": "Divider",
-      		"tooltip": "Divides the input by the value in the settings",
-      		"input": "number",
-      		"output": "number",
-      		"settings": [
-      		{
-      			"name": "divide",
-      			"text": "Divide by",
-      			"type": "number",
-      			"value": 2
-      		}
-      		]
-      	},
-      	"00000-00006" : {
-      		"id": "00000-00006",
-      		"name": "modeler",
-      		"text": "Modeler",
-      		"tooltip": "Provides 3D models",
-      		"input": "none",
-      		"output": "3D_model",
-      		"settings": [
-          {
-            "name": "3D_model_option",
-            "options": [
-              "Sphere",
-              "Body",
-              "Head"
-            ],
-            "text": "Add 3D model",
-            "type": "select",
-            "value": 0
-          },
-      		{
-      			"name": "scale",
-      			"text": "Scale",
-      			"type": "number",
-      			"value": 1
-      		},
-      		{
-      			"name": "add_transform",
-      			"text": "Add Transform Control",
-      			"type": "boolean",
-      			"value": 1
-      		},
-      		{
-      			"name": "clear_scene",
-      			"text": "Clear 3D view",
-      			"type": "boolean",
-      			"value": 0
-      		}
-      		]
-      	}
-      };
-      return myList;
     },
 
     _getInitialStore : function() {

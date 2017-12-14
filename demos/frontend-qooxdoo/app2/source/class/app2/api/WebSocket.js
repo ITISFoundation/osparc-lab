@@ -1,7 +1,8 @@
 /**
  * This class is a direct link with socket.io.
+ * @asset(resource/socket.io/*)
+ * @ignore(io)
  */
-var _PortUsed = 7001;
 
 qx.Class.define("app2.api.WebSocket", {
   extend: qx.core.Object,
@@ -31,18 +32,24 @@ qx.Class.define("app2.api.WebSocket", {
   },
 
   properties: {
+    libReady: {
+      nullable: false,
+      init: false,
+      check: "Boolean"
+    },
+
     /**
      * The url used to connect to socket.io
      */
     url: {
       nullable: false,
-      init: "http://" + window.location.hostname + "/",
+      init: "http://" + window.location.hostname,
       check: "String"
     },
     /** The port used to connect */
     port: {
       nullable: false,
-      init: _PortUsed,
+      init: 7001,
       check: "Number"
     },
     /** The namespace (socket.io namespace), can be empty */
@@ -87,37 +94,12 @@ qx.Class.define("app2.api.WebSocket", {
    * @param namespace {string ? null} The namespace to connect on
    */
   construct: function(namespace) {
-    console.log('namespace', namespace);
     this.base(arguments);
     // if (namespace !== null) {
     if (namespace) {
       this.setNamespace(namespace);
     }
     this.__name = [];
-
-
-    // initialize the script loading
-    var socket_io_path = "resource/socket.io/socket.io.js";
-    var dynLoader = new qx.util.DynamicScriptLoader([
-      socket_io_path
-    ]);
-
-    dynLoader.addListenerOnce('ready', function(e) {
-      console.log(socket_io_path + " loaded");
-
-      /*
-      //Connect with previous setted properties
-      this.connect();
-
-      this.emit("achannel", "hello");
-      this.on("achannel", function(result) {
-        console.log(result);
-      }, this);
-      */
-
-    }, this);
-
-    dynLoader.start();
   },
 
   members: {
@@ -128,49 +110,68 @@ qx.Class.define("app2.api.WebSocket", {
      * Trying to using socket.io to connect and plug every event from socket.io to qooxdoo one
      */
     connect: function() {
-      if (this.getSocket() != null) {
-        this.getSocket().removeAllListeners();
-        this.getSocket().disconnect();
-      }
-      this.setSocket(io.connect(this.getUrl() + this.getNamespace(), {
-        'port': this.getPort(),
-        'reconnect': this.getReconnect(),
-        'connect timeout': this.getConnectTimeout(),
-        'reconnection delay': this.getReconnectionDelay(),
-        'max reconnection attempts': this.getMaxReconnectionAttemps(),
-        'force new connection': true
-      }));
 
-      this.on("connect", function() {
-        this.fireEvent("connect");
+      // initialize the script loading
+      var socket_io_path = "resource/socket.io/socket.io.js";
+      var dynLoader = new qx.util.DynamicScriptLoader([
+        socket_io_path
+      ]);
+
+      dynLoader.addListenerOnce('ready', function(e) {
+        console.log(socket_io_path + " loaded");
+        this.setLibReady(true);
+
+
+        if (this.getSocket() != null) {
+          this.getSocket().removeAllListeners();
+          this.getSocket().disconnect();
+        }
+
+        var dir = this.getUrl() + ':' + this.getPort();
+        console.log('socket in', dir);
+        var mySocket = io.connect(dir, {
+          'port': this.getPort(),
+          'reconnect': this.getReconnect(),
+          'connect timeout': this.getConnectTimeout(),
+          'reconnection delay': this.getReconnectionDelay(),
+          'max reconnection attempts': this.getMaxReconnectionAttemps(),
+          'force new connection': true
+        });
+        this.setSocket(mySocket);
+
+        this.on("connect", function() {
+          this.fireEvent("connect");
+        }, this);
+        this.on("connecting", function(e) {
+          this.fireDataEvent("connecting", e);
+        }, this);
+        this.on("connect_failed", function() {
+          this.fireEvent("connect_failed");
+        }, this);
+        this.on("message", function(e) {
+          this.fireDataEvent("message", e);
+        }, this);
+        this.on("close", function(e) {
+          this.fireDataEvent("close", e);
+        }, this);
+        this.on("disconnect", function() {
+          this.fireEvent("disconnect");
+        }, this);
+        this.on("reconnect", function(e) {
+          this.fireDataEvent("reconnect", e);
+        }, this);
+        this.on("reconnecting", function(e) {
+          this.fireDataEvent("reconnecting", e);
+        }, this);
+        this.on("reconnect_failed", function() {
+          this.fireEvent("reconnect_failed");
+        }, this);
+        this.on("error", function(e) {
+          this.fireDataEvent("error", e);
+        }, this);
       }, this);
-      this.on("connecting", function(e) {
-        this.fireDataEvent("connecting", e);
-      }, this);
-      this.on("connect_failed", function() {
-        this.fireEvent("connect_failed");
-      }, this);
-      this.on("message", function(e) {
-        this.fireDataEvent("message", e);
-      }, this);
-      this.on("close", function(e) {
-        this.fireDataEvent("close", e);
-      }, this);
-      this.on("disconnect", function() {
-        this.fireEvent("disconnect");
-      }, this);
-      this.on("reconnect", function(e) {
-        this.fireDataEvent("reconnect", e);
-      }, this);
-      this.on("reconnecting", function(e) {
-        this.fireDataEvent("reconnecting", e);
-      }, this);
-      this.on("reconnect_failed", function() {
-        this.fireEvent("reconnect_failed");
-      }, this);
-      this.on("error", function(e) {
-        this.fireDataEvent("error", e);
-      }, this);
+
+      dynLoader.start();
     },
 
     /**
@@ -180,6 +181,7 @@ qx.Class.define("app2.api.WebSocket", {
      * @param jsonObject {object} The JSON object to send to socket.io as parameters
      */
     emit: function(name, jsonObject) {
+      console.log("emit", name);
       this.getSocket().emit(name, jsonObject);
     },
 
