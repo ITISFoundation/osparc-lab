@@ -60,7 +60,7 @@ function getServices(client) {
     })
   } else {
     console.log('asking director');
-    var url = 'https://outbox.zurichmedtech.com/maiz/ServiceRegistry.json';
+    var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/ServiceRegistry.json';
     https.get(url, function(res){
       var json = '';
 
