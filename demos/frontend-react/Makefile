@@ -6,7 +6,7 @@ IMAGENAME = itisfoundation/sandbox:frontend-react
 
 # Use container as nodejs installation mapped to the application
 node:
-	docker run -it --rm -v ${CURRDIR}/app:/home/node/app -w /home/node/app -p 6002:6002 -p 6001:6001 node:8.9.2 bash
+	docker run -it --rm -v ${CURRDIR}/app:/home/node/app -w /home/node/app -p 6002:6002 -p 6001:6001 --dns 172.16.8.15 node:8.9.2 bash
 
 
 # Builds a production image of this application
@@ -14,7 +14,7 @@ build:
 	docker build -t ${IMAGENAME} ./app
 
 run:
-	docker run -idt --rm -p 6002:6002 -p 6001:6001 --name react-demo ${IMAGENAME}
+	docker run -idt --rm ${CURRDIR}/app:/home/node/app -w /home/node/app -p 6002:6002 -p 6001:6001 --dns 172.16.8.15 --name react-demo ${IMAGENAME}
 
 
 
