@@ -13,7 +13,7 @@ class ServiceSettings extends Component {
 
     this.state = {
       visible: 'visible',
-      width: 320,
+      width: 400,
       height: 400,
       x: 20,
       y: 20
@@ -80,7 +80,7 @@ class ServiceSettings extends Component {
     let sets = this.createSettingsFormUI();
     if (sets.length > 0) {
       form =
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form onSubmit={this.handleSubmit.bind(this)} style={{textAlign: 'left'}}>
           {sets}
           <br />
           <input type="submit" value="Submit" style={{color: 'black'}}/>

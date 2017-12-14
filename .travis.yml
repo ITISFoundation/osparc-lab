@@ -5,7 +5,20 @@ language: python
 python:
   - "3.6"
 
+addons:
+  apt:
+    packages:
+    - pylint
+
+# configure and buid
+install:
+  - mkdir _bin
+  - cd _bin
+  - cmake ..
+  - make -j4
+  - cd ..
+
 # command to run tests
 script:
-  - python ./tools/TestDemosFileStructure.py
+  - cd _bin && ctest --parallel 1 -V && cd ..
 
