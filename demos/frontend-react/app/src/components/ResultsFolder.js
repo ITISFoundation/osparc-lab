@@ -14,7 +14,7 @@ class ResultsFolder extends Component {
       visible: 'visible',
       width: 320,
       height: 400,
-      x: 360,
+      x: 430,
       y: 20
     };
 

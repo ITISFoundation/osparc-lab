@@ -1,10 +1,12 @@
-import sys, os
+import sys
+import os
 from optparse import OptionParser
 import docker
 import json
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-path,folder_name = os.path.split(dir_path)
+path, folder_name = os.path.split(dir_path)
+
 
 def main(argv):
     parser = OptionParser()
@@ -28,21 +30,21 @@ def main(argv):
     namespace = ""
     image_name = ""
     version = ""
-    
+
     _settings = {}
     _input = {}
     _output = {}
-    
+
     labels = {}
     for f in ["settings", "input", "output"]:
-        json_file = ''.join((f,".json"))
+        json_file = ''.join((f, ".json"))
         try:
             with open(json_file) as json_data:
                 label_dict = json.load(json_data)
-                labels["io.simcore."+f] = str(label_dict[f])
+                labels["io.simcore." + f] = str(label_dict[f])
         except:
-            labels["io.simcore."+f] = ""
-   
+            labels["io.simcore." + f] = ""
+
     tag = ''
     if options.registry:
         tag = options.registry + "/"
@@ -57,4 +59,3 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-
