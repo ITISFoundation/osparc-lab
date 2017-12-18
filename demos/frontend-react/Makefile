@@ -14,7 +14,7 @@ build:
 	docker build -t ${IMAGENAME} ./app
 
 run:
-	docker run -idt --rm ${CURRDIR}/app:/home/node/app -w /home/node/app -p 6002:6002 -p 6001:6001 --dns 172.16.8.15 --name react-demo ${IMAGENAME}
+	docker run -idt --rm -v ${CURRDIR}/app:/home/node/app -w /home/node/app -p 6002:6002 -p 6001:6001 --dns 172.16.8.15 --name react-demo ${IMAGENAME}
 
 
 
