@@ -4,6 +4,7 @@
 const express = require('express');
 const app = express();
 var server = require('http').createServer(app);
+var https = require('https');
 
 const port = 7001;
 
@@ -32,8 +33,8 @@ io.on('connection', function(client) {
 
 
 function getServices(client) {
-  var url = 'https://outbox.zurichmedtech.com/maiz/ServiceRegistry.json';
-  var https = require('https');
+  console.log('requestAvailableServices');
+  var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/ServiceRegistry.json';
   https.get(url, function(res) {
     var json = '';
 
