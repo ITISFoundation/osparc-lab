@@ -1,0 +1,14 @@
+{
+	"input": [
+            {
+                "name": "N", 
+                "value": 10 ,
+                "type" : "int"
+            }, 
+            {
+                "name": "inputfile", 
+                "url": "https://outbox.itis.ethz.ch/guidon/whassup.txt",
+                "type" : "url"
+            }
+        ] 
+}

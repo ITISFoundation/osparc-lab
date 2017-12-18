@@ -1,0 +1,7 @@
+#!/bin/bash
+arg1=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmin") .value')
+arg2=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmax") .value')
+arg3=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="N") .value')
+echo $arg1 > $INPUT_FOLDER/input
+echo $arg2 >> $INPUT_FOLDER/input
+echo $arg3 >> $INPUT_FOLDER/input

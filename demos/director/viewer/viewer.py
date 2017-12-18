@@ -9,33 +9,34 @@ import plotly
 
 app = Flask(__name__)
 
+
 def create_graphs(raw_data):
     graphs = [
-#        dict(
-#            data=[
-#                dict(
-#                    x=raw_data[0][0],
-#                    y=raw_data[0][1],
-#                    type='scatter'
-#                ),
-#            ],
-#            layout=dict(
-#                title='scatter plot'
-#            )
-#        ),
-#
-#        dict(
-#            data=[
-#                dict(
-#                    x=raw_data[1][0],
-#                    y=raw_data[1][1],
-#                    type='bar'
-#                ),
-#            ],
-#            layout=dict(
-#                title='histogram'
-#            )
-#        ),
+        #        dict(
+        #            data=[
+        #                dict(
+        #                    x=raw_data[0][0],
+        #                    y=raw_data[0][1],
+        #                    type='scatter'
+        #                ),
+        #            ],
+        #            layout=dict(
+        #                title='scatter plot'
+        #            )
+        #        ),
+        #
+        #        dict(
+        #            data=[
+        #                dict(
+        #                    x=raw_data[1][0],
+        #                    y=raw_data[1][1],
+        #                    type='bar'
+        #                ),
+        #            ],
+        #            layout=dict(
+        #                title='histogram'
+        #            )
+        #        ),
 
         dict(
             data=[
@@ -51,6 +52,7 @@ def create_graphs(raw_data):
 
     return graphs
 
+
 @app.route("/plot_rest", methods=['GET'])
 def plot_rest():
     try:
@@ -61,7 +63,6 @@ def plot_rest():
     data = jdata.json()
 
     graphs = create_graphs(data)
-
 
     # Add "ids" to each of the graphs to pass up to the client
     # for templating
@@ -75,6 +76,7 @@ def plot_rest():
     return render_template('layouts/index.html',
                            ids=ids,
                            graphJSON=graphJSON)
+
 
 @app.route("/plot_db", methods=['GET'])
 def plot_db():
@@ -93,7 +95,6 @@ def plot_db():
 
     graphs = create_graphs(data)
 
-
     # Add "ids" to each of the graphs to pass up to the client
     # for templating
     ids = ['graph-{}'.format(i) for i, _ in enumerate(graphs)]
@@ -107,6 +108,7 @@ def plot_db():
                            ids=ids,
                            graphJSON=graphJSON)
 
+
 @app.route("/plot_mongo", methods=['GET'])
 def plot_mongo():
     try:
@@ -119,14 +121,13 @@ def plot_mongo():
 
     db = db_client.test_data
     posts = db.posts
-    plot_data = posts.find_one({"_id" : post_id})
+    plot_data = posts.find_one({"_id": post_id})
 
     data = []
     for k in plot_data.keys():
         data.append(plot_data[k])
 
     graphs = create_graphs(data)
-
 
     # Add "ids" to each of the graphs to pass up to the client
     # for templating
