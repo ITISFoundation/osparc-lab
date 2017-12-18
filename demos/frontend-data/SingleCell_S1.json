@@ -1,70 +1,70 @@
 {
-	'path': 'https://github.com/odeimaiz/oSPARC_Test/tree/master/demos/frontend-data/SingleCell_S1',
-	'name': 'SingleCell_S1',
-	'type': 'folder',
-	'children': [{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/INa.png',
-		'name': 'INa.png',
-		'type': 'file'
+	path: 'https://github.com/odeimaiz/oSPARC_Test/tree/master/demos/frontend-data/SingleCell_S1',
+	name: 'SingleCell_S1',
+	type: 'folder',
+	children: [{
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/INa.png',
+		name: 'INa.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/Ito.png',
-		'name': 'Ito.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/Ito.png',
+		name: 'Ito.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/vm.png',
-		'name': 'vm.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/vm.png',
+		name: 'vm.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/IKr_IK1.png',
-		'name': 'IKr_IK1.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/IKr_IK1.png',
+		name: 'IKr_IK1.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/Na.png',
-		'name': 'Na.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/Na.png',
+		name: 'Na.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/ICa.png',
-		'name': 'ICa.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/ICa.png',
+		name: 'ICa.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/Cai.png',
-		'name': 'Cai.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/Cai.png',
+		name: 'Cai.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/RyR.png',
-		'name': 'RyR.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/RyR.png',
+		name: 'RyR.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/IKs_ICFTR.png',
-		'name': 'IKs_ICFTR.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/IKs_ICFTR.png',
+		name: 'IKs_ICFTR.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/I_NCX.png',
-		'name': 'I_NCX.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/I_NCX.png',
+		name: 'I_NCX.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/CaSRT_Caj.png',
-		'name': 'CaSRT_Caj.png',
-		'type': 'file'
+		path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/CaSRT_Caj.png',
+		name: 'CaSRT_Caj.png',
+		type: 'file'
 	},
 	{
-		'path': 'https://github.com/odeimaiz/oSPARC_Test/tree/master/demos/frontend-data/SingleCell_S1/raw_data',
-		'name': 'raw_data',
-		'type': 'folder',
-		'children': [{
-			'path': 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/raw_data/SampleFile.csv',
-			'name': 'SampleFile.csv',
-			'type': 'file'
+		path: 'https://github.com/odeimaiz/oSPARC_Test/tree/master/demos/frontend-data/SingleCell_S1/raw_data',
+		name: 'raw_data',
+		type: 'folder',
+		children: [{
+			path: 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/SingleCell_S1/raw_data/SampleFile.csv',
+			name: 'SampleFile.csv',
+			type: 'file'
 		}]
 	}]
 }
