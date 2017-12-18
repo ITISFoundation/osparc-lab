@@ -48,54 +48,41 @@ const HOST = process.env.HOST || '0.0.0.0';
 
 function getServices(client) {
   console.log('requestAvailableServices');
-  let local_file = false;
-  if (local_file) {
-    console.log('locally');
-    var serviceManager = require('../src/ServiceManager');
-    var myServices = new serviceManager();
-    var availableServices = myServices.getAvailableServices();
-    client.emit('availableServices', {
-        type:'availableServices',
-        value: availableServices
-    })
-  } else {
-    console.log('asking director');
-    var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/ServiceRegistry.json';
-    https.get(url, function(res){
-      var json = '';
+  var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/ServiceRegistry.json';
+  https.get(url, function(res) {
+    var json = '';
 
-      res.on('data', function(chunk){
-          json += chunk;
-      });
-
-      res.on('end', function(){
-        if (res.statusCode === 200) {
-          try {
-            var availableServicesJson = JSON.parse(json);
-            var availableServices = [];
-            console.log('Found', Object.keys(availableServicesJson).length, ':');
-            for (var key in availableServicesJson) {
-              if (!availableServicesJson.hasOwnProperty(key)) {
-                continue;
-              }
-              console.log(availableServicesJson[key].text);
-              availableServices.push(availableServicesJson[key]);
-            };
-            client.emit('availableServices', {
-                type:'availableServices',
-                value: availableServices
-            })
-          } catch (e) {
-            console.log('Error parsing JSON!');
-          }
-        } else {
-            console.log('Status:', res.statusCode);
-        }
-      });
-    }).on('error', function(e){
-      console.log("Got an error: ", e);
+    res.on('data', function(chunk) {
+      json += chunk;
     });
-  }
+
+    res.on('end', function() {
+      if (res.statusCode === 200) {
+        try {
+          var availableServicesJson = JSON.parse(json);
+          var availableServices = [];
+          console.log('Found', Object.keys(availableServicesJson).length, ':');
+          for (var key in availableServicesJson) {
+            if (!availableServicesJson.hasOwnProperty(key)) {
+              continue;
+            }
+            console.log(availableServicesJson[key].text);
+            availableServices.push(availableServicesJson[key]);
+          };
+          client.emit('availableServices', {
+            type: 'availableServices',
+            value: availableServices
+          })
+        } catch (e) {
+          console.log('Error parsing JSON!');
+        }
+      } else {
+        console.log('Status:', res.statusCode);
+      }
+    });
+  }).on('error', function(e) {
+    console.log("Got an error: ", e);
+  });
 };
 
 function checkItaliaMenu(service, client) {
