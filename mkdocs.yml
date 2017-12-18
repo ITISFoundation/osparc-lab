@@ -1,0 +1,12 @@
+site_name: D1.1 Technology Review & Technical Specs.
+pages:
+  - Home: 'd1.1-techreview/index.md'
+  - Objectives: 'd1.1-techreview/objectives.md'
+  - Methodology: 'd1.1-techreview/methodology.md'
+  - Results:
+    - 'Front-end': 'd1.1-techreview/parts/client-side.md'
+    - 'Web-server': 'd1.1-techreview/parts/server-side.md'
+    - 'Communication models': 'd1.1-techreview/parts/communication.md'
+    - 'Computational services': 'd1.1-techreview/parts/comp-services.md'
+  - Conclusions: 'd1.1-techreview/conclusion.md'
+theme: readthedocs
