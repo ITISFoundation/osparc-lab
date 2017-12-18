@@ -160,26 +160,35 @@ function dirTree(filename) {
 
 function computeOutputData(service, uniqueName, client) {
   console.log('computeOutputData', service);
-  if (service.name === 'requestWhatInItalia')
-  {
+  if (service.name === 'requestWhatInItalia') {
     checkItaliaMenu(service, client);
-  }
-  else if (service.name === 'randomizer')
-  {
+  } else if (service.name === 'randomizer') {
     calculateRandomValue(service, client);
-  }
-  else if (service.name === 'single-cell')
-  {
-    var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
-    var outputDataStructure = dirTree(localDir);
-    client.emit('outputDataStructure', {
-        type:'outputDataStructure',
-        value: outputDataStructure,
-        jobId: uniqueName
-    });
-  }
-  else
-  {
+  } else if (service.name === 'single-cell') {
+    if (uniqueName === 'SingleCell_S1' || uniqueName === 'SingleCell_S2') {
+      var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/' + uniqueName + '.json';
+      https.get(url, function(res) {
+        var json = '';
+
+        res.on('data', function(chunk) {
+          json += chunk;
+        });
+
+        res.on('end', function() {
+          if (res.statusCode === 200) {
+            // var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
+            // var outputDataStructure = dirTree(localDir);
+            var outputDataStructure = JSON.parse(json);
+            client.emit('outputDataStructure', {
+              type: 'outputDataStructure',
+              value: outputDataStructure,
+              jobId: uniqueName
+            });
+          }
+        });
+      });
+    }
+  } else {
     console.log('Request should be sent to the director');
   }
 }
@@ -192,6 +201,8 @@ function readUrlContent(url, client) {
     if (!error && response.statusCode == 200) {
       console.log('readUrlContentRes', body);
       client.emit('readUrlContentRes', body);
+    } else {
+      console.log('error readUrlContentRes', error);
     }
   });
 }
