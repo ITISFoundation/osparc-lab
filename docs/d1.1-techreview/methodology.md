@@ -1,4 +1,4 @@
-## Pre-selection
+## Pre-selection of technologies
 
 This evaluation started with a pre-selection of technologies (i.e. libraries, framework, toolkits, models, ...) for different components of the oSPARC platform, namely the front-end (client-side), the web back-end (server-side), the communication models and the computational services.
 
@@ -9,16 +9,6 @@ The criteria used for the pre-selection consisted of mainly three factors:
 - **Productivity**: we believe that productivity can be achieved with the combination of a suitable framework (e.g. complete, easy-to-use, and sustainable), the effectiveness reusing existing functionality and the previous experience of the team on a specific technology. For that reason, the pre-selection should incorporate options that combine both novel as well as already established programming paradigms (e.g. languages, design-patterns or even specific frameworks).
 
 
-## Review
-After the pre-selection of technologies, the review adopts a more practical approach. Every group of technologies are evaluated implementing a s
+## Review process
 
-implements demos
-resembles a practical case necessary for the framework.
-For instance, the front-end  .
-
-
-TODO
-
-## Recommendations
-TODO: part 3. recommendations: which remain and why (e.g. under given circumstances) and which are discarded
-For third party
+After the pre-selection of technologies, the review adopts a more practical approach. Every group of technologies are tested within a given context defined in a user story. This approach is adopted gradually from more simple to more realistic scenarios, resulting collection of demos that are [published the project repository](https://github.com/ITISFoundation/osparc-lab/tree/master/demos). Among all demos, there are three [prototypes](parts/demos.md) that combines different technologies within the full-stack and covers realistic scenarios expected in the final platform. The specifics of each review are documented in place, next to its correspond demo. Nonetheless, for the sake of clarity we provide a summarize version together with the final recommendations in the [results](results.md) section.
