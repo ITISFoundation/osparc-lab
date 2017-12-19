@@ -31,11 +31,16 @@ class CommandLine:
     def configure(self, compiler_str):
         '''Configure cmake with the passed compile'''
         # first kill any existing configuration
-        if os.path.exists('CMakeCache.txt'):
-            os.remove('CMakeCache.txt')
-            shutil.rmtree('_bin' )
         subprocess.check_call(('ls -al '+os.getcwd()).split())
-        logging.info('reconfiguring ...')
+        cache_file = 'CMakeCache.txt'
+        if os.path.exists(cache_file):
+            logging.info('Deleting configured old files ...')
+            for item in os.listdir():
+                if os.path.isdir(item):
+                    shutil.rmtree(item)
+                if os.path.isfile(item):
+                    os.remove(item)
+        #subprocess.check_call(('ls -al '+os.getcwd()).split())
 
         cc = '/usr/bin/' + compiler_str
         cxx = '/usr/bin/' + compiler_str + '++'
@@ -95,7 +100,8 @@ def main():
         # change owner ship
         if os.path.exists('/build'):
             logging.info('Fixing ownership in /build')
-            subprocess.call('chown -R `stat -c "%u:%g" /build` /build'.split())
+            owner_ids = subprocess.check_output( 'stat -c "%u:%g" /build'.split()).decode().replace('"','')
+            subprocess.call(('chown -R ' + owner_ids + ' /build').split())
     return exit_code
 
 if __name__=='__main__':
