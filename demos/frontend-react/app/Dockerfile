@@ -6,23 +6,17 @@ FROM node:8.9.2
 # The base node image sets a very verbose log level.
 ENV NPM_CONFIG_LOGLEVEL warn
 
-# Install `serve` to run the application.
-RUN npm install -g serve
-# Set the command to start the node server.
-CMD serve -s build --port 6001
 # Tell Docker about the port we'll run on.
 EXPOSE 6001
 
 WORKDIR /home/node/app/
 
-# creates node_modules
+# Creates node_modules.
 COPY package.json package.json
-COPY yarn.lock yarn.lock
-#COPY npm-shrinkwrap.json npm-shrinkwrap.json
 RUN npm install --no-bin-links
 
-# Copy all local files into the image.
+# Copy all local (but the ones in .dockerignore) files into the image.
 COPY . .
 
 # Build for production.
-RUN npm run build --production
+#RUN npm run build --production
