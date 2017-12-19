@@ -26,7 +26,7 @@ https://github.com/qooxdoo/qooxdoo-cli
 - Development setup is done *by hand*  running directly a *nodejs* image and setting up the react project using the container's bash
 ```bash
  cd frontend-qooxdoo
- sudo docker run -it --rm -v $(pwd)/app2:/home/node/app2 -w /home/node/app2 -p 7001:7001 --dns 172.16.8.15 node:8.9.2 bash
+ sudo docker run -it --rm -v $(pwd)/app:/home/node/app -w /home/node/app -p 7001:7001 --dns 172.16.8.15 node:8.9.2 bash
 
  # now in container's bash
  qx compile

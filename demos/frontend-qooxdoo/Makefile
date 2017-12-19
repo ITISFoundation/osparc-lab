@@ -6,12 +6,12 @@ IMAGENAME = itisfoundation/sandbox:frontend-qooxdoo
 
 # Use container as nodejs installation mapped to the application
 node:
-	docker run -it --rm -v ${CURRDIR}/app2:/home/node/app2 -w /home/node/app2 -p 7001:7001 --dns 172.16.8.15 node:8.9.2 bash
+	docker run -it --rm -v ${CURRDIR}/app:/home/node/app -w /home/node/app -p 7001:7001 --dns 172.16.8.15 node:8.9.2 bash
 
 
 # Builds a production image of this application
 build:
-	docker build -t ${IMAGENAME} ./app2
+	docker build -t ${IMAGENAME} ./app
 
 run:
 	docker run -idt --rm -p 7001:7001 --dns 172.16.8.15 --name qooxdoo-demo ${IMAGENAME}
@@ -19,7 +19,7 @@ run:
 
 
 demo: build run
-	open http:/localhost:7001/app2
+	open http:/localhost:7001/app
 
 stop:
 	docker stop qooxdoo-demo
