@@ -71,4 +71,4 @@ function getServices(client) {
   });
 };
 
-console.log("server started on port " + port);
+console.log("server started on " + port + '/app2');
