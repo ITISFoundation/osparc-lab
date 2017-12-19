@@ -16,7 +16,7 @@ TODO: 3D with three.js
 #### Summary
 
 This is a comparative table with the pre-selected framework and some key-points
-| | Vue | React | Qooxdoo |
+|   | Vue | React | Qooxdoo |
 |---|---|---|---|
 |  **License**   | MIT licensed | MIT licensed | MIT licensed |
 | **Popularity** | <ul><li>Released in 2014</li><li>75000 stars in Github</li><li>12000 questions in Stack overflow</li></ul> | <ul><li>Released in 2013</li><li>83000 stars in Github</li><li>65000 questions in Stack overflow</li></ul> | <ul><li>Released in 2009</li><li>600 stars in Github</li><li>1000 questions in Stack overflow</li></ul> |

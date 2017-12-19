@@ -1,6 +1,6 @@
 ## Executive Summary
 
-TODO : ...
+TODO : ... 
 
 ### Table of Contents
   1. [Objectives](objectives.md)
@@ -10,4 +10,5 @@ TODO : ...
     - [Web-server](parts/server-side.md)
     - [Communication models](parts/communication.md)
     - [Computational services](parts/comp-services.md)
+    - [Main Demonstrators](parts/demos.md)
   1. [Conclusions](conclusion.md)
