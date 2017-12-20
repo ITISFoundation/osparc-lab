@@ -24,9 +24,9 @@ RUN cd /tmp \
     && wget https://github.com/emweb/wt/archive/${WT_VERSION}.tar.gz \
     && tar xf ${WT_VERSION}.tar.gz \
     && cd /tmp/${WT_NAME} && mkdir build && cd build \
-    && cmake
-      \DCMAKE_INSTALL_PREFIX=/usr/local/${WT_NAME} \
-      \DCMAKE_BUILD_EXAMPLES=OFF \
+    && cmake \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/${WT_NAME} \
+      -DCMAKE_BUILD_EXAMPLES=OFF \
       ../ \
     && make -j4 \
     && make install \
