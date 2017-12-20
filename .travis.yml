@@ -8,6 +8,8 @@ addons:
     packages:
     - pylint
 
+services:
+  - docker
 
 # configure and buid
 install:
