@@ -9,10 +9,10 @@ logging.getLogger().setLevel(logging.INFO)
 
 def build_image_name():
     '''the docker image name for the building container'''
-    return "itis_foundation/build_cpp_env"
+    return "itisfoundation/build_cpp_env"
 def deploy_image_name():
     '''the docker image name for the building container'''
-    return "itis_foundation/demo_cpp_ci"
+    return "itisfoundation/demo_cpp_ci"
 def image_name_option():
     '''the magic command line option to separate in a docker run the outside and inside commands'''
     return 'IMAGE_NAME'
