@@ -1,4 +1,4 @@
-SET( MY_TARGET_NAME ClangTest )
+SET( MY_TARGET_NAME CppCiTest )
 
 SET( SOURCE_FILES 
     Main.cpp
@@ -13,7 +13,7 @@ TARGET_LINK_LIBRARIES( ${MY_TARGET_NAME} ${LINK_LIBRARIES} )
 
 
 IF (USING_CLANG)
-    ADD_TEST( NAME CodeCoverage 
+    ADD_TEST( NAME CodeCoverage${MY_TARGET_NAME}
         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
         COMMAND python3 ${CMAKE_SOURCE_DIR}/../../tools/AnalyzeCodeCoverage.py ${MY_TARGET_NAME} 
     )

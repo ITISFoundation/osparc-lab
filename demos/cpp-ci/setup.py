@@ -65,7 +65,7 @@ class CommandLine:
             subprocess.check_call(('docker build -f ' + docker_file + ' -t ' + build_image_name() + ' ' + docker_file_dir).split())
         if do_all:
             logging.info('Running deploy docker image')
-            run_build_image( [], ('python3 /source/demos/CppCiTests/build.py --all').split(), build_dir)
+            run_build_image( [], ('python3 /source/demos/cpp-ci/build.py --all').split(), build_dir)
         if self.__args.create_deploy_image or do_all:
             logging.info('Create deploy image')
             docker_file = os.path.join(this_script_folder(), 'deploy.dockerfile')

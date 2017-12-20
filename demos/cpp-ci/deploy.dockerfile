@@ -4,4 +4,4 @@ WORKDIR /usr/local/bin/itis_foundation/demo_cpp_ci
 
 COPY . .
 
-CMD ["./ClangTest"]
+CMD ["./CppCiTest"]
