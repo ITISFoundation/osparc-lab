@@ -20,10 +20,12 @@ def test_executable(exe_name):
 
     merged_prof_file_name = exe_name + '.profdata'
     subprocess.call(('/usr/bin/llvm-profdata-3.8 merge ' +
-                     raw_prof_file_name + ' -o ' + merged_prof_file_name).split())
+                     raw_prof_file_name + ' -o ' + merged_prof_file_name
+                    ).split())
 
-    report = subprocess.check_output(('llvm-cov report ./' + exe_name + ' -instr-profile=' +
-                                      merged_prof_file_name).split()).decode()
+    report = subprocess.check_output(('llvm-cov report ./' + exe_name +
+                                      ' -instr-profile=' + merged_prof_file_name
+                                     ).split()).decode()
 
     logging.info('Full test coverage report:\n\n' +
                  report + '\n\nPlausibility checks follow:\n')

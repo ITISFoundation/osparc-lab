@@ -31,7 +31,6 @@ class CommandLine:
     def configure(self, compiler_str):
         '''Configure cmake with the passed compile'''
         # first kill any existing configuration
-        subprocess.check_call(('ls -al '+os.getcwd()).split())
         cache_file = 'CMakeCache.txt'
         if os.path.exists(cache_file):
             logging.info('Deleting configured old files ...')
@@ -40,7 +39,6 @@ class CommandLine:
                     shutil.rmtree(item)
                 if os.path.isfile(item):
                     os.remove(item)
-        #subprocess.check_call(('ls -al '+os.getcwd()).split())
 
         cc = '/usr/bin/' + compiler_str
         cxx = '/usr/bin/' + compiler_str + '++'
