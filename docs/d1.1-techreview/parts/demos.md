@@ -1,11 +1,10 @@
 
-### Prototypes and Proof-of-Concept
+## Prototypes
 All prototypes and proof-of-concepts created during the review process can be found under the [demos folder](https://github.com/ITISFoundation/osparc-lab/tree/master/demos) in the GitHub repository. Every subfolder
 contains a sample program that demonstrates a technology and/or a programming concept. More details about each case is documented in place.
 
-### Demonstrators
-In order to demonstrate the different technologies in a wider context, we have designed three user stories that covers
-front to back the entire platform.
+## Demonstrators
+In order to demonstrate the different technologies in a wider context, we have designed three user stories that covers front to back the entire platform.
 
 ![image-demo1](../img/demo1.jpeg)
 The first prototype demonstrates a web-application with dynamic content. The client-side implements GUIs with similar features in three different technologies and the server-side demonstrates different frameworks to serve these apps. All three front-ends demonstrate a 3D viewer, a workbench to schedule task pipelines, a dynamic display of the settings for a given computational service (embedded in service meta-data) and several viewers for results (e.g. 2D plots, tables, etc).

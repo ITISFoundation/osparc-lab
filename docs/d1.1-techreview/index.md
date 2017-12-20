@@ -1,6 +1,6 @@
 ## Executive Summary
 
-TODO : ... 
+TODO : ...
 
 ### Table of Contents
   1. [Objectives](objectives.md)
