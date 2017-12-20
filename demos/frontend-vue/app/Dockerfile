@@ -13,7 +13,8 @@ WORKDIR /home/node/app/
 
 # Creates node_modules.
 COPY package.json package.json
-RUN npm install --no-bin-links
+# RUN npm install --no-bin-links
+RUN npm install
 
 # Copy all local (but the ones in .dockerignore) files into the image.
 COPY . .
