@@ -50,7 +50,7 @@ import EventBus from './components/event-bus'
 // import { addAvailableService, getAvailableServices } from './components/ServiceManager'
 
 Vue.use(BootstrapVue)
-Vue.use(VueSocketio, 'http://172.16.9.47:5001')
+Vue.use(VueSocketio, 'http://localhost:5001')
 
 export default {
   name: 'app',
