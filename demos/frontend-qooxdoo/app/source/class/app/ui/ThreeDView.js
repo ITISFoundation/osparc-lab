@@ -2,7 +2,7 @@
  * @asset(resource/three/*)
  * @ignore(THREE)
  */
- qx.Class.define("app2.ui.ThreeDView",
+ qx.Class.define("app.ui.ThreeDView",
 {
   extend: qx.ui.window.Window,
 

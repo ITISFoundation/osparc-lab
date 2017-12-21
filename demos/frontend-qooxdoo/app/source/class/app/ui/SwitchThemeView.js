@@ -1,4 +1,4 @@
-qx.Class.define("app2.ui.SwitchThemeView",
+qx.Class.define("app.ui.SwitchThemeView",
 {
   extend: qx.ui.container.Composite,
 
