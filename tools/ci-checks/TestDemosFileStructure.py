@@ -81,8 +81,9 @@ def test_file_structure():
 
             # Makefile checks
             if not os.path.exists(os.path.join(folder, 'Makefile')):
-                all_fine.error(
-                    'File "Makefile" does not exist (case sensitive!)')
+                if not os.path.exists(os.path.join(folder, 'CMakeLists.txt')):
+                    all_fine.error(
+                        'File "Makefile" does not exist (case sensitive!)')
             else:
                 check_makefile(folder, all_fine)
 
