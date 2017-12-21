@@ -1,0 +1,14 @@
+.git
+.vs
+build
+obj
+BuildEnv
+dockerfiles
+obj
+packages
+.git*
+
+# Visual-studio
+*.props
+*.sln
+*.vcxproj.filters

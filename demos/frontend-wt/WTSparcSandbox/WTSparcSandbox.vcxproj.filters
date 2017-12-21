@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Login">
+      <UniqueIdentifier>{fb0bdc1d-f3de-484e-8531-28e503237bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Login\model">
+      <UniqueIdentifier>{a981c143-f15e-41db-9fdb-52f7977884ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wwwroot">
+      <UniqueIdentifier>{d105fedb-2419-4832-a9cd-4d2cfee2acb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bindir">
+      <UniqueIdentifier>{ea978565-9404-49bc-adf0-dce0dffafb01}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WTSparcSandbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="login\QRAuth.cpp">
+      <Filter>Login</Filter>
+    </ClCompile>
+    <ClCompile Include="login\QRAuthWidget.cpp">
+      <Filter>Login</Filter>
+    </ClCompile>
+    <ClCompile Include="login\model\QRAuthService.cpp">
+      <Filter>Login\model</Filter>
+    </ClCompile>
+    <ClCompile Include="login\model\QRTokenDatabase.cpp">
+      <Filter>Login\model</Filter>
+    </ClCompile>
+    <ClCompile Include="login\model\Session.cpp">
+      <Filter>Login\model</Filter>
+    </ClCompile>
+    <ClCompile Include="login\model\User.cpp">
+      <Filter>Login\model</Filter>
+    </ClCompile>
+    <ClCompile Include="sessionview\SessionWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sessionview\SceneWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sessionview\NavigationBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threeview\ThreeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="login\QRAuthWidget.h">
+      <Filter>Login</Filter>
+    </ClInclude>
+    <ClInclude Include="login\model\QRAuthService.h">
+      <Filter>Login\model</Filter>
+    </ClInclude>
+    <ClInclude Include="login\model\QRTokenDatabase.h">
+      <Filter>Login\model</Filter>
+    </ClInclude>
+    <ClInclude Include="login\model\Session.h">
+      <Filter>Login\model</Filter>
+    </ClInclude>
+    <ClInclude Include="login\model\User.h">
+      <Filter>Login\model</Filter>
+    </ClInclude>
+    <ClInclude Include="sessionview\SessionWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sessionview\SceneWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sessionview\NavigationBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="threeview\ThreeWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="login\README.md">
+      <Filter>Login</Filter>
+    </None>
+    <None Include="wwwroot\css\style.css" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="login\README.txt">
+      <Filter>Login</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="bindir\templates.xml">
+      <Filter>bindir</Filter>
+    </Xml>
+    <Xml Include="bindir\wt_config.xml">
+      <Filter>bindir</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>
