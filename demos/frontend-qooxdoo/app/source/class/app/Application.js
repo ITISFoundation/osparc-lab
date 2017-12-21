@@ -4,7 +4,7 @@
 
    License: MIT
 
-   Authors: maiz@itis.ethz.com
+   Authors: odeimaiz
 
 ************************************************************************ */
 

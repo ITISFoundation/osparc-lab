@@ -2,7 +2,7 @@
   "name": "vue-prototype",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "Odei Maiz <maiz@zurichmedtech.com>",
+  "author": "odeimaiz",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
