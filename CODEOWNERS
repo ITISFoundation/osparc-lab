@@ -11,10 +11,10 @@
 /tools/ci-checks/       @sbenkler
 /demos/       @pcrespov
 /demos/cpp-ci/       @sbenkler
-/demos/director/     guidon@itis.ethz.ch
-/demos/pipelines/     guidon@itis.ethz.ch
-/demos/sidecar/      guidon@itis.ethz.ch
-/demos/workflow/     guidon@itis.ethz.ch
+/demos/director/     @mguidon
+/demos/pipelines/    @mguidon
+/demos/sidecar/      @mguidon
+/demos/workflow/     @mguidon
 /demos/frontend-*/   @odeimaiz
 /demos/docker-node/  @pcrespov
 
