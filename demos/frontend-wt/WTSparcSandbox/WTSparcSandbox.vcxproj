@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{7530F77A-0895-4ECF-B0EB-465FCCFC4F32}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>WTSparcSandbox</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CommonSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\CommonSettings.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParties;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParties;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="login\model\QRAuthService.cpp" />
+    <ClCompile Include="login\model\QRTokenDatabase.cpp" />
+    <ClCompile Include="login\model\Session.cpp" />
+    <ClCompile Include="login\model\User.cpp" />
+    <ClCompile Include="login\QRAuth.cpp" />
+    <ClCompile Include="login\QRAuthWidget.cpp" />
+    <ClCompile Include="sessionview\NavigationBar.cpp" />
+    <ClCompile Include="sessionview\SceneWidget.cpp" />
+    <ClCompile Include="sessionview\SessionWidget.cpp" />
+    <ClCompile Include="threeview\ThreeWidget.cpp" />
+    <ClCompile Include="WTSparcSandbox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="login\model\QRAuthService.h" />
+    <ClInclude Include="login\model\QRTokenDatabase.h" />
+    <ClInclude Include="login\model\Session.h" />
+    <ClInclude Include="login\model\User.h" />
+    <ClInclude Include="login\QRAuthWidget.h" />
+    <ClInclude Include="sessionview\NavigationBar.h" />
+    <ClInclude Include="sessionview\SceneWidget.h" />
+    <ClInclude Include="sessionview\SessionWidget.h" />
+    <ClInclude Include="threeview\ThreeWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="login\README.md" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="wwwroot\css\style.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="login\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BuildEnv\BuildEnv.vcxproj">
+      <Project>{4b5b90f1-08f6-44fe-84e1-fbdad7b7af59}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="bindir\templates.xml" />
+    <Xml Include="bindir\wt_config.xml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets" Condition="Exists('..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets')" />
+    <Import Project="..\packages\assimp_native.4.0.1\build\native\assimp_native.targets" Condition="Exists('..\packages\assimp_native.4.0.1\build\native\assimp_native.targets')" />
+    <Import Project="..\packages\assimp_native.symbols.4.0.1\build\native\assimp_native.symbols.targets" Condition="Exists('..\packages\assimp_native.symbols.4.0.1\build\native\assimp_native.symbols.targets')" />
+    <Import Project="..\packages\boost.1.65.1.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.65.1.0\build\native\boost.targets')" />
+    <Import Project="..\packages\ITIS.libs.wt.v141.x64.4.0.1-rc1\build\native\ITIS.libs.wt.v141.x64.targets" Condition="Exists('..\packages\ITIS.libs.wt.v141.x64.4.0.1-rc1\build\native\ITIS.libs.wt.v141.x64.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\assimp_native.4.0.1\build\native\assimp_native.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\assimp_native.4.0.1\build\native\assimp_native.targets'))" />
+    <Error Condition="!Exists('..\packages\assimp_native.symbols.4.0.1\build\native\assimp_native.symbols.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\assimp_native.symbols.4.0.1\build\native\assimp_native.symbols.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.65.1.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.65.1.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\ITIS.libs.wt.v141.x64.4.0.1-rc1\build\native\ITIS.libs.wt.v141.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ITIS.libs.wt.v141.x64.4.0.1-rc1\build\native\ITIS.libs.wt.v141.x64.targets'))" />
+  </Target>
+</Project>
