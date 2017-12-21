@@ -1,8 +1,8 @@
 {
   "classInfo": {
-    "app2.Application": {
-      "mtime": "2017-12-08T12:38:01.128Z",
-      "libraryName": "app2",
+    "app.Application": {
+      "mtime": "2017-12-19T12:52:15.176Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -16,14 +16,15 @@
         "qx.log.appender.Console": {},
         "qx.ui.treevirtual.TreeVirtual": {},
         "qx.ui.treevirtual.MNode": {},
+        "app.api.WebSocket": {},
         "qx.data.marshal.Json": {},
+        "app.ui.AvailableServicesView": {},
+        "app.ui.SwitchThemeView": {},
+        "app.ui.SettingsView": {},
+        "app.ui.ThreeDView": {},
+        "app.ui.ResultsView": {},
+        "app.ui.WorkbenchView": {},
         "qx.data.Array": {},
-        "app2.ui.AvailableServicesView": {},
-        "app2.ui.SwitchThemeView": {},
-        "app2.ui.SettingsView": {},
-        "app2.ui.ThreeDView": {},
-        "app2.ui.ResultsView": {},
-        "app2.ui.WorkbenchView": {},
         "qx.theme.manager.Meta": {},
         "qx.theme.Indigo": {},
         "qx.theme.Classic": {},
@@ -40,30 +41,30 @@
         }
       },
       "assets": [
-        "app2/*"
+        "app/*"
       ]
     },
-    "app2.theme.Theme": {
-      "mtime": "2017-12-07T15:10:20.872Z",
-      "libraryName": "app2",
+    "app.theme.Theme": {
+      "mtime": "2017-12-19T12:52:15.159Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Theme": {
           "load": true,
           "usage": "dynamic"
         },
-        "app2.theme.Color": {
+        "app.theme.Color": {
           "load": true
         },
-        "app2.theme.Decoration": {
+        "app.theme.Decoration": {
           "load": true
         },
-        "app2.theme.Font": {
+        "app.theme.Font": {
           "load": true
         },
         "qx.theme.icon.Tango": {
           "load": true
         },
-        "app2.theme.Appearance": {
+        "app.theme.Appearance": {
           "load": true
         }
       },
@@ -316,9 +317,9 @@
         }
       }
     },
-    "app2.theme.Color": {
-      "mtime": "2017-12-07T15:10:20.869Z",
-      "libraryName": "app2",
+    "app.theme.Color": {
+      "mtime": "2017-12-19T12:52:15.155Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Theme": {
           "load": true,
@@ -332,9 +333,9 @@
       "include": [],
       "implement": []
     },
-    "app2.theme.Decoration": {
-      "mtime": "2017-12-07T15:10:20.870Z",
-      "libraryName": "app2",
+    "app.theme.Decoration": {
+      "mtime": "2017-12-19T12:52:15.155Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Theme": {
           "load": true,
@@ -348,9 +349,9 @@
       "include": [],
       "implement": []
     },
-    "app2.theme.Font": {
-      "mtime": "2017-12-07T15:10:20.871Z",
-      "libraryName": "app2",
+    "app.theme.Font": {
+      "mtime": "2017-12-19T12:52:15.156Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Theme": {
           "load": true,
@@ -377,9 +378,9 @@
       "include": [],
       "implement": []
     },
-    "app2.theme.Appearance": {
-      "mtime": "2017-12-07T15:10:20.868Z",
-      "libraryName": "app2",
+    "app.theme.Appearance": {
+      "mtime": "2017-12-19T12:52:15.154Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Theme": {
           "load": true,
@@ -8507,9 +8508,9 @@
       "include": [],
       "implement": []
     },
-    "app2.ui.SettingsView": {
-      "mtime": "2017-12-08T08:50:48.259Z",
-      "libraryName": "app2",
+    "app.ui.SettingsView": {
+      "mtime": "2017-12-19T12:52:15.152Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -8561,27 +8562,15 @@
         },
         "qx.core.Object": {
           "load": true
-        },
-        "qx.core.Environment": {
-          "load": true
-        },
-        "qx.theme.manager.Meta": {
-          "load": true
-        },
-        "qx.core.ObjectRegistry": {
-          "load": true
-        },
-        "qx.core.IDisposable": {
-          "load": true
         }
       },
       "extends": "qx.ui.window.Window",
       "include": [],
       "implement": []
     },
-    "app2.ui.ResultsView": {
-      "mtime": "2017-12-07T15:10:20.874Z",
-      "libraryName": "app2",
+    "app.ui.ResultsView": {
+      "mtime": "2017-12-19T12:52:15.151Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -8632,27 +8621,15 @@
         },
         "qx.core.Object": {
           "load": true
-        },
-        "qx.core.Environment": {
-          "load": true
-        },
-        "qx.theme.manager.Meta": {
-          "load": true
-        },
-        "qx.core.ObjectRegistry": {
-          "load": true
-        },
-        "qx.core.IDisposable": {
-          "load": true
         }
       },
       "extends": "qx.ui.window.Window",
       "include": [],
       "implement": []
     },
-    "app2.ui.WorkbenchView": {
-      "mtime": "2017-12-08T09:21:45.746Z",
-      "libraryName": "app2",
+    "app.ui.WorkbenchView": {
+      "mtime": "2017-12-19T12:52:15.154Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -8675,8 +8652,7 @@
           "construct": true
         },
         "qx.core.Environment": {
-          "construct": true,
-          "load": true
+          "construct": true
         },
         "qx.util.DynamicScriptLoader": {
           "construct": true
@@ -8702,15 +8678,6 @@
           "load": true
         },
         "qx.core.Object": {
-          "load": true
-        },
-        "qx.theme.manager.Meta": {
-          "load": true
-        },
-        "qx.core.ObjectRegistry": {
-          "load": true
-        },
-        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -12611,9 +12578,9 @@
       "include": [],
       "implement": []
     },
-    "app2.ui.ThreeDView": {
-      "mtime": "2017-12-08T09:33:13.520Z",
-      "libraryName": "app2",
+    "app.ui.ThreeDView": {
+      "mtime": "2017-12-19T12:52:15.152Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -12636,8 +12603,7 @@
           "construct": true
         },
         "qx.core.Environment": {
-          "construct": true,
-          "load": true
+          "construct": true
         },
         "qx.util.DynamicScriptLoader": {
           "construct": true
@@ -12662,15 +12628,6 @@
           "load": true
         },
         "qx.core.Object": {
-          "load": true
-        },
-        "qx.theme.manager.Meta": {
-          "load": true
-        },
-        "qx.core.ObjectRegistry": {
-          "load": true
-        },
-        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -12758,9 +12715,9 @@
       },
       "hasDefer": true
     },
-    "app2.ui.AvailableServicesView": {
-      "mtime": "2017-12-07T15:10:20.873Z",
-      "libraryName": "app2",
+    "app.ui.AvailableServicesView": {
+      "mtime": "2017-12-19T12:52:15.152Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -12780,21 +12737,6 @@
           "load": true
         },
         "qx.ui.core.LayoutItem": {
-          "load": true
-        },
-        "qx.core.Object": {
-          "load": true
-        },
-        "qx.core.Environment": {
-          "load": true
-        },
-        "qx.theme.manager.Meta": {
-          "load": true
-        },
-        "qx.core.ObjectRegistry": {
-          "load": true
-        },
-        "qx.core.IDisposable": {
           "load": true
         }
       },
@@ -15547,9 +15489,9 @@
       "include": [],
       "implement": []
     },
-    "app2.ui.SwitchThemeView": {
-      "mtime": "2017-12-08T12:37:44.885Z",
-      "libraryName": "app2",
+    "app.ui.SwitchThemeView": {
+      "mtime": "2017-12-19T12:52:15.153Z",
+      "libraryName": "app",
       "dependsOn": {
         "qx.Class": {
           "load": true,
@@ -15578,6 +15520,37 @@
       "extends": "qx.ui.container.Composite",
       "include": [],
       "implement": []
+    },
+    "app.api.WebSocket": {
+      "mtime": "2017-12-19T12:52:15.151Z",
+      "libraryName": "app",
+      "dependsOn": {
+        "qx.Class": {
+          "load": true,
+          "usage": "dynamic"
+        },
+        "qx.core.Object": {
+          "load": true,
+          "construct": true
+        },
+        "qx.util.DynamicScriptLoader": {},
+        "qx.lang.Function": {},
+        "qx.core.ObjectRegistry": {
+          "load": true
+        },
+        "qx.core.Environment": {
+          "load": true
+        },
+        "qx.core.IDisposable": {
+          "load": true
+        }
+      },
+      "extends": "qx.core.Object",
+      "include": [],
+      "implement": [],
+      "assets": [
+        "resource/socket.io/*"
+      ]
     }
   }
 }

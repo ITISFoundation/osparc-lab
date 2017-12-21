@@ -1,4 +1,4 @@
-qx.Class.define("app2.ui.AvailableServicesView",
+qx.Class.define("app.ui.AvailableServicesView",
 {
   extend: qx.ui.container.Composite,
 
@@ -37,17 +37,10 @@ qx.Class.define("app2.ui.AvailableServicesView",
   },
 
   members: {
-    _AvailableServices: {},
     _model: null,
 
     setModel : function(model) {
       this._model = model;
-      this.SetAvailableServices(this._model.getAvailableServices());
-    },
-
-    SetAvailableServices: function(availableServices) {
-      this._AvailableServices = availableServices;
-      this.RecreateButtons();
     },
 
     _checkInputConnections: function(checkThisService) {
@@ -72,11 +65,11 @@ qx.Class.define("app2.ui.AvailableServicesView",
       });
       this.add(label);
 
-      if (this._AvailableServices) {
+      if (this._model) {
         var filteredServices = [];
-        for (var i = 0; i < this._AvailableServices.length; i++) {
-          if (this._checkInputConnections(this._AvailableServices.getItem(i))) {
-              filteredServices.push(this._AvailableServices.getItem(i));
+        for (var i = 0; i < this._model.getAvailableServices().length; i++) {
+          if (this._checkInputConnections(this._model.getAvailableServices().getItem(i))) {
+              filteredServices.push(this._model.getAvailableServices().getItem(i));
           }
         }
 

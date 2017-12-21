@@ -18,9 +18,9 @@
 
   "applications": [
     {
-      "class": "app2.Application",
-      "theme": "app2.theme.Theme",
-      "name": "app2"
+      "class": "app.Application",
+      "theme": "app.theme.Theme",
+      "name": "app"
     }
   ],
 
