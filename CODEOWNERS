@@ -1,0 +1,33 @@
+# Order is important. The last matching pattern has the most precedence.
+
+*            @pcrespov @sbenkler
+
+*.js         @odeimaiz
+*.md         @pcrespov
+
+# files and folders recursively
+/docs/        @pcrespov
+/templates/   @pcrespov @sbenkler
+/tools/ci-checks/       @sbenkler
+/demos/       @pcrespov
+/demos/cpp-ci/       @sbenkler
+/demos/director/     guidon@itis.ethz.ch
+/demos/pipelines/     guidon@itis.ethz.ch
+/demos/sidecar/      guidon@itis.ethz.ch
+/demos/workflow/     guidon@itis.ethz.ch
+/demos/frontend-*/   @odeimaiz
+/demos/docker-node/  @pcrespov
+
+
+# any change in cmake magic
+CMakeLists.txt   @sbenkler
+
+# any change in travis
+/.travis.yml     @sbenkler
+
+# to control within-source vs. out-of-source builds
+/.gitignore      @sbenkler
+
+# to control this file
+/CODEOWNER       @sbenkler
+
