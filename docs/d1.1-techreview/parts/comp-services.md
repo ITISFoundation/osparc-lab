@@ -64,22 +64,81 @@ The advantage of this design is that all complex interaction with the system is 
 
 **Service Orchestration**
 
+As mentioned above simcore takes advantage of the native docker orchestration tool swarm. If this turns out to be not flexible enough, kubernetes can also be considered.
 
 
+#### Use case
+
+For the sake of simplicity, consider a computational service that evaluates a user defined single variable function in a given interval and a second service that renders that result as a scatter plot. For the function parsing service, c and c++ code is available from a contributer. In addition, the contributer provided the command line arguments for its algorithm. For the visualization part, a default service from the simcore platform will be used that expects a tab separated listof values as an input and creates an rendered html page with a scatter plot.
+
+**Dockerfile**
+
+A dockerfile contains all commands needed to create a docker image that can be run in a container. For the function evaluator this file looks as follows:
 
 
-Computational services
-  - Containers Technology
-  - Orchestration framework
+```bash
+  1 FROM alpine
+  2 
+  3 MAINTAINER  Manuel guidon <guidon@itis.ethz.ch>
+  4 
+  5 RUN apk add --no-cache g++ bash jq
+  6 
+  7 WORKDIR /work
+  8 
+  9 ADD ./code /work
+ 10 ADD ./simcore.io /simcore.io
+ 11 RUN chmod +x /simcore.io/*
+ 12 
+ 13 ENV PATH="/simcore.io:${PATH}"
+ 14 
+ 15 RUN gcc -c -fPIC -lm tinyexpr.c -o libtiny.o
+ 16 RUN g++ -std=c++11 -o test main.cpp libtiny.o
+ 17 RUN rm *.cpp *.c *.h
+```
 
+The image is based on a very small linux distribution called `alpine` with compilers `gcc`, shell `bash` and jason parser `jq`. In addition to compile the source code into an executable called `test` the `PATH` is being prepended by some scripts from what is called `simcore.io`. This allows to enhance the docker command line interface (cli) by whatever is needed to run the computational service via the sidecar. In this ase, there is a `run` command added to the cli.
 
-  TODO: Preselection. Justify C+S+P, howdie
+```bash
+  1 #!/bin/bash
+  2 arg1=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmin") .value')
+  3 arg2=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmax") .value')
+  4 arg3=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="N") .value')
+  5 arg4=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="func") .value')
+  6 temp="${arg4%\"}"
+  7 temp="${temp#\"}"
+  8 arg5=$OUTPUT_FOLDER/output
+  9 
+ 10 ./test $arg1 $arg2 $arg3 $temp $arg5 > $LOG_FOLDER/log.dat
+```
+In this case, the sidecar would copy the all input data needed into a file called `input.json` which above script would parse and pass to the test executable.  
 
-#### Review
+After building the docker image is is being depolyed into the docker registry with the following meta data:
 
-  TODO: user-stories + map w/ demos
+```json
+{
+  "input":[
+    {
+      "name": "N",
+      "value": 10
+    },
+    {
+      "name": "xmin",
+      "value": 0.0
+    },
+    {
+      "name": "xmax",
+      "value": 1.0
+    }
+    {
+       "name": "func",
+       "value" : "sin(x)"
+    }
+  ],
+  "output": tsv
+}
+```
+	
 
-  TODO: different models analyzed for 3rd party services. a) i/o files, b) SDK layer?  c) SDK w/ UI override?
 
 
 #### Summary
