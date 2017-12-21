@@ -2,7 +2,7 @@
 
 The front-end part corresponds to the software running on the client side. The server-side transmits the program/instructions to the web-browser, on the client-side, which interprets and executes them. The front-end interacts directly with the user and for that reason, one of its main features of front-end frameworks is the Graphical User Interface (GUI). There is a wide variety of frameworks that supports the development of front-ends among which we have pre-selected: [vue], [react], [qooxdoo] and [wt].
 
-In order to review different frameworks, we decided to build a similar User Interface implementing the same features so that we could make a fair comparison.
+In order to review different frameworks, we decided to build a Single-Page-Application with a similar User Interface implementing the same features so that we could make a fair comparison.
 
 The aspects reviewed are the following:
 - **Interactive layout**: The layout consists of at least 4 main components (Available services, Settings viewer, 3D renderer and Workbench). The user should be able to interact with the sizing/position of those components. A Results viewer has been also implemented for the React and qooxdoo prototypes.
@@ -12,7 +12,7 @@ The aspects reviewed are the following:
 - **Dynamic styling**: By clicking a checkbox or dropdown menu, the style should be switchable.
 - **Front-end/Back-end communication**: Some logic is implemented in the client-side, but the heaviest logic stays in the server side. That is why the client needs to communicate with the server. E.g. when the web application is started, it asks the server what are the available services. For vue, react and qooxdoo, the web socket socket.io module was used.
 
-## [vue]
+### [vue]
 ![vue-screenshot](../img/vue.png)
 - **Interactive layout**
   - Not very fancy packages found for creating dynamic layouts
@@ -44,7 +44,7 @@ The aspects reviewed are the following:
   - Very active community behind
   - Easy learning curve
 
-## [react]
+### [react]
 ![react-screenshot](../img/react.jpg)
 - **Interactive layout**
   - Many packages provide very good looking interactive layouts
@@ -72,7 +72,7 @@ The aspects reviewed are the following:
   - Very active community behind and many examples already in place
   - Linear learning curve
 
-## [qooxdoo]
+### [qooxdoo]
 ![qx-screenshot](../img/qx.png)
 - **Interactive layout**
   - qx.ui.window.Window used to make it look like a Desktop application
@@ -94,7 +94,7 @@ The aspects reviewed are the following:
   - All 3rd party libraries used need to be downloaded first
   - There are some 3rd party libraries that require lot of interaction with the code that do not work so well
 
-## [wt]
+### [wt]
 ![wt-screenshot](../img/wt.png)
 TODO: short description review, pros, cons
 
@@ -108,9 +108,10 @@ This is a comparative table with the pre-selected framework and some key-points
 |    **Pros**    | <ul><li>Mix between Angular and React</li><li>HTML, CSS and logic nicely separated</li></ul> | <ul><li>Facebook supports it. One of the most popular Front-End JavaScript framework</li><li>Lot of dedicated and easy to install 3rd party libraries | <ul><li>Desktop-like web application</li><li>Object Oriented programming model</li><li>Lots of native 3rd party libraries available</li><li>Three.js used directly</li><li>Complete control over dependencies |
 |    **Cons**    | <ul><li>No specific company supporting it</li><li>Not many dedicated 3rd party libraries available</li><li>Lack of control over dependencies</li></ul> | <ul><li>HTML, CSS and logic not very well separated</li><li>Lack of control over dependencies</li></ul> | <ul><li>Not a big community behind</li><li>Some 3rd party libraries do not integrate very well</li></ul> |
 
+The main difference between vue, react and qooxdoo is that while the first two provide very light frameworks and programming concepts with simple skeletons to start building on top of, qooxdoo provides a mature framework with a collection UI widgets. What means that for vue and react applications whatever UI component you want to add, you need to look for it out there and install it, using the Node Package Manager, together with its dependencies in the project. In qooxdoo, if the original framework doesn't provide the component, you need to download the desired package and keep it within the project.
 
-TODO: recommendations
-
+## Recommendations
+Based on our analysis and how mature the frameworks we reviewed are, vue should be discarded.
 
 
 
