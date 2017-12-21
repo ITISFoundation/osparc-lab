@@ -112,6 +112,7 @@ The main difference between vue, react and qooxdoo is that while the first two p
 
 ## Recommendations
 Based on our analysis and how mature the frameworks we reviewed are, vue should be discarded.
+Between react and qooxdoo, taking into account that it is easier to build desktop-like applications and the native Object Oriented programming model, our recommendation is to use the qooxdoo framework.
 
 
 
