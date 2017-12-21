@@ -7,12 +7,10 @@ TODO: 3D with three.js
 
 ## [vue]
 ![vue-screenshot](../img/vue.png)
-TODO: screenshot
 TODO: short description review, pros, cons
 
 ## [react]
 ![react-screenshot](../img/react.jpg)
-TODO: screenshot
 TODO: short description review, pros, cons
 
 ## [qooxdoo]
