@@ -11,27 +11,29 @@
 - Node.js + express used in web server side
 
 ##### Aspects reviewed:
-
 - **Interactive layout**
   - Not very fancy packages found for creating dynamic layouts
   - Many Vue dedicated layouts not in a mature status
-  - Better to use html-css basic solutions
-- **Front-end/Back-end communication**
-  - socket.io module used for communication
-  - Easy to set up in both server and client sides
-  - Publish-subscribe pattern communication
-- **Bind components in UI**
+  - Better to use HTML-CSS basic solutions
+  - vue-splitpane module used
+- **3D renderer**
+  - Three.js library used
+  - Flexible and easy to use
+- **Workbench**
+  - Very poor resources found to build flowcharts
+  - vue-port-graph module used
+- **Data binding in UI**
+  - The declarative UI makes it easy to mix HTML code with JavaScript based logic coding
   - Built-in event bus (publish-subscribe) pattern communication
   - Very flexible and easy to use notification system
-- **Add 3D renderer**
-  - vue-three package used. It is wrapper on top of three.js which is based on WebGL
-  - Flexible and easy to use
-- **Add workbench**
-  - Very poor resources found so far to build flowcharts
 - **Dynamic styling**
   - Easy to define styles shared between components
+- **Front-end/Back-end communication**
+  - vue-socket.io module used for communication
+  - Easy to set up in both server and client sides
+  - Publish-subscribe pattern communication
 - **Extra impressions**
-  - Kind of a mixture of react.js and angular.js
+  - Kind of a mixture of React.js and Angular.js
   - Templating, scripting and styling well separated
   - Lot of templating logic goes into html side code
   - Lightweight framework that needs extra third party packages/modules to build components

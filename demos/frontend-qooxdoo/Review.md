@@ -24,18 +24,20 @@
 ##### Aspects reviewed:
 - **Interactive layout**
   - qx.ui.window.Window used to make it look like a Desktop application
-- **Front-end/Back-end communication**
-  - As usual, socket.io module could be used
-- **Bind components in UI**
-  - 'json object' -> 'model' qooxdoo built-in conversion used. It is similar to redux in that sense.
-- **Add 3D renderer**
-  - Using three.js directly. Requires downloading it first.
-  - Three.js related OrbitControls.js and ShaderSkin.js were also used
-- **Add workbench**
-  - jquery-flowchart.js used. Requires downloading it first
+- **3D renderer**
+  - Using Three.js directly
+  - Three.js related OrbitControls.js and ShaderSkin.js were also used for controlling the camera and adding texture to the head model respectively
+- **Workbench**
+  - jquery-flowchart.js used
   - nodes and links can be extended to fit our needs
+- **Data binding in UI**
+  - 'json object' -> 'model' qooxdoo built-in conversion used
+  - Similar to redux
 - **Dynamic styling**
-  - Includes for different themes that can be extended
+  - Includes different themes that can be extended/customized
   - Well separated from the logic, even though can be part of it
+- **Front-end/Back-end communication**
+  - As usual, socket.io module used
 - **Extra impressions**
-  - There are some 3rd party libraries that require lot of interaction with the code that do not work so well.
+  - All 3rd party libraries used need to be downloaded first
+  - There are some 3rd party libraries that require lot of interaction with the code that do not work so well
