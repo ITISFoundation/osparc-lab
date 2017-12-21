@@ -51,7 +51,7 @@ class App extends Component {
     });
 
     socket.on('whatInItalia', (val) => {
-      if (val.type === 'result') {
+      if (val.type === 'result' && val.value) {
         var result = Number(val.value[0]);
         if (result === 1) {
           this.setState({
