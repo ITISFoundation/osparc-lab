@@ -6,20 +6,21 @@
 - MIT licensed
 - No specific company supporting it
 - Almost no HTML or CSS required since own UI widgets items are used
-- In order to use 3rd party libraries, they need to be downloaded in a js file(s) format fisrt
+- In order to use 3rd party libraries, they need to be downloaded in a js file(s) format first
 
 ###### Prototype based on:
 - qooxdoo command line interface. Following tutorial in Github:
    - https://github.com/qooxdoo/qooxdoo-cli
 
 ###### In order to start prototyping:
-- node.js v8  required
+- node.js v8 required
 - front-end created using
   - ```npm install -g qx-cli```
   - ```qx create myapp```
   - ```cd myapp```
   - ```qx compile```
-- http-server required to serve the static source-output: ```http-server -c 1 -p 7001```
+- start serving the source-output with a minimum of interaction with the server
+ - ```node server.js```
 
 ##### Aspects reviewed:
 - **Interactive layout**
