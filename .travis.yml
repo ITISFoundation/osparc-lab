@@ -2,13 +2,14 @@
 sudo: false
 
 language: python
-python:
-  - "3.6"
 
 addons:
   apt:
     packages:
     - pylint
+
+services:
+  - docker
 
 # configure and buid
 install:
