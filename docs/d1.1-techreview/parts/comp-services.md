@@ -42,7 +42,6 @@ In addition to the images themselves, the registry also contains meta informatio
 - specific hardware needs (gpu/multicore)
 - version number and hashes for identification
 
-
 This data is being used to check whether two algorithms in the pipeline can be connected or not.
 
 **Director**
@@ -51,16 +50,16 @@ The director acts as bridge between the frontend/backend and the computational b
 
 All jobs are being kept in a queue and its status can be queried from the client. Also job control such as stop/kill/resume is provided.
 
-**Distributed task Queue**
+**Distributed task queue and message broker**
 
 All jobs in the platfrom are being scheduled in a centralized queue based on message passing. Workers can grab tasks from the list and execute them concurrently. For that purpose a broker service that handles all the message passing from director to worker is also part of the computational backend.
+Due to its popularity and wide usage the celery library has been chosen for the distributed task queue. It is easy to integrate and offers bindings to several lanugages. It supports several message brokers and database backends. For intial prototyping RabbitMQ is used for the former and MongoDB for the latter.
 
 **Workers**
 
 Workers are the services that perform the actual computation. They always appear in pairs of containers. One, the sidecar, is always alive and is connected to the tasks queue. When required it creates a so called one-shot container running the requested computational service. All interaction sidecar-computational service happends on the command line interface. Furthermore, since being pysically on the same host, they share the filesystem which allows the sidecar to make input files or other data avilable to the computational service. 
 
 The advantage of this design is that all complex interaction with the system is being abstracted away from the computational service and enables contributers to add algorithms without the need for detailed knowledge of the platform.
-
 
 **Service Orchestration**
 
@@ -137,11 +136,46 @@ After building the docker image is is being depolyed into the docker registry wi
   "output": tsv
 }
 ```
-	
 
+Finally, the descriptor for this part of the pipeline would look like
 
+```json	
+  1 {
+  2   "input":
+  3   [
+  4     {
+  5       "name": "N",
+  6       "value": 10
+  7     },
+  8     {
+  9       "name": "xmin",
+ 10       "value": -1.0
+ 11     },
+ 12     {
+ 13       "name": "xmax",
+ 14       "value": 1.0
+ 15     },
+ 16     {
+ 17       "name": "func",
+ 18       "value": "exp(x)*sin(x)"
+ 19     }
+ 20   ],
+ 21   "container":
+ 22   {
+ 23     "name": "simcore.io.registry/comp.services/function-parser",
+ 24     "tag": "1.1"
+ 25   }
+ 26 }
+ 27 
+ 28 
+```
 
-#### Summary
+#### Miscellaneous
+
+- By the end of 2016 Mircosoft added support for docker containers on the Windows familiy of operating systems. Since docker swarm is operating system agnostic that means the simcore platform automatically supports linux and windows based computational services.
+ - Shifter, an new open source project provides a runtime for container images and is specifically suited for HPC on supercomputer architecture. Among other formats it supports docker
+- The MPICH application binary interface (ABI) can be used to link code against the ubuntu MPICH library package and change the binding at runtime to the host ABI compatible MPI implementation.
+
 
 
 #### Recommendations
