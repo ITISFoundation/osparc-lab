@@ -1,14 +1,21 @@
-site_name: D1.1 Technology Review & Technical Specs.
+site_name: D1.1 Technical Specs. & Technology Evaluation
 pages:
-  - Home: 'd1.1-techreview/index.md'
-  - Objectives: 'd1.1-techreview/objectives.md'
-  - Methodology: 'd1.1-techreview/methodology.md'
-  - Results:
-    - 'Overview': 'd1.1-techreview/results.md'
-    - 'Front-end': 'd1.1-techreview/parts/client-side.md'
-    - 'Web-server': 'd1.1-techreview/parts/server-side.md'
-    - 'Communication models': 'd1.1-techreview/parts/communication.md'
-    - 'Computational services': 'd1.1-techreview/parts/comp-services.md'
-    - 'Demonstrations': 'd1.1-techreview/parts/demos.md'
-  - Conclusions: 'd1.1-techreview/conclusion.md'
+  - Home: 'd1.1-report/index.md'
+  - Introduction: 'd1.1-report/intro.md'
+  - 'Requirements Gathering':
+    - 'Methodology': 'd1.1-requirements/methodology.md'
+    - 'Results': 'd1.1-requirements/results.md'
+    - 'Conclusions': 'd1.1-requirements/conclusions.md'
+  - Technology Evaluation:
+    - Methodology: 'd1.1-techreview/methodology.md'
+    - Front-end: 'd1.1-techreview/parts/client-side.md'
+    - Web-server: 'd1.1-techreview/parts/server-side.md'
+    - Communication models: 'd1.1-techreview/parts/communication.md'
+    - Computational services: 'd1.1-techreview/parts/comp-services.md'
+    - Demonstrations: 'd1.1-techreview/parts/demos.md'
+    - Conclusions: 'd1.1-techreview/conclusion.md'
+  - Specficications:
+    - 'High Level Specifications': 'd1.1-specs/high-level.md'
+    - 'Low Level Specifications': 'd1.1-specs/low-level.md'
+  - Conclusions: 'd1.1-report/conclusions.md'
 theme: readthedocs
