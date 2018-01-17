@@ -23,6 +23,8 @@
 9. Go to *General*/*Advanced* and set *Shared Clipboard*  and *Drag'n'Drop* to *Bidirectional*
 9. Go to *Display* and set the *Video Memory* to the maximum value  
 **Note:** Do not check *Enable 3D Acceleration* as this breaks the WebGL abilities of browser inside the guest machine
+10. Go to *Network*, then *Adapter 2*
+11. Check *Enable Network Adapter*, and select *Host-only Adapter* (this will allow accessing the osparc-lab servers from the host os)
 
 ### Start the virtual machine
 1. Start the ubuntu machine
@@ -95,4 +97,5 @@ cd osparc-lab/demos
 cd frontend-react  
 sudo make build  
 sudo make run
-5. Open a browser and go to *localhost:6001* and enjoy!
+5. Open a browser and go to *localhost:6001* and enjoy!  
+**Note:** To access the demo from the host os, find the internal **IP address** from the second network adapter by calling *ifconfig* in a terminal. Then from the host os browser just go to *%IPADDRESS%:6001*.
