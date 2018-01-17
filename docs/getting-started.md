@@ -34,9 +34,11 @@
 Fire up a text editor in the guest OS, try copy/pasting some text from the host OS to the guest OS and vice-versa. If it works skip this step.
 1. Start a terminal
 2. Install the *gcc make perl* package by doing:  
+```
 sudo apt-get update  
 sudo apt-get upgrade  
-sudo apt-get install build-essentials  
+sudo apt-get install build-essentials
+```
 3. On the main toolbar, go to *Devices/Insert Guest Additions Package...* and follow the instructions
 4. Once done reboot the virtual machine  
 sudo rebbot now
@@ -94,8 +96,10 @@ git clone "osparc-lab ssh address"
 3. Access the source code folder  
 cd osparc-lab/demos
 4. For example build the react demo frontend by inputing:  
+```
 cd frontend-react  
 sudo make build  
 sudo make run
+```
 5. Open a browser and go to *localhost:6001* and enjoy!  
 **Note:** To access the demo from the host os, find the internal **IP address** from the second network adapter by calling *ifconfig* in a terminal. Then from the host os browser just go to *%IPADDRESS%:6001*.
