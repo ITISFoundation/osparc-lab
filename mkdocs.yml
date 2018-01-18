@@ -1,22 +1,30 @@
 site_name: D1.1 Technical Specs. & Technology Evaluation
-
+repo_name: 'GitHub'
+# TODO: temporary until merged into master--
+repo_url: https://github.com/pcrespov/oSPARC_Test
+edit_uri: edit/feature/report_review/docs/d1.1-report
+#--
+docs_dir: './docs/d1.1-report'
+site_description: 'Detailed technical specifications for o2S2PARC based on user requirements (e.g. from questonnaires) and technology evaluation.'
+site_author: "Foundation for Research on Information Technologies in Society (IT'IS)"
 pages:
-  - Introduction: 'd1.1-report/index.md'
+  - Introduction: 'index.md'
   - Requirements Gathering:
-    - 'Methodology': 'd1.1-report/reqs/methodology.md'
-    - 'Results': 'd1.1-report/reqs/results.md'
-    - 'Conclusions': 'd1.1-report/reqs/conclusions.md'
+    - 'Methodology': 'reqs/methodology.md'
+    - 'Results': 'reqs/results.md'
+    - 'Conclusions': 'reqs/conclusions.md'
   - Technology Evaluation:
-    - Methodology: 'd1.1-report/tech/methodology.md'
-    - Front-end: 'd1.1-report/tech/parts/client-side.md'
-    - Web-server: 'd1.1-report/tech/parts/server-side.md'
-    - Communication models: 'd1.1-report/tech/parts/communication.md'
-    - Computational services: 'd1.1-report/tech/parts/comp-services.md'
-    - Demonstrations: 'd1.1-report/tech/parts/demos.md'
-    - Conclusions: 'd1.1-report/tech/conclusion.md'
+    - Methodology: 'tech/methodology.md'
+    - Front-end: 'tech/parts/client-side.md'
+    - Web-server: 'tech/parts/server-side.md'
+    - Communication models: 'tech/parts/communication.md'
+    - Computational services: 'tech/parts/comp-services.md'
+    - Demonstrations: 'tech/parts/demos.md'
+    - Conclusions: 'tech/conclusion.md'
   - Specficications:
-    - 'High Level Specifications': 'd1.1-report/specs/high-level.md'
-    - 'Low Level Specifications': 'd1.1-report/specs/low-level.md'
-  - Conclusions: 'd1.1-report/conclusions.md'
+    - 'High Level Platform Functionality Specifications': 'specs/high-level.md'
+    - 'Framework Architecture Specifications': 'specs/low-level.md'
+  - Conclusions: 'conclusions.md'
+  #- Appendix 1: 'd1.1-report/reqs/Questionnaire_SPARC_Teams_v5.pdf'
 
 theme: readthedocs
