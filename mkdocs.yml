@@ -1,8 +1,8 @@
 site_name: D1.1 Technical Specs. & Technology Evaluation
 repo_name: 'GitHub'
 # TODO: temporary until merged into master--
-repo_url: https://github.com/pcrespov/oSPARC_Test
-edit_uri: edit/feature/report_review/docs/d1.1-report
+#repo_url: https://github.com/pcrespov/oSPARC_Test
+#edit_uri: edit/feature/report_review/docs/d1.1-report
 #--
 docs_dir: './docs/d1.1-report'
 site_description: 'Detailed technical specifications for o2S2PARC based on user requirements (e.g. from questonnaires) and technology evaluation.'
