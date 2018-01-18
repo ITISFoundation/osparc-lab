@@ -15,8 +15,8 @@ pages:
     - Demonstrations: 'd1.1-report/tech/parts/demos.md'
     - Conclusions: 'd1.1-report/tech/conclusion.md'
   - Specficications:
-    - 'High Level Specifications': 'd1.1-report/specs/high-level.md'
-    - 'Low Level Specifications': 'd1.1-report/specs/low-level.md'
+    - 'High Level Platform Functionality Specifications': 'd1.1-report/specs/high-level.md'
+    - 'Framework Architecture Specifications': 'd1.1-report/specs/low-level.md'
   - Conclusions: 'd1.1-report/conclusions.md'
 
 theme: readthedocs
