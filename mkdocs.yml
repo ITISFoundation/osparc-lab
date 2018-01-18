@@ -22,7 +22,9 @@ pages:
     - Demonstrations: 'tech/parts/demos.md'
     - Conclusions: 'tech/conclusion.md'
   - Specficications:
-    - 'High Level Specifications': 'specs/high-level.md'
-    - 'Low Level Specifications': 'specs/low-level.md'
+    - 'High Level Platform Functionality Specifications': 'specs/high-level.md'
+    - 'Framework Architecture Specifications': 'specs/low-level.md'
   - Conclusions: 'conclusions.md'
+  #- Appendix 1: 'd1.1-report/reqs/Questionnaire_SPARC_Teams_v5.pdf'
+
 theme: readthedocs
