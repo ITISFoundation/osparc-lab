@@ -27,24 +27,25 @@
 ##### Aspects reviewed:
 - **Interactive layout**
   - Many packages provide very good looking interactive layouts
-- **Front-end/Back-end communication**
-  - socket.io module used for communication
-  - Easy to set up in both server and client sides
-  - Publish-subscribe pattern communication
-- **Bind components in UI**
-  - redux is the most popular module
-  - Based on a store, actions and reducers: mutates the states of the components providing interactivity
-  - Can get complex and not very scalable when dealing with heavy props and states
-- **Add 3D renderer**
-  - react-three and react-three-renderer are the modules that go on top of three.js which is based on WebGL
-  - react-three-renderer used for prototyping even though not all three.js features are implemented
-- **Add workbench**
+  - react-rnd module used
+- **3D renderer**
+  - react-three and react-three-renderer are the modules that go on top of Three.js
+  - react-three-renderer used even though not all three.js features are implemented
+- **Workbench**
   - Very nice packages found to represent a flowchart
   - nodes and links can be extended to fit our needs
+  - storm-react-diagrams module used
+- **Data binding in UI**
+  - redux is the most popular module for component communication
+  - Based on a store, actions and reducers: mutates the states of the components providing interactivity
 - **Dynamic styling**
   - Easy to define styles shared between components
+- **Front-end/Back-end communication**
+  - socket.io-client together with socket.io modules used for communication
+  - Easy to set up in both server and client sides
+  - Publish-subscribe pattern communication
 - **Extra impressions**
-  - html, scripting and styling well separated
+  - HTML, scripting and styling well separated
   - Not easy to mix scripting with templating
   - Lot of third party packages to choose to implement new features
   - Very active community behind and many examples already in place

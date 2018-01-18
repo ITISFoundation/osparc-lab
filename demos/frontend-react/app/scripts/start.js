@@ -48,54 +48,41 @@ const HOST = process.env.HOST || '0.0.0.0';
 
 function getServices(client) {
   console.log('requestAvailableServices');
-  let local_file = false;
-  if (local_file) {
-    console.log('locally');
-    var serviceManager = require('../src/ServiceManager');
-    var myServices = new serviceManager();
-    var availableServices = myServices.getAvailableServices();
-    client.emit('availableServices', {
-        type:'availableServices',
-        value: availableServices
-    })
-  } else {
-    console.log('asking director');
-    var url = 'https://outbox.zurichmedtech.com/maiz/ServiceRegistry.json';
-    https.get(url, function(res){
-      var json = '';
+  var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/ServiceRegistry.json';
+  https.get(url, function(res) {
+    var json = '';
 
-      res.on('data', function(chunk){
-          json += chunk;
-      });
-
-      res.on('end', function(){
-        if (res.statusCode === 200) {
-          try {
-            var availableServicesJson = JSON.parse(json);
-            var availableServices = [];
-            console.log('Found', Object.keys(availableServicesJson).length, ':');
-            for (var key in availableServicesJson) {
-              if (!availableServicesJson.hasOwnProperty(key)) {
-                continue;
-              }
-              console.log(availableServicesJson[key].text);
-              availableServices.push(availableServicesJson[key]);
-            };
-            client.emit('availableServices', {
-                type:'availableServices',
-                value: availableServices
-            })
-          } catch (e) {
-            console.log('Error parsing JSON!');
-          }
-        } else {
-            console.log('Status:', res.statusCode);
-        }
-      });
-    }).on('error', function(e){
-      console.log("Got an error: ", e);
+    res.on('data', function(chunk) {
+      json += chunk;
     });
-  }
+
+    res.on('end', function() {
+      if (res.statusCode === 200) {
+        try {
+          var availableServicesJson = JSON.parse(json);
+          var availableServices = [];
+          console.log('Found', Object.keys(availableServicesJson).length, ':');
+          for (var key in availableServicesJson) {
+            if (!availableServicesJson.hasOwnProperty(key)) {
+              continue;
+            }
+            console.log(availableServicesJson[key].text);
+            availableServices.push(availableServicesJson[key]);
+          };
+          client.emit('availableServices', {
+            type: 'availableServices',
+            value: availableServices
+          })
+        } catch (e) {
+          console.log('Error parsing JSON!');
+        }
+      } else {
+        console.log('Status:', res.statusCode);
+      }
+    });
+  }).on('error', function(e) {
+    console.log("Got an error: ", e);
+  });
 };
 
 function checkItaliaMenu(service, client) {
@@ -160,26 +147,35 @@ function dirTree(filename) {
 
 function computeOutputData(service, uniqueName, client) {
   console.log('computeOutputData', service);
-  if (service.name === 'requestWhatInItalia')
-  {
+  if (service.name === 'requestWhatInItalia') {
     checkItaliaMenu(service, client);
-  }
-  else if (service.name === 'randomizer')
-  {
+  } else if (service.name === 'randomizer') {
     calculateRandomValue(service, client);
-  }
-  else if (service.name === 'single-cell')
-  {
-    var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
-    var outputDataStructure = dirTree(localDir);
-    client.emit('outputDataStructure', {
-        type:'outputDataStructure',
-        value: outputDataStructure,
-        jobId: uniqueName
-    });
-  }
-  else
-  {
+  } else if (service.name === 'single-cell') {
+    if (uniqueName === 'SingleCell_S1' || uniqueName === 'SingleCell_S2') {
+      var url = 'https://raw.githubusercontent.com/odeimaiz/oSPARC_Test/master/demos/frontend-data/' + uniqueName + '.json';
+      https.get(url, function(res) {
+        var json = '';
+
+        res.on('data', function(chunk) {
+          json += chunk;
+        });
+
+        res.on('end', function() {
+          if (res.statusCode === 200) {
+            // var localDir = '//filesrv.speag.com/outbox/' + uniqueName;
+            // var outputDataStructure = dirTree(localDir);
+            var outputDataStructure = JSON.parse(json);
+            client.emit('outputDataStructure', {
+              type: 'outputDataStructure',
+              value: outputDataStructure,
+              jobId: uniqueName
+            });
+          }
+        });
+      });
+    }
+  } else {
     console.log('Request should be sent to the director');
   }
 }
@@ -192,6 +188,8 @@ function readUrlContent(url, client) {
     if (!error && response.statusCode == 200) {
       console.log('readUrlContentRes', body);
       client.emit('readUrlContentRes', body);
+    } else {
+      console.log('error readUrlContentRes', error);
     }
   });
 }
@@ -249,6 +247,8 @@ choosePort(HOST, DEFAULT_PORT)
       const io = require('socket.io')();
 
       io.on('connection', (client) => {
+
+        console.log('client connected');
 
         client.on('requestAvailableServices', function() {
           getServices(client);

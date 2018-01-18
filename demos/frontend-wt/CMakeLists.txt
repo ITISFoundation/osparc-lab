@@ -1,0 +1,37 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+# set output directories
+SET( MYAPP_BIN_DIRECTORY ${CMAKE_BINARY_DIR}/_bin )
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${MYAPP_BIN_DIRECTORY})
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${MYAPP_BIN_DIRECTORY})
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${MYAPP_BIN_DIRECTORY})
+SET(CMAKE_MODULE_OUTPUT_DIRECTORY  ${MYAPP_BIN_DIRECTORY})
+
+INCLUDE(${CMAKE_SOURCE_DIR}/CMake/CommonMacros.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/CMake/ThirdPartyBoost.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/CMake/ThirdPartyWt.cmake)
+
+#INCLUDE_ALL_THESE_CMAKE_INCLUDE_FILES( ${CMAKE_SOURCE_DIR}/CMake/ThirdParty*.cmake )
+
+PROJECT(WTSpartSandbox)
+
+
+if(UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+    SET( CMAKE_VERBOSE_MAKEFILE on )
+endif()
+
+SET(MAJOR_VERSION 0)
+SET(MINOR_VERSION 1)
+
+ADD_SUBDIRECTORY(WTSparcSandbox)
+# ADD_SUBDIRECTORY(BuildEnv) # TODO
+
+
+# DISPLAY
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})#
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
+
+#execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "environment")
