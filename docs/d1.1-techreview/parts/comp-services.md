@@ -2,8 +2,11 @@
 
 #### Introduction
 
-The computational backend involves all services needed to handle the actual computational workload. A computational workflow is described as a pipeline that processes a stream of data in a sequential way. Every pipeline consists of multiple algorithms each of which expecting specific input data and providing specific output data.
-The pipeline can be built up in the frontend as a directed acyclic graph (dag) where the edges describe input/ouput and the nodes consist of the algorithms, the computational kernels. Such kernels include complete standalone solvers, algorithms to calculate specific quantities or viewer that render data into graphs, plots or tables.
+The computational backend embodies all services needed to handle the actual computational workload.
+A computational workflow is described as a pipeline that processes a stream of data in a sequential way.
+Every pipeline consists of multiple algorithms each of which expecting specific input data and providing specific output data.
+The pipeline can be built up in the frontend as a directed acyclic graph (dag) where the edges describe input/ouput and the nodes consist of the algorithms, the computational kernels.
+Such kernels include standalone solvers, algorithms to calculate specific quantities or viewers that render data into graphs, plots or tables.
 
 
 #### Responsabilities
@@ -21,10 +24,17 @@ The computational backend
 
 Since ease of adding user defined algorithms into the platform is considered paramount, technology preselection was based on that criterion. 
 
-Modern scientific libraries and solvers span a broad range of programming languages, are typically very specialized and have many dependcies to numerical libraries. Usually they are desgined to work best on few specific platforms. In order to ease the deployment of those codes into the heterogenous simcore platform, it is desirable to provide contributors with the toolsets and platform they know best. This can be achieved by the usage of containers or virtual machines. Due to the large overhead in terms of hardware consumption, usage of virtual machines has been discareded in favor of the containerized approach. Containers, in contrast to virtual machines, do not emulate the hardware but the operating system itself. That makes them much more lightweight and allows for having up to thousands of instances running on one host.
+Modern scientific libraries and solvers span a broad range of programming languages, are typically very specialized and have many dependcies to numerical libraries.
+Usually they are desgined to work best on few specific platforms.
+In order to ease the deployment of those codes into the heterogeneous simcore platform, it is desirable to provide contributors with the toolsets and platform they know best.
+This can be achieved with the usage of container technology or virtual machines.
+Due to the large overhead in terms of hardware consumption, virtual machines have been discareded in favor of the containerized approach.
+Containers, in contrast to virtual machines, do not emulate the hardware but the operating system itself. That makes them much more lightweight and allows for having up to thousands of instances running on one host.
 
-There exist several approaches to containerization, however docker has become the de-facto standard in the industry and many scientific applications already provide users with docker images of their code. Furthermore, with docker swarm, a tool is at hand that natively allows to orchestrate multiple docker containers among a heterogenous network of computers. Additionally, all major cloud providing platforms support the technology. However, if later on in the project, more sophisticated means of orchestration is required, docker recently added full support for kubernetes which is the major player when it comes to managing containers.
-
+There exist several approaches to containerization, however docker has become the de-facto standard in the industry and many scientific applications already provide users with docker images of their code.
+Furthermore, with docker swarm, a tool is at hand that natively allows to orchestrate multiple docker containers among a heterogeneous network of computers.
+dditionally, all major cloud providing platforms support the technology.
+However, if later on in the project, more sophisticated means of orchestration is required, docker recently added full support for kubernetes which is the major player when it comes to managing containers.
 
 The docker framework also allows to easily extend functionality on existing images which will be used to enhance algorithms with an additional layer that makes integration into the simcore ecosystem possible. A specific use case will be discussed below.
 
@@ -33,9 +43,12 @@ The docker framework also allows to easily extend functionality on existing imag
 
 **Docker image registry**
 
-With respect to the technology decision outlined above, another core component of the docker ecosystem is being used for the computational backend, namely the concept of the docker registry. Every computational service is provided as a docker image in a repository that is part of the simcore platform. If required, those images are being pulled from the registry and a container is created that runs the corresponding service.
+With respect to the technology decision outlined above, another core component of the docker ecosystem is being used for the computational backend, namely the concept of the docker registry.
+Every computational service is provided as a docker image hosted in a repository that is part of the simcore platform.
+If required, those images are being pulled from the registry and a container is created that runs the corresponding service.
 
-In addition to the images themselves, the registry also contains meta information for the services. This allows to store information like 
+In addition to the images themselves, the registry also contains meta information for the services.
+This allows to store information like 
 
 - required input data (format)
 - output data (format)
@@ -46,27 +59,38 @@ This data is being used to check whether two algorithms in the pipeline can be c
 
 **Director**
 
-The director acts as bridge between the frontend/backend and the computational backend. It is aware of all available algorithms in the registry and can translate incoming pipelines into workflows and schedules jobs to execute them in the proper order.
+The director acts as bridge between the frontend/backend and the computational backend.
+It is aware of all available algorithms in the registry and can translate incoming pipelines into workflows and schedules jobs to execute them in the proper order.
 
-All jobs are being kept in a queue and its status can be queried from the client. Also job control such as stop/kill/resume is provided.
+All jobs are being kept in a queue and its status can be queried from the client.
+Also job control such as stop/kill/resume is provided.
 
 **Distributed task queue and message broker**
 
-All jobs in the platfrom are being scheduled in a centralized queue based on message passing. Workers can grab tasks from the list and execute them concurrently. For that purpose a broker service that handles all the message passing from director to worker is also part of the computational backend.
-Due to its popularity and wide usage the celery library has been chosen for the distributed task queue. It is easy to integrate and offers bindings to several lanugages. It supports several message brokers and database backends. For intial prototyping RabbitMQ is used for the former and MongoDB for the latter.
+All jobs in the platfrom are being scheduled in a centralized queue based on message passing.
+Workers can grab tasks from the list and execute them concurrently.
+For that purpose a broker service that handles all the message passing from director to worker is also part of the computational backend.
+Due to its popularity and wide usage the celery library has been chosen for the distributed task queue.
+It is easy to integrate and offers bindings to several lanugages.
+It supports several message brokers and database backends.
+For intial prototyping RabbitMQ is used for the former and MongoDB for the latter.
 
 **Workers**
 
-Workers are the services that perform the actual computation. They always appear in pairs of containers. One, the sidecar, is always alive and is connected to the tasks queue. When required it creates a so called one-shot container running the requested computational service. All interaction sidecar-computational service happends on the command line interface. Furthermore, since being pysically on the same host, they share the filesystem which allows the sidecar to make input files or other data avilable to the computational service. 
+Workers are the services that perform the actual computation.
+They always appear in pairs of containers. One, the sidecar, is always alive and is connected to the task queue.
+When required it creates a so called one-shot container running the requested computational service.
+All interaction sidecar-computational service happends on the command line interface.
+Furthermore, since being pysically on the same host, they share the filesystem which allows the sidecar to make input files or other data avilable to the computational service. 
 
-The advantage of this design is that all complex interaction with the system is being abstracted away from the computational service and enables contributers to add algorithms without the need for detailed knowledge of the platform.
+The advantage of this design is that all complex interaction with the system is being abstracted away from the computational service which enables contributers to add algorithms without the need for detailed knowledge of the platform.
 
 **Service Orchestration**
 
 As mentioned above simcore takes advantage of the native docker orchestration tool swarm. If this turns out to be not flexible enough, kubernetes can also be considered.
 
 
-#### Use case
+#### Example use case
 
 For the sake of simplicity, consider a computational service that evaluates a user defined single variable function in a given interval and a second service that renders that result as a scatter plot. For the function parsing service, c and c++ code is available from a contributer. In addition, the contributer provided the command line arguments for its algorithm. For the visualization part, a default service from the simcore platform will be used that expects a tab separated listof values as an input and creates an rendered html page with a scatter plot.
 
@@ -172,10 +196,8 @@ Finally, the descriptor for this part of the pipeline would look like
 
 #### Miscellaneous
 
-- By the end of 2016 Mircosoft added support for docker containers on the Windows familiy of operating systems. Since docker swarm is operating system agnostic that means the simcore platform automatically supports linux and windows based computational services.
- - Shifter, an new open source project provides a runtime for container images and is specifically suited for HPC on supercomputer architecture. Among other formats it supports docker
+- By the end of 2016 Mircosoft added support for docker containers on the Windows familiy of operating systems.
+Since docker swarm is operating system agnostic that means the simcore platform automatically supports linux and windows based computational services.
+ - Shifter, an new open source project provides a runtime for container images and is specifically suited for HPC on supercomputer architecture.
+Among other formats it supports docker.
 - The MPICH application binary interface (ABI) can be used to link code against the ubuntu MPICH library package and change the binding at runtime to the host ABI compatible MPI implementation.
-
-
-
-#### Recommendations
