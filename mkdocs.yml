@@ -18,5 +18,6 @@ pages:
     - 'High Level Platform Functionality Specifications': 'd1.1-report/specs/high-level.md'
     - 'Framework Architecture Specifications': 'd1.1-report/specs/low-level.md'
   - Conclusions: 'd1.1-report/conclusions.md'
+  - Appendix 1: 'd1.1-report/reqs/Questionnaire_SPARC_Teams_v5.pdf'
 
 theme: readthedocs
