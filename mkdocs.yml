@@ -1,22 +1,21 @@
 site_name: D1.1 Technical Specs. & Technology Evaluation
-
+docs_dir: './docs/d1.1-report'
 pages:
-  - Introduction: 'd1.1-report/index.md'
+  - Introduction: 'index.md'
   - Requirements Gathering:
-    - 'Methodology': 'd1.1-report/reqs/methodology.md'
-    - 'Results': 'd1.1-report/reqs/results.md'
-    - 'Conclusions': 'd1.1-report/reqs/conclusions.md'
+    - 'Methodology': 'reqs/methodology.md'
+    - 'Results': 'reqs/results.md'
+    - 'Conclusions': 'reqs/conclusions.md'
   - Technology Evaluation:
-    - Methodology: 'd1.1-report/tech/methodology.md'
-    - Front-end: 'd1.1-report/tech/parts/client-side.md'
-    - Web-server: 'd1.1-report/tech/parts/server-side.md'
-    - Communication models: 'd1.1-report/tech/parts/communication.md'
-    - Computational services: 'd1.1-report/tech/parts/comp-services.md'
-    - Demonstrations: 'd1.1-report/tech/parts/demos.md'
-    - Conclusions: 'd1.1-report/tech/conclusion.md'
+    - Methodology: 'tech/methodology.md'
+    - Front-end: 'tech/parts/client-side.md'
+    - Web-server: 'tech/parts/server-side.md'
+    - Communication models: 'tech/parts/communication.md'
+    - Computational services: 'tech/parts/comp-services.md'
+    - Demonstrations: 'tech/parts/demos.md'
+    - Conclusions: 'tech/conclusion.md'
   - Specficications:
-    - 'High Level Specifications': 'd1.1-report/specs/high-level.md'
-    - 'Low Level Specifications': 'd1.1-report/specs/low-level.md'
-  - Conclusions: 'd1.1-report/conclusions.md'
-
+    - 'High Level Specifications': 'specs/high-level.md'
+    - 'Low Level Specifications': 'specs/low-level.md'
+  - Conclusions: 'conclusions.md'
 theme: readthedocs
