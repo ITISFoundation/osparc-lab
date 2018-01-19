@@ -1,6 +1,5 @@
-## Computational services
 
-#### Introduction
+## Introduction
 
 The computational backend embodies all services needed to handle the actual computational workload.
 A computational workflow is described as a pipeline that processes a stream of data in a sequential way.
@@ -9,20 +8,20 @@ The pipeline can be built up in the frontend as a directed acyclic graph (dag) w
 Such kernels include standalone solvers, algorithms to calculate specific quantities or viewers that render data into graphs, plots or tables.
 
 
-#### Responsabilities
+## Responsibilities
 
 The computational backend
 
-- schedules execution of pipelines in an efficient way while respecting the inherent data dependencies 
+- schedules execution of pipelines in an efficient way while respecting the inherent data dependencies
 - provides the user with a list of all available algorithms
 - provides a mechanism to easily inject new algorithms
 - allows control/managing of concurrently running pipelines
 - can dynamically be up/down-scaled depending on the current load
 - has access to a database with all relevant input and output data
- 
-#### Selection of technology for computational kernel integration
 
-Since ease of adding user defined algorithms into the platform is considered paramount, technology preselection was based on that criterion. 
+## Selection of technology for computational kernel integration
+
+Since ease of adding user defined algorithms into the platform is considered paramount, technology preselection was based on that criterion.
 
 Modern scientific libraries and solvers span a broad range of programming languages, are typically very specialized and have many dependcies to numerical libraries.
 Usually they are desgined to work best on few specific platforms.
@@ -39,7 +38,7 @@ However, if later on in the project, more sophisticated means of orchestration i
 The docker framework also allows to easily extend functionality on existing images which will be used to enhance algorithms with an additional layer that makes integration into the simcore ecosystem possible. A specific use case will be discussed below.
 
 
-#### Core components of computational backend
+## Core components of computational backend
 
 **Docker image registry**
 
@@ -48,7 +47,7 @@ Every computational service is provided as a docker image hosted in a repository
 If required, those images are being pulled from the registry and a container is created that runs the corresponding service.
 
 In addition to the images themselves, the registry also contains meta information for the services.
-This allows to store information like 
+This allows to store information like
 
 - required input data (format)
 - output data (format)
@@ -81,7 +80,7 @@ Workers are the services that perform the actual computation.
 They always appear in pairs of containers. One, the sidecar, is always alive and is connected to the task queue.
 When required it creates a so called one-shot container running the requested computational service.
 All interaction sidecar-computational service happends on the command line interface.
-Furthermore, since being pysically on the same host, they share the filesystem which allows the sidecar to make input files or other data avilable to the computational service. 
+Furthermore, since being pysically on the same host, they share the filesystem which allows the sidecar to make input files or other data avilable to the computational service.
 
 The advantage of this design is that all complex interaction with the system is being abstracted away from the computational service which enables contributers to add algorithms without the need for detailed knowledge of the platform.
 
@@ -90,7 +89,7 @@ The advantage of this design is that all complex interaction with the system is 
 As mentioned above simcore takes advantage of the native docker orchestration tool swarm. If this turns out to be not flexible enough, kubernetes can also be considered.
 
 
-#### Example use case
+### Example use case
 
 For the sake of simplicity, consider a computational service that evaluates a user defined single variable function in a given interval and a second service that renders that result as a scatter plot. For the function parsing service, c and c++ code is available from a contributer. In addition, the contributer provided the command line arguments for its algorithm. For the visualization part, a default service from the simcore platform will be used that expects a tab separated listof values as an input and creates an rendered html page with a scatter plot.
 
@@ -100,38 +99,39 @@ A dockerfile contains all commands needed to create a docker image that can be r
 
 
 ```bash
-  1 FROM alpine
-  2 
-  3 MAINTAINER  Manuel guidon <guidon@itis.ethz.ch>
-  4 
-  5 RUN apk add --no-cache g++ bash jq
-  6 
-  7 WORKDIR /work
-  8 
-  9 ADD ./code /work
- 10 ADD ./simcore.io /simcore.io
- 11 RUN chmod +x /simcore.io/*
- 12 
- 13 ENV PATH="/simcore.io:${PATH}"
- 14 
- 15 RUN gcc -c -fPIC -lm tinyexpr.c -o libtiny.o
- 16 RUN g++ -std=c++11 -o test main.cpp libtiny.o
- 17 RUN rm *.cpp *.c *.h
+  FROM alpine
+
+  MAINTAINER  Manuel guidon <guidon@itis.ethz.ch>
+
+  RUN apk add --no-cache g++ bash jq
+
+  WORKDIR /work
+
+  ADD ./code /work
+  ADD ./simcore.io /simcore.io
+  RUN chmod +x /simcore.io/*
+
+  ENV PATH="/simcore.io:${PATH}"
+
+  RUN gcc -c -fPIC -lm tinyexpr.c -o libtiny.o
+  RUN g++ -std=c++11 -o test main.cpp libtiny.o
+  RUN rm *.cpp *.c *.h
 ```
 
 The image is based on a very small linux distribution called `alpine` with compilers `gcc`, shell `bash` and jason parser `jq`. In addition to compile the source code into an executable called `test` the `PATH` is being prepended by some scripts from what is called `simcore.io`. This allows to enhance the docker command line interface (cli) by whatever is needed to run the computational service via the sidecar. In this ase, there is a `run` command added to the cli.
 
 ```bash
-  1 #!/bin/bash
-  2 arg1=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmin") .value')
-  3 arg2=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmax") .value')
-  4 arg3=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="N") .value')
-  5 arg4=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="func") .value')
-  6 temp="${arg4%\"}"
-  7 temp="${temp#\"}"
-  8 arg5=$OUTPUT_FOLDER/output
-  9 
- 10 ./test $arg1 $arg2 $arg3 $temp $arg5 > $LOG_FOLDER/log.dat
+  #!/bin/bash
+
+  arg1=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmin") .value')
+  arg2=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="xmax") .value')
+  arg3=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="N") .value')
+  arg4=$(cat $INPUT_FOLDER/input.json | jq '.[] | select(.name =="func") .value')
+  temp="${arg4%\"}"
+  temp="${temp#\"}"
+  arg5=$OUTPUT_FOLDER/output
+
+  ./test $arg1 $arg2 $arg3 $temp $arg5 > $LOG_FOLDER/log.dat
 ```
 In this case, the sidecar would copy the all input data needed into a file called `input.json` which above script would parse and pass to the test executable.  
 
@@ -163,41 +163,39 @@ After building the docker image is is being depolyed into the docker registry wi
 
 Finally, the descriptor for this part of the pipeline would look like
 
-```json	
-  1 {
-  2   "input":
-  3   [
-  4     {
-  5       "name": "N",
-  6       "value": 10
-  7     },
-  8     {
-  9       "name": "xmin",
- 10       "value": -1.0
- 11     },
- 12     {
- 13       "name": "xmax",
- 14       "value": 1.0
- 15     },
- 16     {
- 17       "name": "func",
- 18       "value": "exp(x)*sin(x)"
- 19     }
- 20   ],
- 21   "container":
- 22   {
- 23     "name": "simcore.io.registry/comp.services/function-parser",
- 24     "tag": "1.1"
- 25   }
- 26 }
- 27 
- 28 
+```json
+   {
+     "input":
+     [
+       {
+         "name": "N",
+         "value": 10
+       },
+       {
+         "name": "xmin",
+        "value": -1.0
+      },
+      {
+        "name": "xmax",
+        "value": 1.0
+      },
+      {
+        "name": "func",
+        "value": "exp(x)*sin(x)"
+      }
+    ],
+    "container":
+    {
+      "name": "simcore.io.registry/comp.services/function-parser",
+      "tag": "1.1"
+    }
+  }  
 ```
 
-#### Miscellaneous
+### Miscellaneous
 
-- By the end of 2016 Mircosoft added support for docker containers on the Windows familiy of operating systems.
+- By the end of 2016 Microsoft added support for docker containers on the Windows family of operating systems.
 Since docker swarm is operating system agnostic that means the simcore platform automatically supports linux and windows based computational services.
  - Shifter, an new open source project provides a runtime for container images and is specifically suited for HPC on supercomputer architecture.
 Among other formats it supports docker.
-- The MPICH application binary interface (ABI) can be used to link code against the ubuntu MPICH library package and change the binding at runtime to the host ABI compatible MPI implementation.
+- The MPICH application binary interface (ABI) can be used to link code against the Ubuntu MPICH library package and change the binding at runtime to the host ABI compatible MPI implementation.

@@ -120,7 +120,7 @@ This is a comparative table with the pre-selected framework and some key-points
 
 The main difference between vue, react and qooxdoo is that while the first two provide very light frameworks and programming concepts with simple skeletons to start building on top of, qooxdoo provides a mature framework with a collection UI widgets. What means that for vue and react applications whatever UI component you want to add, you need to look for it out there and install it, using the Node Package Manager, together with its dependencies in the project. In qooxdoo, if the original framework doesn't provide the component, you need to download the desired package and keep it within the project.
 
-## Recommendations
+### Recommendations
 Based on our analysis and how mature the frameworks we reviewed are, vue should be discarded.
 Between [react] and [qooxdoo], we have the feeling that both frameworks could work, but taking into the popularity and support the community can provide, our recommendations is to use [react].
 

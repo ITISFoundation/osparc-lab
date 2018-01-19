@@ -1,4 +1,4 @@
-### Communication and Interoperability
+## Communication and Interoperability
 
 In order to achieve interoperability among different services, both wihin the simcore platform (e.g. among computational services) and outside (e.g. with other SPARC-cores services) the platform a stable maintainable communication model is required.
 In order to establish this interprocess communication (IPC) various technologies are available.
@@ -10,7 +10,7 @@ For this review we focus on three different technologies:
 - AMQP
 
 
-#### Review
+## Review
 
 **REST API**
 
@@ -32,7 +32,7 @@ REST uses the HTTP verbs to get or manipulate resources that are represented usi
 **Thrift**
 
 A framework that supports multiple language for clients and servers by using a compiler that auto generates code from interface definitions.
-Supports C++, Java, Python, Node.js, ..., and is developed by facebook. 
+Supports C++, Java, Python, Node.js, ..., and is developed by facebook.
 
 ***Pros***
 
@@ -62,7 +62,7 @@ Communication can be done point-to-point or one-to-all.
 - More work needs to be done for request/response interaction (identification system for messages)
 - If broker dies, system breaks down
 
-#### Conclusions
+## Conclusions
 
 All above mentioned technologies have characteristics that fit for different parts of simcore.
 At the moment we are in favor to use RESTful APIs for the communication in between the backend and the director as well as for communication with the other cores.
