@@ -1,0 +1,31 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "source-output"
+    },
+    {
+      "type": "hybrid",
+      "outputPath": "hybrid-output"
+    },
+    {
+      "type": "build",
+      "outputPath": "build-output"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+
+  "applications": [
+    {
+      "class": "qxapp.Application",
+      "theme": "qxapp.theme.Theme",
+      "name": "qxapp"
+    }
+  ],
+
+  "libraries": [
+    "C:/Users/maiz/AppData/Roaming/npm/node_modules/qxcompiler/node_modules/qooxdoo-sdk/framework",
+    "."
+  ]
+}
