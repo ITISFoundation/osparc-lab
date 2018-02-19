@@ -204,4 +204,4 @@ def calc(x_min, x_max, N, f):
 
 
 if __name__ == "__main__":
-    app.run(port=8010, debug=True, host='0.0.0.0')
+    app.run(port=8010, debug=True, host='0.0.0.0', threaded=True)

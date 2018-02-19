@@ -17,7 +17,7 @@ services:
         constraints: [node.role == worker]
   sidecar:
 #    image: masu.speag.com/comp.backend/simcore.sidecar:1.0
-    image: mguidon/simcore.comp.backend.sidecar:2:0
+    image: mguidon/simcore.comp.backend.sidecar:2.0
     volumes:
       - input:/input
       - output:/output
