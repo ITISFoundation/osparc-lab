@@ -37,15 +37,19 @@ io.on('connection', function(client) {
 
 
 function doOperation1(client, in_number) {
-  console.log('doing operation 1 with ', in_number);
-  console.log(Math.pow(in_number, 2));
+  console.log('doing operation 1 with input', in_number);
+  var resultOp1 = {
+    value: Math.pow(in_number, 2)
+  };
   client.emit('operation1', resultOp1);
 };
 
-function exportEntities(client, in_number) {
-  console.log('doing operation 2 with ', in_number);
-  console.log(Math.pow(in_number, 0.5));
-  client.emit('operation1', resultOp2);
+function doOperation2(client, in_number) {
+  console.log('doing operation 2 with input', in_number);
+  var resultOp2 = {
+    value: Math.pow(in_number, 0.5)
+  };
+  client.emit('operation2', resultOp2);
 };
 
 
