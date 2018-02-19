@@ -1,6 +1,7 @@
 /**
  * This class is a direct link with socketio.
- * @asset(resource/socketio/*)
+ * @asset(qxapp/*)
+ * @asset(socketio/socket.io.js)
  * @ignore(io)
  */
 
@@ -112,7 +113,7 @@ qx.Class.define("qxapp.wrappers.webSocket", {
     connect: function() {
 
       // initialize the script loading
-      var socket_io_path = "resource/socketio/socket.io.js";
+      var socket_io_path = "../resource/socketio/socket.io.js";
       var dynLoader = new qx.util.DynamicScriptLoader([
         socket_io_path
       ]);
