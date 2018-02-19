@@ -71,7 +71,7 @@ def parse_container_data(data):
         container_name = container["name"]
         container_tag = container['tag']
         client = docker.from_env(version='auto')
-        client.login(registry="masu.speag.com/v2", username="z43", password="z43")
+#        client.login(registry="masu.speag.com/v2", username="z43", password="z43")
         img = client.images.pull(container_name, tag=container_tag)
         container_hash = str(img.id).split(':')[1]
         return container_hash
