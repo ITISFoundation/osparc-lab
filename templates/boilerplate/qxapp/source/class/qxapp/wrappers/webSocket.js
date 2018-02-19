@@ -4,7 +4,7 @@
  * @ignore(io)
  */
 
-qx.Class.define("app.wrappers.webSocket", {
+qx.Class.define("qxapp.wrappers.webSocket", {
   extend: qx.core.Object,
 
   //Socket.io events
