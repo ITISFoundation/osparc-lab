@@ -17,7 +17,7 @@ qx.Class.define("qxapp.Application",
 {
   extend : qx.application.Standalone,
 
-
+  include : [qx.locale.MTranslation],
 
   /*
   *****************************************************************************
@@ -51,19 +51,51 @@ qx.Class.define("qxapp.Application",
       -------------------------------------------------------------------------
       */
 
-      // Create a button
-      var button1 = new qx.ui.form.Button("Hello world", "qxapp/test.png");
-
       // Document is the application root
       var doc = this.getRoot();
 
-      // Add button to document at fixed coordinates
-      doc.add(button1, {left: 100, top: 50});
+      // openning web socket
+      this._socket = new qxapp.wrappers.webSocket('app');
+      this._socket.connect();
 
-      // Add an event listener
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5));
+      var spinner = new qx.ui.form.Spinner();
+      container.add(new qx.ui.basic.Label("Input number"));
+      container.add(spinner);
+
+      // Add spinner to document at fixed coordinates
+      doc.add(container, {left: 50, top: 50});
+
+      // Create operation buttons
+      var button1 = new qx.ui.form.Button("Do operation 1");
+      var button2 = new qx.ui.form.Button("Do operation 2");
+
+      // Add buttons and labels to document at fixed coordinates
+      doc.add(button1, {left: 50, top: 100});
+      doc.add(button2, {left: 200, top: 100});
+
+      // Add an event listeners
       button1.addListener("execute", function() {
-        console.log('Hello World button clicked');
-      });
-    }
+        if (!this._socket.slotExists("operation1")) {
+          this._socket.on("operation1", function(val) {
+            console.log(val);
+            alert("Result to operation 1: " + val.value);
+          });
+        }
+        var input_number = spinner.getValue();
+        this._socket.emit("operation1", input_number);
+      }, this);
+
+      button2.addListener("execute", function() {
+        if (!this._socket.slotExists("operation2")) {
+          this._socket.on("operation2", function(val) {
+            console.log(val);
+            alert("Result to operation 2: " + val.value);
+          });
+        }
+        var input_number = spinner.getValue();
+        this._socket.emit("operation2", input_number);
+      }, this);
+    },
   }
 });
