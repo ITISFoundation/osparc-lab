@@ -78,12 +78,6 @@ def parse_container_data(data):
 
 def start_computation(data):
     try:
-       # req = requests.post("http://sidecar:8000/setup", json = data)
-       # req2 = requests.get("http://sidecar:8000/preprocess")
-       # req3 = requests.get("http://sidecar:8000/process")
-       # req4 = requests.get("http://sidecar:8000/postprocess")
-#       print data
-#       sys.stdout.flush()
        req = requests.post("http://sidecar:8000/run", json = data)
 
     except requests.exceptions.ConnectionError:
@@ -184,8 +178,8 @@ def calc(x_min, x_max, N, f):
     ],
     "container":
     {
-    	"name": "masu.speag.com/comp.services/sidecar-solver",
-        "tag": "1.1"
+    	"name": "mguidon/simcore.comp.backend.functionparser",
+        "tag": "2.0"
     }
     }""" % (N, x_min, x_max, f) 
 
