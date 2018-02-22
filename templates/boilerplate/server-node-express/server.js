@@ -10,13 +10,21 @@ const PORT = 8080;
 const APP_PATH = '../client-qx/source-output'
 
 // serve static assets normally
-app.use(express.static(__dirname + '../client-qx/source-output/qxapp'));
+app.use(express.static('/Users/pcrespo/devp/osparc-lab-pc/templates/boilerplate/client-qx/source-output/qxapp'));
+//     __dirname + '../client-qx/source-output/qxapp'));
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('/', function (request, response) {
   const path = require('path');
-  response.sendFile(path.resolve(__dirname, APP_PATH, 'index.html'));
+
+
+
+  //response.sendFile(path.resolve(__dirname, APP_PATH, 'index.html'));
+
+  //console.log(path.resolve(__dirname, APP_PATH, 'index.html'))
+  response.sendFile('/Users/pcrespo/devp/osparc-lab-pc/templates/boilerplate/client-qx/source-output/index.html')
+
 });
 
 server.listen(PORT);
