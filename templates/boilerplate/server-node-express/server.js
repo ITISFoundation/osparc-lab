@@ -21,8 +21,9 @@ const APP_PATH = process.env.APP_APTH_ || path.resolve(__dirname, 'source-output
 
 
 // serve static assets normally
-console.log( "Serving static : " + APP_PATH );
-app.use( express.static(APP_PATH) );
+const static_path = APP_PATH
+console.log( "Serving static : " + static_path );
+app.use( express.static(static_path) );
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).

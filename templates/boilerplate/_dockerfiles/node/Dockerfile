@@ -1,3 +1,4 @@
+# Compilation stage ----
 FROM node:8.9.2
 
 LABEL maintainer=pcrespov
@@ -17,12 +18,12 @@ COPY client-qx/source source
 RUN qx compile
 
 
-
+# Deployment stage -----
 FROM node:8.9.2
 
 WORKDIR /home/node/
-COPY server-node-express .
 COPY --from=0 /home/node/qxapp/source-output source-output
+COPY server-node-express .
 
 RUN npm install -y
 
