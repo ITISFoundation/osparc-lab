@@ -1,0 +1,8 @@
+version: '3'
+services:
+  build-qx:
+    build:
+      context: .
+      dockerfile: _dockerfiles/build-qx/Dockerfile
+    volumes:
+      - './client-qx:/home/node/qxapp'
