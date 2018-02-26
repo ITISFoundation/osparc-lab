@@ -3,6 +3,6 @@ services:
   qxapp:
     build:
       context: .
-      dockerfile: _dockerfiles/node/Dockerfile
+      dockerfile: _dockerfiles/qxapp/node/Dockerfile
     ports:
       - '8888:8080'
