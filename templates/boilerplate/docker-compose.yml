@@ -1,0 +1,8 @@
+version: '3'
+services:
+  qxapp:
+    build:
+      context: .
+      dockerfile: _dockerfiles/node/Dockerfile
+    ports:
+      - '8888:8080'

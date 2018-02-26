@@ -4,4 +4,4 @@
 /resource-db.json
 */qooxdoo/*
 */contrib/*
-node_modules/
+*/node_modules/*

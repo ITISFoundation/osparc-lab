@@ -25,7 +25,7 @@
   ],
 
   "libraries": [
-    "/usr/local/lib/node_modules/qxcompiler/node_modules/qooxdoo-sdk/framework",
+    "./node_modules/qooxdoo-sdk/framework/",
     "."
   ],
 
