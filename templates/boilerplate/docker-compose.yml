@@ -5,4 +5,5 @@ services:
       context: .
       dockerfile: _dockerfiles/qxapp/node/Dockerfile
     ports:
-      - '8888:8080'
+      # BUG: sockets in qx hard-coded to 8000 so client will try to answer in 8000
+      - '8080:8080'

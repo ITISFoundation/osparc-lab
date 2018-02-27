@@ -11,10 +11,11 @@ RUN npm install qxcompiler
 
 # TODO: why to create again? not better taking entire client-qx??
 ENV PATH="/home/node/node_modules/.bin/:${PATH}"
-RUN qx create qxapp -I --qxpath /home/node/node_modules/qooxdoo-sdk/framework/
+#RUN qx create qxapp -I --qxpath /home/node/node_modules/qooxdoo-sdk/framework/
 
 WORKDIR /home/node/qxapp
 COPY client-qx/source source
+COPY client-qx/*.json ./
 RUN qx compile
 
 
@@ -25,7 +26,11 @@ WORKDIR /home/node/
 COPY --from=0 /home/node/qxapp/source-output source-output
 COPY server-node-express .
 
-RUN npm install -y
+
+# TODO ensure npm@5.5.1
+RUN npm install -y \
+  && echo node $(node --version) \
+  && echo npm $(npm --version)
 
 EXPOSE 8080
 
