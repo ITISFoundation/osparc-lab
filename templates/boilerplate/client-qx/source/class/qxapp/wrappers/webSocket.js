@@ -41,6 +41,8 @@ qx.Class.define("qxapp.wrappers.webSocket", {
 
     /**
      * The url used to connect to socket.io
+
+     TODO: 2018-02-27 16:34:39.064 Cannot interpret AST BinaryExpression at qxapp.wrappers.webSocket [47,12]
      */
     url: {
       nullable: false,
@@ -50,7 +52,7 @@ qx.Class.define("qxapp.wrappers.webSocket", {
     /** The port used to connect */
     port: {
       nullable: false,
-      init: 8080,
+      init: 8080, // <------  TODO!!! Externalize to a variable configurable
       check: "Number"
     },
     /** The namespace (socket.io namespace), can be empty */

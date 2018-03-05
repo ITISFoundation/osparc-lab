@@ -2,25 +2,38 @@
 // node server.js
 
 const express = require('express');
+const path = require('path');
+
 const app = express();
 var server = require('http').createServer(app);
 var https = require('https');
 
-const PORT = 8080;
-const APP_PATH = 'source-output/qxapp/'
+
+
+// TODO: external access to these variable
+// TODO: socker io on the same port?
+// TODO: how to guarantee same version of sockerio between client/server?
+// See https://www.twilio.com/blog/2017/08/working-with-environment-variables-in-node-js.html
+
+
+const HOSTNAME = process.env.HOSTNAME_ || "0.0.0.0"
+const PORT = process.env.PORT_ || 8080;
+const APP_PATH = process.env.APP_APTH_ || path.resolve(__dirname, 'source-output')
+
 
 // serve static assets normally
-app.use(express.static(__dirname + '/source-output'));
+const static_path = APP_PATH
+console.log( "Serving static : " + static_path );
+app.use( express.static(static_path) );
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('/', function (request, response) {
-  const path = require('path');
-  response.sendFile(path.resolve(__dirname, APP_PATH, 'index.html'));
+  console.log("Routing / to " + path.resolve(APP_PATH, 'index.html'))
+  response.sendFile( path.resolve(APP_PATH, 'index.html') );
 });
 
-server.listen(PORT);
-
+server.listen(PORT, HOSTNAME);
 
 var io = require('socket.io')(server);
 io.on('connection', function(client) {
@@ -52,5 +65,4 @@ function doOperation2(client, in_number) {
   client.emit('operation2', resultOp2);
 };
 
-
-console.log("server started on " + PORT + '/qxapp');
+console.log("server started on " + HOSTNAME + ":" + PORT );

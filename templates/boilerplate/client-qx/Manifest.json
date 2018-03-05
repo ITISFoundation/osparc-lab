@@ -1,17 +1,17 @@
 {
-  "info" : 
+  "info" :
   {
     "name" : "qxapp",
 
-    "summary" : "",
+    "summary" : "This is a sample",
     "description" : "",
-    
+
     "homepage" : "",
 
     "license" : "MIT license",
     "authors" : [
   {
-    "name": "",
+    "name": "maiz",
     "email": ""
   }
 ],
@@ -19,8 +19,8 @@
     "version" : "1.0.0",
     "qooxdoo-range": "6.0.0-alpha"
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "qxapp",
     "encoding"    : "utf-8",

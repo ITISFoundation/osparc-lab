@@ -11,16 +11,16 @@ node:
 
 # Builds a production image of this application
 build:
-	docker build -t ${IMAGENAME} ./qxapp
+	docker-compose build qxapp
 
 run:
-	docker run -idt --rm -p 8080:8080 --dns 172.16.8.15 --name qooxdoo-demo ${IMAGENAME} qx serve
+	#docker run -idt --rm -p 8888:8080 --dns 172.16.8.15 --name qooxdoo-demo ${IMAGENAME} qx serve
+	docker-compose run --service-ports -d qxapp
 
 
 
 demo: build run
-	open http://localhost:8080/source-output/qxapp/index.html
-	
+	open http://localhost:8888
+
 stop:
-	docker stop qooxdoo-demo
-	docker rm qooxdoo-demo
+	docker-compose down
