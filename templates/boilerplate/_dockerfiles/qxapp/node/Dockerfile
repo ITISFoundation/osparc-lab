@@ -22,16 +22,21 @@ RUN qx compile
 # Deployment stage -----
 FROM node:8.9.2
 
+ARG app_port=8080
+
+ENV SIMCORE_WEB_PORT $app_port
+ENV SIMCORE_WEB_HOSTNAME "0.0.0.0"
+ENV SIMCORE_WEB_OUTDIR /home/node/source-output
+
 WORKDIR /home/node/
 COPY --from=0 /home/node/qxapp/source-output source-output
 COPY server-node-express .
-
 
 # TODO ensure npm@5.5.1
 RUN npm install -y \
   && echo node $(node --version) \
   && echo npm $(npm --version)
 
-EXPOSE 8080
+EXPOSE $app_port
 
 CMD ["npm", "start"]
