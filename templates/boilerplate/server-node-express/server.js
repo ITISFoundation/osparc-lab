@@ -33,6 +33,32 @@ app.get('/', function (request, response) {
 
 server.listen(PORT, HOSTNAME);
 
+
+var thrift = require('thrift');
+
+var thrApplication       = require('./thrift/ApplicationJSNode/gen-nodejs/Application.js');
+var thrApplicationTypes  = require('./thrift/ApplicationJSNode/gen-nodejs/application_types');
+var thrAppLogger         = require('./thrift/ApplicationJSNode/gen-nodejs/Logger');
+var thrAppSharedService  = require('./thrift/ApplicationJSNode/gen-nodejs/SharedService');
+var thrAppProcessFactory = require('./thrift/ApplicationJSNode/gen-nodejs/ProcessFactory');
+
+const S4L_IP = process.env.CS_S4L_HOSTNAME || '172.16.9.89';
+const S4L_APP_PORT = process.env.CS_S4L_PORT || 9095;
+
+var transport = thrift.TBufferedTransport;
+var protocol = thrift.TBinaryProtocol;
+var connection_s4l = thrift.createConnection(S4L_IP, S4L_APP_PORT, {
+  transport: transport,
+  protocol : protocol
+});
+connection_s4l.on('error', function(err) {
+  console.log('Thrift connection to S4L failed:');
+  console.log(err);
+});
+
+var s4lAppClient = thrift.createClient(thrApplication, connection_s4l);
+
+
 var io = require('socket.io')(server);
 io.on('connection', function(client) {
   console.log('Client connected...');
@@ -44,11 +70,15 @@ io.on('connection', function(client) {
   client.on('operation2', function(in_number) {
     doOperation2(client, in_number);
   });
+
+  client.on('checkS4LAPIVersion', function() {
+    checkS4LAPIVersion(client, s4lAppClient);
+  });
 });
 
 
 function doOperation1(client, in_number) {
-  console.log('doing operation 1 with input', in_number);
+  console.log('Doing operation 1 with input', in_number);
   var resultOp1 = {
     value: Math.pow(in_number, 2)
   };
@@ -56,11 +86,18 @@ function doOperation1(client, in_number) {
 };
 
 function doOperation2(client, in_number) {
-  console.log('doing operation 2 with input', in_number);
+  console.log('Doing operation 2 with input', in_number);
   var resultOp2 = {
     value: Math.pow(in_number, 0.5)
   };
   client.emit('operation2', resultOp2);
 };
+
+function checkS4LAPIVersion(client, s4lAppClient) {
+  s4lAppClient.GetApiVersion( function(err, response) {
+    console.log('S4L API Version', response);
+    client.emit('checkS4LAPIVersion', response);
+  });
+}
 
 console.log("server started on " + HOSTNAME + ":" + PORT );
