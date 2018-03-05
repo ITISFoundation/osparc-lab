@@ -67,12 +67,12 @@ qx.Class.define("qxapp.Application",
       doc.add(container, {left: 50, top: 50});
 
       // Create operation buttons
-      var button1 = new qx.ui.form.Button("Do operation 1");
-      var button2 = new qx.ui.form.Button("Do operation 2");
+      var button1 = new qx.ui.form.Button("WS: Do operation 1");
+      var button2 = new qx.ui.form.Button("WS: Do operation 2");
 
       // Add buttons and labels to document at fixed coordinates
       doc.add(button1, {left: 50, top: 100});
-      doc.add(button2, {left: 200, top: 100});
+      doc.add(button2, {left: 250, top: 100});
 
       // Add an event listeners
       button1.addListener("execute", function() {
@@ -95,6 +95,19 @@ qx.Class.define("qxapp.Application",
         }
         var input_number = spinner.getValue();
         this._socket.emit("operation2", input_number);
+      }, this);
+
+
+      var button3 = new qx.ui.form.Button("WS + S4L: Check API Version");
+      doc.add(button3, {left: 50, top: 150});
+      button3.addListener("execute", function() {
+        if (!this._socket.slotExists("checkS4LAPIVersion")) {
+          this._socket.on("checkS4LAPIVersion", function(val) {
+            console.log(val);
+            alert("S4L API Version: " + val.major + '.' + val.minor);
+          });
+        }
+        this._socket.emit("checkS4LAPIVersion");
       }, this);
     },
   }
