@@ -22,11 +22,16 @@ RUN qx compile
 # Deployment stage -----
 FROM node:8.9.2
 
-ARG app_port=8080
+ARG web_app_port=8080
 
-ENV SIMCORE_WEB_PORT $app_port
 ENV SIMCORE_WEB_HOSTNAME "0.0.0.0"
+ENV SIMCORE_WEB_PORT $web_app_port
 ENV SIMCORE_WEB_OUTDIR /home/node/source-output
+
+ARG s4l_ip="172.16.9.89"
+ARG s4l_port="9095"
+ENV CS_S4L_HOSTNAME $s4l_ip
+ENV CS_S4L_PORT $s4l_port
 
 WORKDIR /home/node/
 COPY --from=0 /home/node/qxapp/source-output source-output
@@ -37,6 +42,6 @@ RUN npm install -y \
   && echo node $(node --version) \
   && echo npm $(npm --version)
 
-EXPOSE $app_port
+EXPOSE $web_app_port
 
 CMD ["npm", "start"]

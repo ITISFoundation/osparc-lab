@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: _dockerfiles/qxapp/node/Dockerfile
       args:
-        app_port: 9090
+        web_app_port: 9090
+        s4l_ip: "172.16.9.89"
+        s4l_port: 9095
     ports:
       - '8080:9090'
