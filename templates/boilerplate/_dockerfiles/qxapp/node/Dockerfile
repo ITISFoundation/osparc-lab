@@ -28,7 +28,7 @@ ENV SIMCORE_WEB_HOSTNAME "0.0.0.0"
 ENV SIMCORE_WEB_PORT $web_app_port
 ENV SIMCORE_WEB_OUTDIR /home/node/source-output
 
-ARG s4l_ip="172.16.9.89"
+ARG s4l_ip="0.0.0.0"
 ARG s4l_port="9095"
 ENV CS_S4L_HOSTNAME $s4l_ip
 ENV CS_S4L_PORT $s4l_port
