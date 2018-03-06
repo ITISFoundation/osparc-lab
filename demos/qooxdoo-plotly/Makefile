@@ -14,7 +14,7 @@ build:
 	docker build -t ${IMAGENAME} ./app
 
 run:
-	docker run -idt --rm -p 7001:7001 --dns 172.16.8.15 --name qooxdoo-demo ${IMAGENAME} node server.js
+	docker run -idt --rm -p 7001:7001 --dns 172.16.8.15 --name qooxdoo-plotly ${IMAGENAME} node server.js
 
 
 
