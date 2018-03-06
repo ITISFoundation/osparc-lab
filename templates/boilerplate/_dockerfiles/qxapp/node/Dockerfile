@@ -29,9 +29,11 @@ ENV SIMCORE_WEB_PORT $web_app_port
 ENV SIMCORE_WEB_OUTDIR /home/node/source-output
 
 ARG s4l_ip="0.0.0.0"
-ARG s4l_port="9095"
+ARG s4l_port_app="9995"
+ARG s4l_port_mod="9996"
 ENV CS_S4L_HOSTNAME $s4l_ip
-ENV CS_S4L_PORT $s4l_port
+ENV CS_S4L_PORT_APP $s4l_port_app
+ENV CS_S4L_PORT_MOD $s4l_port_mod
 
 WORKDIR /home/node/
 COPY --from=0 /home/node/qxapp/source-output source-output
