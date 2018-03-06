@@ -98,16 +98,28 @@ qx.Class.define("qxapp.Application",
       }, this);
 
 
-      var button3 = new qx.ui.form.Button("WS + S4L: Check API Version");
+      var button3 = new qx.ui.form.Button("WS + S4L: Check App Version");
       doc.add(button3, {left: 50, top: 150});
       button3.addListener("execute", function() {
-        if (!this._socket.slotExists("checkS4LAPIVersion")) {
-          this._socket.on("checkS4LAPIVersion", function(val) {
+        if (!this._socket.slotExists("checkS4LAppVersion")) {
+          this._socket.on("checkS4LAppVersion", function(val) {
             console.log(val);
-            alert("S4L API Version: " + val.major + '.' + val.minor);
+            alert("S4L App Version: " + val.major + '.' + val.minor);
           });
         }
-        this._socket.emit("checkS4LAPIVersion");
+        this._socket.emit("checkS4LAppVersion");
+      }, this);
+
+      var button4 = new qx.ui.form.Button("WS + S4L: Check Modeler Version");
+      doc.add(button4, {left: 250, top: 150});
+      button3.addListener("execute", function() {
+        if (!this._socket.slotExists("checkS4LModVersion")) {
+          this._socket.on("checkS4LModVersion", function(val) {
+            console.log(val);
+            alert("S4L Mod Version: " + val.major + '.' + val.minor);
+          });
+        }
+        this._socket.emit("checkS4LModVersion");
       }, this);
     },
   }
