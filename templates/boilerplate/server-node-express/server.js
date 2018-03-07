@@ -62,7 +62,7 @@ var s4lAppClient = thrift.createClient(thrApplication, connection_s4l_app);
 var thrModeler           = require('./thrift/ModelerJSNode/gen-nodejs/Modeler');
 var thrModelerTypes      = require('./thrift/ModelerJSNode/gen-nodejs/modeler_types');
 
-const S4L_PORT_MOD = process.env.CS_S4L_PORT_MOD || 9995;
+const S4L_PORT_MOD = process.env.CS_S4L_PORT_MOD || 9096;
 
 var connection_s4l_mod = thrift.createConnection(S4L_IP, S4L_PORT_MOD, {
   transport: transport,
