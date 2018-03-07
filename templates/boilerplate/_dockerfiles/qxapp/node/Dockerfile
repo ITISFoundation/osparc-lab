@@ -22,12 +22,13 @@ RUN qx compile
 # Deployment stage -----
 FROM node:8.9.2
 
+# Web server variables
 ARG web_app_port=8080
-
 ENV SIMCORE_WEB_HOSTNAME "0.0.0.0"
 ENV SIMCORE_WEB_PORT $web_app_port
 ENV SIMCORE_WEB_OUTDIR /home/node/source-output
 
+# S4L as CompServ variables
 ARG s4l_ip="0.0.0.0"
 ARG s4l_port_app="9995"
 ARG s4l_port_mod="9996"

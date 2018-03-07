@@ -112,11 +112,11 @@ qx.Class.define("qxapp.Application",
 
       var button4 = new qx.ui.form.Button("WS + S4L: Check Modeler Version");
       doc.add(button4, {left: 250, top: 150});
-      button3.addListener("execute", function() {
+      button4.addListener("execute", function() {
         if (!this._socket.slotExists("checkS4LModVersion")) {
           this._socket.on("checkS4LModVersion", function(val) {
             console.log(val);
-            alert("S4L Mod Version: " + val.major + '.' + val.minor);
+            alert("S4L Modeler Version: " + val.major + '.' + val.minor);
           });
         }
         this._socket.emit("checkS4LModVersion");

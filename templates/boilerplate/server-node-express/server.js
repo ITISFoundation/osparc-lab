@@ -117,7 +117,7 @@ function doOperation2(client, in_number) {
 function checkS4LAppVersion(client, s4lAppClient) {
   s4lAppClient.GetApiVersion( function(err, response) {
     console.log('S4L App Version', response);
-    client.emit('checkS4LAPIVersion', response);
+    client.emit('checkS4LAppVersion', response);
   });
 };
 
