@@ -1,1 +1,0 @@
-# Front-end Prototype using [qooxdoo](http://qooxdoo.org/) and [plotly](https://plot.ly/)
