@@ -1,5 +1,7 @@
-# AWS Registry
+# AWS EC2
 
-This documents how to setup a private docker registry on AWS using a bucket in S3.
+The image below describe the foreseen architecture. Firewalls need to be configured accordingly
 
 
+
+![platform](images/simcore-platform-architecture.png)
