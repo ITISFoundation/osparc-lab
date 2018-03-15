@@ -33,6 +33,12 @@
     "add-script" : [
       {
         "uri" : "resource/socketio/socket.io.js"
+      },
+      {
+        "uri" : "resource/jsnetworkx/d3.v3.min.js"
+      },
+      {
+        "uri" : "resource/jsnetworkx/jsnetworkx.js"
       }
     ]
   }
