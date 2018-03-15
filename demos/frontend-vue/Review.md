@@ -10,6 +10,20 @@
 - Based on Vue's official vue-cli with webpack for quick setup
 - Node.js + express used in web server side
 
+###### In order to start prototyping:
+- node.js required
+- front-end created using
+  - ```npm install -g vue-cli```
+  - ```vue init webpack myapp```
+  - ```cd myapp```
+  - ```npm install```
+- start server
+  - ```yarn start```
+- create deployment version
+  - ```npm run build```
+ - change listening port in:
+  - build/dev-server.js
+
 ##### Aspects reviewed:
 
 - **Interactive layout**

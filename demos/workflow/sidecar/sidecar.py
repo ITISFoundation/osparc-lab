@@ -66,7 +66,11 @@ def fetch_container(data):
     buddy_name = data['name']
     buddy_tag = data['tag']
     client = docker.from_env(version='auto')
+<<<<<<< HEAD
 #    client.login(registry="masu.speag.com/v2", username="z43", password="z43")
+=======
+    client.login(registry="masu.speag.com/v2", username="z43", password="z43")
+>>>>>>> master
     img = client.images.pull(buddy_name, tag=buddy_tag)
     buddy_image = buddy_name + ":" + buddy_tag
 

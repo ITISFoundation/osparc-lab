@@ -7,12 +7,15 @@ from werkzeug.routing import BaseConverter
 
 app = Flask(__name__)
 
+
 class RegexConverter(BaseConverter):
+
     def __init__(self, url_map, *items):
         super(RegexConverter, self).__init__(url_map)
         self.regex = items[0]
 
 app.url_map.converters['regex'] = RegexConverter
+
 
 @app.route("/")
 def index():
@@ -20,6 +23,7 @@ def index():
     j = r.json()
 
     return frontend_template('index.html', images=j['repositories'])
+
 
 @app.route('/image/<path:image>')
 def image(image):
@@ -34,20 +38,23 @@ def image(image):
 
     return frontend_template('image.html', **kwargs)
 
+
 @app.route('/image/<path:image>/tag/<tag>')
 def manifest(image, tag):
     r = registry_request(image + '/manifests/' + tag)
     j = r.json()
-    
-    labels = json.loads(j["history"][0]["v1Compatibility"])["container_config"]["Labels"]
+
+    labels = json.loads(j["history"][0]["v1Compatibility"])[
+        "container_config"]["Labels"]
     kwargs = {
         'tag': tag,
         'image': image,
         'layers': len(j['fsLayers']),
         'labels': labels
-        }
+    }
 
     return frontend_template('tag.html', **kwargs)
+
 
 def frontend_template(template, **kwargs):
     '''
@@ -61,10 +68,11 @@ def registry_request(path, method="GET"):
     api_url = os.environ['REGISTRY_URL'] + '/v2/' + path
 
     try:
-        #r = s.get(api_url, verify=False) #getattr(s, method.lower())(api_url)
+        # r = s.get(api_url, verify=False) #getattr(s, method.lower())(api_url)
         r = getattr(s, method.lower())(api_url)
         if r.status_code == 401:
-            raise Exception('Return Code was 401, Authentication required / not successful!')
+            raise Exception(
+                'Return Code was 401, Authentication required / not successful!')
         else:
             return r
     except RequestException:
@@ -74,10 +82,10 @@ if __name__ == "__main__":
     s = Session()
 
     # get authentication state or set default value
-    REGISTRY_AUTH = os.environ.get('REGISTRY_AUTH',False)
+    REGISTRY_AUTH = os.environ.get('REGISTRY_AUTH', False)
 
     # get base_url or set default value
-    FRONTEND_URL = os.getenv('FRONTEND_URL','/')
+    FRONTEND_URL = os.getenv('FRONTEND_URL', '/')
     if not FRONTEND_URL.endswith('/'):
         FRONTEND_URL = FRONTEND_URL + "/"
 

@@ -13,7 +13,7 @@ class ResultsViewer extends Component {
       visible: 'visible',
       width: 600,
       height: 640,
-      x: 1200,
+      x: 1000,
       y: 20
     };
   }
@@ -85,20 +85,7 @@ class ResultsViewer extends Component {
     return htmlCode;
   }
 
-  convertPathToPublic(pathToConvert) {
-    if (pathToConvert === null)
-      return pathToConvert;
-
-    // Hack: make all local path pulic
-    var localDir = '//filesrv.speag.com/outbox/'
-    var publicDir = 'https://outbox.zurichmedtech.com/maiz/';
-
-    var pathConverted = pathToConvert.replace(localDir, publicDir);
-    return pathConverted;
-  }
-
   render() {
-    let pubPath = this.convertPathToPublic(this.props.showOutputDataReducer);
     return (
       <div className="ResultsViewer">
         <Rnd
@@ -123,7 +110,7 @@ class ResultsViewer extends Component {
           <h4 style={{textAlign: 'center'}}>Results Viewer</h4>
           <hr style={{marginTop: '0px', marginBottom: '0px'}} />
           <div id='display' style={{backgroundColor: this.props.backgroundColor, textAlign: 'center'}}>
-            {this.convertOutputToHtml(pubPath)}
+            {this.convertOutputToHtml(this.props.showOutputDataReducer)}
           </div>
         </Rnd>
       </div>
