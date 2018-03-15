@@ -3,6 +3,7 @@
  * @asset(qxapp/*)
  * @asset(jsnetworkx/*)
  * @ignore(jsnx)
+ * @ignore(d3)
  */
 
 qx.Class.define("qxapp.wrappers.JSNetworkX", {
@@ -35,7 +36,9 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
     },
   
     events: {
-        "JSNetworkXReady": "qx.event.type.Data",
+      "JSNetworkXReady": "qx.event.type.Data",
+      "NodeClicked": "qx.event.type.Data",
+      "DoubleClicked": "qx.event.type.Event",
     },
   
     properties: {
@@ -95,6 +98,23 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
           this._mainGraph.addPath([1,2,5,6,7,8,11]);
           this._mainGraph.addEdgesFrom([[1,3],[1,4],[3,4],[2,3],[2,4],[8,9],[8,10],[9,10],[11,10],[11,9]]);
         }
+
+        //d3.select("svg.jsnx").selectAll("g.node").on('mouseenter', function(d) {
+        //  console.log('mouseenter', d);
+        //});
+    
+        //d3.select("svg.jsnx").selectAll("g.node").on('mouseover', function(d) {
+        //  console.log('mouseover', d);
+        //});
+    
+        var that = this;
+        d3.select("svg.jsnx").selectAll("g.node").on('click', function(d) {
+          that.fireDataEvent("NodeClicked", d);
+        }, that);
+
+        d3.select('svg.jsnx').on('dblclick.zoom', function(d) {
+          that.fireDataEvent("DoubleClicked");
+        }, that);
       },
 
       StartPipeline : function()

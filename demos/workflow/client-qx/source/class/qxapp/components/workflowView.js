@@ -22,8 +22,8 @@ qx.Class.define("qxapp.components.workflowView",
             layout: box
         });
     
-        this._networkxWrapper = new qxapp.wrappers.JSNetworkX();
-        this._networkxWrapper.addListener(("JSNetworkXReady"), function(e) {
+        this._jsNetworkXWrapper = new qxapp.wrappers.JSNetworkX();
+        this._jsNetworkXWrapper.addListener(("JSNetworkXReady"), function(e) {
             var ready = e.getData();
             if (ready) {
                 this._workflowView = new qx.ui.core.Widget();
@@ -34,7 +34,7 @@ qx.Class.define("qxapp.components.workflowView",
                 this._workflowView.getContentElement().setAttribute('width', width+'px');
                 
                 this._workflowView.addListenerOnce('appear', function() {
-                    this._networkxWrapper.CreateEmptyCanvas(canvasId);
+                    this._jsNetworkXWrapper.CreateEmptyCanvas(canvasId);
                     //this._workflowView.getContentElement().getDomElement().appendChild(this._networksxWrapper.GetDomElement());
                 }, this);
             } else {
@@ -47,22 +47,22 @@ qx.Class.define("qxapp.components.workflowView",
     },
 
     members: {
-        _networkxWrapper: null,
+        _jsNetworkXWrapper: null,
         _workflowView: null,
 
         LoadDefault : function()
         {
-            this._networkxWrapper.AddStuff();
+            this._jsNetworkXWrapper.AddStuff();
         },
 
         StartPipeline : function()
         {
-            this._networkxWrapper.StartPipeline();
+            this._jsNetworkXWrapper.StartPipeline();
         },
 
         StopPipeline : function()
         {
-            this._networkxWrapper.StopPipeline();
+            this._jsNetworkXWrapper.StopPipeline();
         },
     },
 });

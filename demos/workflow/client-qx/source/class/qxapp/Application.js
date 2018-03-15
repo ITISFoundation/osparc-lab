@@ -110,14 +110,18 @@ qx.Class.define("qxapp.Application",
         startPipelineBtn.setCenter(true);
         startPipelineBtn.addListener("execute", function() {
           this._workflowView.StartPipeline();
+          var newLogText = textarea.getValue() + "\n" + "Start";
+          textarea.setValue(newLogText);
         }, this);
         
         var stopPipelineBtn = new qx.ui.toolbar.RadioButton("Stop");
         stopPipelineBtn.setHeight(40);
         stopPipelineBtn.setWidth(100);
         stopPipelineBtn.setCenter(true);
-        stopPipelineBtn.addListener("execute", function() {
+        stopPipelineBtn.addListener("execute", function(e) {
           this._workflowView.StopPipeline();
+          var newLogText = textarea.getValue() + "\n" + "Stop";
+          textarea.setValue(newLogText);
         }, this);
         
         part2.add(startPipelineBtn);
@@ -135,10 +139,25 @@ qx.Class.define("qxapp.Application",
       doc.add(this._workflowView, {left: 50, top: 215});
 
       // add textarea
+      var logLabel = new qx.ui.basic.Label("Logger:");
       var textarea = new qx.ui.form.TextArea();
       textarea.setWidth(250);
       textarea.setHeight(565);
-      doc.add(textarea, {left: 550, top: 150});
+      textarea.setReadOnly(true);
+      doc.add(logLabel, {left: 550, top: 150});
+      doc.add(textarea, {left: 550, top: 180});
+
+      this._workflowView._jsNetworkXWrapper.addListener("NodeClicked", function(e) {
+        var nodeClicked = e.getData();
+        var newLogText = textarea.getValue() + "\n" + "Node " +nodeClicked.node + " clicked";
+        textarea.setValue(newLogText);
+      }, this);
+
+      this._workflowView._jsNetworkXWrapper.addListener("DoubleClicked", function() {
+        var nodeClicked = e.getData();
+        var newLogText = textarea.getValue() + "\n" + "Double Click";
+        textarea.setValue(newLogText);
+      }, this);
     },
   }
 });
