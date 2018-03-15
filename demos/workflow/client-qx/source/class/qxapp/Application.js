@@ -67,12 +67,10 @@ qx.Class.define("qxapp.Application",
       doc.add(container, {left: 50, top: 50});
 
       // Create operation buttons
-      var button1 = new qx.ui.form.Button("WS: Do operation 1");
-      var button2 = new qx.ui.form.Button("WS: Do operation 2");
+      var button1 = new qx.ui.form.Button("WebSocket: Do operation");
 
       // Add buttons and labels to document at fixed coordinates
-      doc.add(button1, {left: 50, top: 100});
-      doc.add(button2, {left: 250, top: 100});
+      doc.add(button1, {left: 250, top: 50});
 
       // Add an event listeners
       button1.addListener("execute", function() {
@@ -86,16 +84,28 @@ qx.Class.define("qxapp.Application",
         this._socket.emit("operation1", input_number);
       }, this);
 
-      button2.addListener("execute", function() {
-        if (!this._socket.slotExists("operation2")) {
-          this._socket.on("operation2", function(val) {
-            console.log(val);
-            alert("Result to operation 2: " + val.value);
-          });
-        }
-        var input_number = spinner.getValue();
-        this._socket.emit("operation2", input_number);
+
+      // WORKBENCH
+      var loadDefaultBtn = new qx.ui.form.Button("Load default graph");
+      doc.add(loadDefaultBtn, {left: 50, top: 150});
+      loadDefaultBtn.addListener("execute", function() {
+        this._workflowView.LoadDefault();
       }, this);
+      
+      var startPipelineBtn = new qx.ui.form.Button("Start");
+      doc.add(startPipelineBtn, {left: 250, top: 150});
+      startPipelineBtn.addListener("execute", function() {
+        this._workflowView.StartPipeline();
+      }, this);
+      
+      var stopPipelineBtn = new qx.ui.form.Button("Stop");
+      doc.add(stopPipelineBtn, {left: 300, top: 150});
+      stopPipelineBtn.addListener("execute", function() {
+        this._workflowView.StopPipeline();
+      }, this);
+
+      this._workflowView = new qxapp.components.workflowView(500, 500);
+      doc.add(this._workflowView, {left: 50, top: 200});
     },
   }
 });
