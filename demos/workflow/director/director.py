@@ -71,19 +71,26 @@ def parse_container_data(data):
         container_name = container["name"]
         container_tag = container['tag']
         client = docker.from_env(version='auto')
+<<<<<<< HEAD
+#        client.login(registry="masu.speag.com/v2", username="z43", password="z43")
+=======
         client.login(registry="masu.speag.com/v2", username="z43", password="z43")
+>>>>>>> master
         img = client.images.pull(container_name, tag=container_tag)
         container_hash = str(img.id).split(':')[1]
         return container_hash
 
 def start_computation(data):
     try:
+<<<<<<< HEAD
+=======
        # req = requests.post("http://sidecar:8000/setup", json = data)
        # req2 = requests.get("http://sidecar:8000/preprocess")
        # req3 = requests.get("http://sidecar:8000/process")
        # req4 = requests.get("http://sidecar:8000/postprocess")
 #       print data
 #       sys.stdout.flush()
+>>>>>>> master
        req = requests.post("http://sidecar:8000/run", json = data)
 
     except requests.exceptions.ConnectionError:
@@ -184,8 +191,8 @@ def calc(x_min, x_max, N, f):
     ],
     "container":
     {
-    	"name": "masu.speag.com/comp.services/sidecar-solver",
-        "tag": "1.1"
+    	"name": "mguidon/simcore.comp.backend.functionparser",
+        "tag": "2.0"
     }
     }""" % (N, x_min, x_max, f) 
 
@@ -210,4 +217,8 @@ def calc(x_min, x_max, N, f):
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
+    app.run(port=8010, debug=True, host='0.0.0.0', threaded=True)
+=======
     app.run(port=8010, debug=True, host='0.0.0.0')
+>>>>>>> master
