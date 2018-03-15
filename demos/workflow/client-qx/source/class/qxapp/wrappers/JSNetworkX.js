@@ -101,7 +101,6 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
       {
         const getAllInfo = true;
         var nodes = this._mainGraph.nodes(getAllInfo);
-        console.log(nodes);
         for (let i = 0; i < nodes.length; i++) {
           // nodes[i][1].color = 'green'; //doesn't work/update
           var oldNode = nodes[i][0];

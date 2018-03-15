@@ -86,26 +86,59 @@ qx.Class.define("qxapp.Application",
 
 
       // WORKBENCH
-      var loadDefaultBtn = new qx.ui.form.Button("Load default graph");
-      doc.add(loadDefaultBtn, {left: 50, top: 150});
-      loadDefaultBtn.addListener("execute", function() {
-        this._workflowView.LoadDefault();
-      }, this);
-      
-      var startPipelineBtn = new qx.ui.form.Button("Start");
-      doc.add(startPipelineBtn, {left: 250, top: 150});
-      startPipelineBtn.addListener("execute", function() {
-        this._workflowView.StartPipeline();
-      }, this);
-      
-      var stopPipelineBtn = new qx.ui.form.Button("Stop");
-      doc.add(stopPipelineBtn, {left: 300, top: 150});
-      stopPipelineBtn.addListener("execute", function() {
-        this._workflowView.StopPipeline();
-      }, this);
+      var toolbar = new qx.ui.toolbar.ToolBar();
+      toolbar.setSpacing(5);
 
+      var part1 = new qx.ui.toolbar.Part();
+      {
+        var loadDefaultBtn = new qx.ui.toolbar.Button("Load default graph");
+        loadDefaultBtn.setHeight(40);
+        loadDefaultBtn.addListener("execute", function() {
+          this._workflowView.LoadDefault();
+        }, this);
+        part1.add(loadDefaultBtn);
+        toolbar.add(part1);
+      }
+
+      toolbar.addSpacer();
+
+      var part2 = new qx.ui.toolbar.Part();
+      {
+        var startPipelineBtn = new qx.ui.toolbar.RadioButton("Start");
+        startPipelineBtn.setHeight(40);
+        startPipelineBtn.setWidth(100);
+        startPipelineBtn.setCenter(true);
+        startPipelineBtn.addListener("execute", function() {
+          this._workflowView.StartPipeline();
+        }, this);
+        
+        var stopPipelineBtn = new qx.ui.toolbar.RadioButton("Stop");
+        stopPipelineBtn.setHeight(40);
+        stopPipelineBtn.setWidth(100);
+        stopPipelineBtn.setCenter(true);
+        stopPipelineBtn.addListener("execute", function() {
+          this._workflowView.StopPipeline();
+        }, this);
+        
+        part2.add(startPipelineBtn);
+        part2.add(stopPipelineBtn);
+        var radioGroup = new qx.ui.form.RadioGroup(startPipelineBtn, stopPipelineBtn);
+        radioGroup.setAllowEmptySelection(true);
+        radioGroup.setSelection([]);
+        toolbar.add(part2);
+      }
+
+      doc.add(toolbar, {left: 50, top: 150});
+
+      // add jsNetworkX View
       this._workflowView = new qxapp.components.workflowView(500, 500);
-      doc.add(this._workflowView, {left: 50, top: 200});
+      doc.add(this._workflowView, {left: 50, top: 215});
+
+      // add textarea
+      var textarea = new qx.ui.form.TextArea();
+      textarea.setWidth(250);
+      textarea.setHeight(565);
+      doc.add(textarea, {left: 550, top: 150});
     },
   }
 });
