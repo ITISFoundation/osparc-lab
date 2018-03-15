@@ -1,0 +1,50 @@
+version: '2'
+services:
+    rabbit:
+        image: rabbitmq:3-management
+        environment:
+            - RABBITMQ_DEFAULT_USER=z43
+            - RABBITMQ_DEFAULT_PASS=z43
+        ports:
+            - "15672:15672"
+        depends_on:
+            - db
+    flower:
+        image: ondrejit/flower:latest
+        command: --broker=amqp://z43:z43@rabbit:5672
+        ports:
+            - 5555:5555
+        depends_on:
+            - db
+            - app
+    db:
+        image: mysql:5.7
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=z43
+            - MYSQL_DATABASE=dag_celery
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        depends_on:
+            - db
+    app:
+        build:
+            context: .
+            dockerfile: ./dag/Dockerfile
+        volumes:
+            - ./dag/dag/:/app/dag/
+        depends_on:
+            - rabbit
+            - db
+    dev:
+        build:
+            context: .
+            dockerfile: ./dev/Dockerfile
+        volumes:
+            - ./dev/dag/:/app/dag/
+        depends_on:
+            - rabbit
+            - db
