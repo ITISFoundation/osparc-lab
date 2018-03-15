@@ -140,7 +140,7 @@ qx.Class.define("qxapp.Application",
 
       // add textarea
       var logLabel = new qx.ui.basic.Label("Logger:");
-      var textarea = new qx.ui.form.TextArea();
+      var textarea = new qx.ui.form.TextArea(" ");
       textarea.setWidth(250);
       textarea.setHeight(565);
       textarea.setReadOnly(true);
@@ -154,7 +154,6 @@ qx.Class.define("qxapp.Application",
       }, this);
 
       this._workflowView._jsNetworkXWrapper.addListener("DoubleClicked", function() {
-        var nodeClicked = e.getData();
         var newLogText = textarea.getValue() + "\n" + "Double Click";
         textarea.setValue(newLogText);
       }, this);

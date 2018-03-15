@@ -77,6 +77,7 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         if (loadExample === 0)
         {
           // #0: Undirected weighted graph
+          // Main graph would need to be changed to jsnx.Graph();
           this._mainGraph.addWeightedEdgesFrom([[2,3,10]]);
           this._mainGraph.addStar([3,4,5,6], {weight: 5}); 
           this._mainGraph.addStar([2,1,0,-1], {weight: 3});
@@ -91,6 +92,7 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         else if (loadExample === 2)
         {
           // #2: NetworkX example graph
+          // Main graph would need to be changed to jsnx.Graph();
           this._mainGraph.addNodesFrom([1,2,3,4], {group:0});
           this._mainGraph.addNodesFrom([5,6,7], {group:1});
           this._mainGraph.addNodesFrom([8,9,10,11], {group:2});
@@ -113,7 +115,7 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         }, that);
 
         d3.select('svg.jsnx').on('dblclick.zoom', function(d) {
-          that.fireDataEvent("DoubleClicked");
+          that.fireEvent("DoubleClicked");
         }, that);
       },
 
