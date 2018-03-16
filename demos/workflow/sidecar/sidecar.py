@@ -11,6 +11,7 @@ from celery import Celery
 from concurrent.futures import ThreadPoolExecutor
 from pymongo import MongoClient
 import gridfs
+import redis
 
 env=os.environ
 CELERY_BROKER_URL=env.get('CELERY_BROKER_URL','amqp://z43:z43@rabbit:5672'),
@@ -28,6 +29,8 @@ buddy_image = 'solver'
 job_id = ""
 
 pool = ThreadPoolExecutor(1)
+
+r = redis.Redis(host="redis", port=6379)
 
 def delete_contents(folder):
     for the_file in os.listdir(folder):
@@ -86,10 +89,16 @@ def dump_log():
 
 
 def _bg_job(task, task_id):
+    log_dict = {}
+    log_data = []
+    
     for i in range(100):
         task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
-        time.sleep(0.25)
-
+        log_data.append("This is log line %s" %i)
+        time.sleep(0.1)
+        r.incr("count")
+    log_dict[task_id] = log_data
+    
 def start_container(task, task_id, name, stage, io_env):
     client = docker.from_env(version='auto')
     fut = pool.submit(_bg_job(task, task_id))

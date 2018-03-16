@@ -137,6 +137,9 @@ def run_pipeline():
                   url=url_for('check_task',id=task.id,_external=True))
 
 
+def on_raw_message(body):
+    print(body)
+
 # @app.route("/calc", methods=['GET'])
 @app.route('/calc/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
 def calc(x_min, x_max, N, f):
@@ -183,7 +186,9 @@ def calc(x_min, x_max, N, f):
     output_hash = combined.hexdigest()
    
     output_ready = output_exists(output_hash)
+    print(output_ready)
     task = celery.send_task('mytasks.run', args=[data], kwargs={})
+    #print(task.get(on_message=on_raw_message, propagate=False))
          
     return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
                   url=url_for('check_task',id=task.id,_external=True))

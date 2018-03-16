@@ -59,6 +59,16 @@ services:
       - 5555:5555
     depends_on:
       - director
+  redis:
+    image: redis
+  redis-commander:
+    image:   ficusio/redis-commander
+    command: --redis-host redis
+    ports:
+      - "8082:8081"
+    depends_on:
+      - redis
+
 volumes:
   input:
   output:
