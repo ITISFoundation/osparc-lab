@@ -39,14 +39,25 @@ def _is_node_rdy(task, graph):
             return False
     return True
 
-def _process_task_node(task, uid, workflow_id, cur_task_id):
+def _process_task_node(celery_task, task, uid, workflow_id, cur_task_id):
+   # db_client = MongoClient("mongodb://database:27017/")
+   # log_database = db_client.log_database
+   # log_collections = log_database.log_collections
+    log = {}
+    log["workflow_id"] = workflow_id
+    log["task_id"] = cur_task_id
+
+
     task.celery_task_uid = uid
     session.add(task)
     session.commit()
     print('Runnning Workflow {} and Task {}'.format(workflow_id, cur_task_id))
     # simulate that task runs
+    dp = 1.0 / (task.sleep-1)
     for i in range(task.sleep):
         print('{}: Sleep, sec: {}'.format(uid, i))
+        process_percent = i * dp 
+        celery_task.update_state(state='PROGRESS', meta={'process_percent':process_percent})
         time.sleep(1)
 
 @app.task(bind=True)
@@ -61,7 +72,7 @@ def run(self, workflow_id, cur_task_id=None):
         if not _is_node_rdy(task, graph):
             return
 
-        _process_task_node(task, self.request.id, workflow_id, cur_task_id)
+        _process_task_node(self,task, self.request.id, workflow_id, cur_task_id)
 
         next_task_ids = list(graph.successors(cur_task_id))
     else:

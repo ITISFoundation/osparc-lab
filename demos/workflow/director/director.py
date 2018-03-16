@@ -78,7 +78,7 @@ def parse_container_data(data):
 
 def start_computation(data):
     try:
-       req = requests.post("http://sidecar:8000/run", json = data)
+       requests.post("http://sidecar:8000/run", json = data)
 
     except requests.exceptions.ConnectionError:
         raise ServiceUnavailable("The computational service is unavailable.")
@@ -118,23 +118,9 @@ def check_task(id):
 
         return str(res.result)
 
-
-@app.route("/services", methods=['GET'])
-def services():
-    return nice_json(registered_services)
-
-@app.route("/service/<id>", methods=['GET'])
-def service(id):
-    return nice_json(registered_services[id])
-
-@app.route("/task/<id>", methods=['Get'])
-def task(id):
-   return "42" 
-
 @app.route("/run_pipeline", methods=['POST'])
 def run_pipeline():
     data = request.get_json()
-    hashstr = ""
     [input_hash, input_exists] = parse_input_data(data)
    
     container_hash = parse_container_data(data)
@@ -145,7 +131,7 @@ def run_pipeline():
     output_hash = combined.hexdigest()
    
     output_ready = output_exists(output_hash)
-    task = celery.send_task('mytasks.run', args=[data], kwargs={})
+    celery.send_task('mytasks.run', args=[data], kwargs={})
          
     return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
                   url=url_for('check_task',id=task.id,_external=True))

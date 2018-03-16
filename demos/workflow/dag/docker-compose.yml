@@ -48,3 +48,23 @@ services:
         depends_on:
             - rabbit
             - db
+    database:
+        image: mongo:3.4.0
+        environment:
+            - MONGO_DATA_DIR=/data/db
+            - MONGO_LOG_DIR=/dev/null
+        volumes:
+            - db:/data/db
+        ports:
+            - "28017:28017"
+        command: mongod --httpinterface --rest --smallfiles --logpath=/dev/null # --quiet
+    database_ui:
+        image: mongo-express
+        ports:
+            - "8081:8081"
+        environment:
+            - ME_CONFIG_MONGODB_SERVER=database
+        depends_on:
+            - database
+volumes:
+    db:

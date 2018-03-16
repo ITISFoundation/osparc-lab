@@ -6,6 +6,7 @@ import sys
 import time
 import shutil
 import uuid
+import requests
 from celery import Celery
 from concurrent.futures import ThreadPoolExecutor
 from pymongo import MongoClient
@@ -25,6 +26,8 @@ buddy = None
 buddy_image =""
 buddy_image = 'solver'
 job_id = ""
+
+pool = ThreadPoolExecutor(1)
 
 def delete_contents(folder):
     for the_file in os.listdir(folder):
@@ -67,7 +70,7 @@ def fetch_container(data):
     buddy_tag = data['tag']
     client = docker.from_env(version='auto')
     client.login(registry="masu.speag.com/v2", username="z43", password="z43")
-    img = client.images.pull(buddy_name, tag=buddy_tag)
+    client.images.pull(buddy_name, tag=buddy_tag)
     buddy_image = buddy_name + ":" + buddy_tag
 
 
@@ -81,9 +84,17 @@ def prepare_input_and_container(data):
 def dump_log():
     global buddy_image
 
-def start_container(name, stage, io_env):
+
+def _bg_job(task, task_id):
+    for i in range(100):
+        task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
+        time.sleep(0.25)
+
+def start_container(task, task_id, name, stage, io_env):
     client = docker.from_env(version='auto')
-    buddy = client.containers.run(buddy_image, "run", 
+    fut = pool.submit(_bg_job(task, task_id))
+
+    client.containers.run(buddy_image, "run", 
          detach=False, remove=True,
          volumes = {'workflow_input'  : {'bind' : '/input'}, 
                     'workflow_output' : {'bind' : '/output'},
@@ -95,6 +106,9 @@ def start_container(name, stage, io_env):
     output_hash = hash_job_output()
 
     store_job_output(output_hash)
+
+    while not fut.done():
+        time.sleep(1)
     
     return output_hash
 
@@ -165,7 +179,7 @@ def store_job_output(output_hash):
         traceback.print_exc()
         return -2
 
-def do_run(data):
+def do_run(task, task_id, data):
     global buddy_image
     global job_id
     # add files if any and dump json
@@ -177,15 +191,17 @@ def do_run(data):
     io_env.append("LOG_FOLDER=/log/"+job_id)
  
   
-    return start_container(buddy_image, "run", io_env)
+    return start_container(task, task_id, buddy_image, "run", io_env)
 
 @celery.task(name='mytasks.add')
 def add(x, y):
     time.sleep(5) # lets sleep for a while before doing the gigantic addition task!
     return x + y
 
-@celery.task(name='mytasks.run')
-def run(data):
+@celery.task(name='mytasks.run', bind=True)
+def run(self, data):
     create_directories()
-    return str(do_run(data))
+    task = self
+    task_id = task.request.id
+    return str(do_run(task, task_id, data))
 

@@ -37,7 +37,14 @@ session.commit()
 
 workflow = session.query(Workflow).all()[-1]
 
-run.apply_async(
+r = run.apply_async(
     args=(workflow.id,),
     queue=QUEUE_NAME
 )
+print(r.info)
+#def on_raw_message(body):
+#    print(body)
+
+#print (r.get(on_message=on_raw_message, propagate=False))
+
+
