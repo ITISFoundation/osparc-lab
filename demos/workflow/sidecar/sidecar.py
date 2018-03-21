@@ -30,8 +30,9 @@ job_id = ""
 
 pool = ThreadPoolExecutor(1)
 
-r = redis.Redis(host="redis", port=6379)
-
+r = redis.StrictRedis(host="redis", port=6379)
+r.flushall()
+r.set('count', 0)
 def delete_contents(folder):
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
@@ -89,15 +90,14 @@ def dump_log():
 
 
 def _bg_job(task, task_id):
-    log_dict = {}
-    log_data = []
-    
+    if not r.exists('log'):
+        r.lpush('log', 'This is gonna be the log')
+
     for i in range(100):
         task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
-        log_data.append("This is log line %s" %i)
         time.sleep(0.1)
         r.incr("count")
-    log_dict[task_id] = log_data
+        r.rpush('log', ("This is a log meessage from the service: current # " + str(r.get("count").decode('utf-8'))).encode('utf-8'))
     
 def start_container(task, task_id, name, stage, io_env):
     client = docker.from_env(version='auto')

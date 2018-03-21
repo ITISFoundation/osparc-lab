@@ -1,6 +1,7 @@
 FROM continuumio/miniconda3
 MAINTAINER Manuel Guidon <guidon@itis.ethz.ch>
 
+RUN conda update conda
 RUN conda install flask plotly pymongo
 RUN conda install -c conda-forge celery
 

@@ -14,6 +14,7 @@ import numpy as np
 import docker
 import sys
 import plotly
+import redis
 
 app = Flask(__name__)
 
@@ -37,6 +38,7 @@ def create_graph(x,y):
           ]
     return graph
  
+r = redis.StrictRedis(host="redis", port=6379, charset="utf-8", decode_responses=True)
 
 def nice_json(arg):
     response = make_response(json.dumps(arg, sort_keys = True, indent=4))
@@ -94,6 +96,12 @@ def check_task(id):
     res = celery.AsyncResult(id)
     if res.state==states.PENDING:
         return res.state
+    elif str(res.state) == "PROGRESS":
+        data ={}
+        data['Progress'] = res.result["process_percent"]
+        data['Log'] = str(r.get('count'))
+        data['Full_Log'] = str(r.lrange('log', 0, -1))
+        return json.dumps(data)
     else:
         db_client = MongoClient("mongodb://database:27017/")
         output_database = db_client.output_database
