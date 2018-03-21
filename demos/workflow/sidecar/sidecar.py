@@ -14,20 +14,16 @@ import gridfs
 import redis
 
 env=os.environ
+
 CELERY_BROKER_URL=env.get('CELERY_BROKER_URL','amqp://z43:z43@rabbit:5672'),
 CELERY_RESULT_BACKEND=env.get('CELERY_RESULT_BACKEND','rpc://')
 
 celery= Celery('tasks',
-                broker=CELERY_BROKER_URL,
-                backend=CELERY_RESULT_BACKEND)
+    broker=CELERY_BROKER_URL,
+    backend=CELERY_RESULT_BACKEND)
 
 
 io_dirs = {}
-buddy = None
-buddy_image =""
-buddy_image = 'solver'
-job_id = ""
-
 pool = ThreadPoolExecutor(1)
 
 r = redis.StrictRedis(host="redis", port=6379)
@@ -43,12 +39,10 @@ def delete_contents(folder):
         except Exception as e:
             print(e)
 
-def create_directories():
+def create_directories(task_id):
     global io_dirs
-    global job_id
-    job_id = str(uuid.uuid4())
     for d in ['input', 'output', 'log']:
-        dir = os.path.join("/", d, job_id)
+        dir = os.path.join("/", d, task_id)
         io_dirs[d] = dir
         if not os.path.exists(dir):
             os.makedirs(dir)
@@ -69,25 +63,23 @@ def parse_input_data(data):
         f.write(json.dumps(data))
                 
 def fetch_container(data):
-    global buddy_image
-    buddy_name = data['name']
-    buddy_tag = data['tag']
+    image_name = data['name']
+    image_tag = data['tag']
     client = docker.from_env(version='auto')
     client.login(registry="masu.speag.com/v2", username="z43", password="z43")
-    client.images.pull(buddy_name, tag=buddy_tag)
-    buddy_image = buddy_name + ":" + buddy_tag
-
+    client.images.pull(image_name, tag=image_tag)
+    docker_image_name = image_name + ":" + image_tag
+    return docker_image_name
 
 def prepare_input_and_container(data):
+    docker_image_name = ""
     if 'input' in data:
         parse_input_data(data['input'])
 
     if 'container' in data:
-        fetch_container(data['container'])
-   
-def dump_log():
-    global buddy_image
+        docker_image_name = fetch_container(data['container'])
 
+    return docker_image_name
 
 def _bg_job(task, task_id):
     if not r.exists('log'):
@@ -99,18 +91,17 @@ def _bg_job(task, task_id):
         r.incr("count")
         r.rpush('log', ("This is a log meessage from the service: current # " + str(r.get("count").decode('utf-8'))).encode('utf-8'))
     
-def start_container(task, task_id, name, stage, io_env):
+def start_container(task, task_id, docker_image_name, stage, io_env):
     client = docker.from_env(version='auto')
     fut = pool.submit(_bg_job(task, task_id))
 
-    client.containers.run(buddy_image, "run", 
+    client.containers.run(docker_image_name, "run", 
          detach=False, remove=True,
          volumes = {'workflow_input'  : {'bind' : '/input'}, 
                     'workflow_output' : {'bind' : '/output'},
                     'workflow_log'    : {'bind'  : '/log'}},
          environment=io_env)
 
-   # buddy.remove()
     # hash output
     output_hash = hash_job_output()
 
@@ -189,28 +180,21 @@ def store_job_output(output_hash):
         return -2
 
 def do_run(task, task_id, data):
-    global buddy_image
-    global job_id
-    # add files if any and dump json
-
-    prepare_input_and_container(data)
+    docker_image_name = prepare_input_and_container(data)
     io_env = []
-    io_env.append("INPUT_FOLDER=/input/"+job_id)
-    io_env.append("OUTPUT_FOLDER=/output/"+job_id)
-    io_env.append("LOG_FOLDER=/log/"+job_id)
+    io_env.append("INPUT_FOLDER=/input/"+task_id)
+    io_env.append("OUTPUT_FOLDER=/output/"+task_id)
+    io_env.append("LOG_FOLDER=/log/"+task_id)
  
   
-    return start_container(task, task_id, buddy_image, "run", io_env)
-
-@celery.task(name='mytasks.add')
-def add(x, y):
-    time.sleep(5) # lets sleep for a while before doing the gigantic addition task!
-    return x + y
+    return start_container(task, task_id, docker_image_name, "run", io_env)
 
 @celery.task(name='mytasks.run', bind=True)
 def run(self, data):
-    create_directories()
     task = self
     task_id = task.request.id
+
+    create_directories(task_id)
+    
     return str(do_run(task, task_id, data))
 
