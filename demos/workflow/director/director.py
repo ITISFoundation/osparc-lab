@@ -1,20 +1,22 @@
-from flask import Flask, make_response, request, url_for, render_template
-import json
 import hashlib
-from pymongo import MongoClient
-import gridfs
-from bson import ObjectId
-from werkzeug.exceptions import NotFound, ServiceUnavailable
-import requests
-from worker import celery
-from celery.result import AsyncResult
-import celery.states as states
-from celery import signature
-import numpy as np
-import docker
+import json
 import sys
+
+import celery.states as states
+import docker
+import gridfs
+import numpy as np
 import plotly
 import redis
+import requests
+from bson import ObjectId
+from celery import signature
+from celery.result import AsyncResult
+from flask import Flask, make_response, render_template, request, url_for
+from pymongo import MongoClient
+from werkzeug.exceptions import NotFound, ServiceUnavailable
+
+from worker import celery
 
 app = Flask(__name__)
 
@@ -93,14 +95,16 @@ def add(param1,param2):
 
 @app.route('/check/<string:id>')
 def check_task(id):
-    res = celery.AsyncResult(id)
+    task_id = id
+    res = celery.AsyncResult(task_id)
     if res.state==states.PENDING:
         return res.state
-    elif str(res.state) == "PROGRESS":
+    elif str(res.state) == "RUNNING":
         data ={}
-        data['Progress'] = res.result["process_percent"]
-        data['Log'] = str(r.get('count'))
-        data['Full_Log'] = str(r.lrange('log', 0, -1))
+        log_key = task_id + ":log"
+        prog_key = task_id + ":progress"
+        data['Log'] = str(r.lrange(log_key, 0, -1))
+        data['Progress'] = str(r.lrange(prog_key, 0, -1))
         return json.dumps(data)
     else:
         db_client = MongoClient("mongodb://database:27017/")

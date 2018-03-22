@@ -56,9 +56,9 @@ def main(argv):
 
     client.images.build(path=parent_path, tag=tag, labels=labels)
     if options.publish:
-	client.login(registry=options.registry, username="z43", password="z43")
-	for line in client.api.push(tag, stream=True):
-          print line
+        client.login(registry=options.registry, username="z43", password="z43")
+    for line in client.api.push(tag, stream=True):
+        print(line)
 	
 
 if __name__ == "__main__":

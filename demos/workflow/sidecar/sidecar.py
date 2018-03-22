@@ -1,17 +1,18 @@
-import json
 import hashlib
-import docker
+import json
 import os
-import sys 
-import time
 import shutil
+import sys
+import time
 import uuid
-import requests
-from celery import Celery
 from concurrent.futures import ThreadPoolExecutor
-from pymongo import MongoClient
+
+import docker
 import gridfs
 import redis
+import requests
+from celery import Celery
+from pymongo import MongoClient
 
 env=os.environ
 
@@ -25,6 +26,7 @@ celery= Celery('tasks',
 
 io_dirs = {}
 pool = ThreadPoolExecutor(1)
+run_pool = True
 
 r = redis.StrictRedis(host="redis", port=6379)
 r.flushall()
@@ -81,19 +83,54 @@ def prepare_input_and_container(data):
 
     return docker_image_name
 
+#def _bg_job(task, task_id):
 def _bg_job(task, task_id):
-    if not r.exists('log'):
-        r.lpush('log', 'This is gonna be the log')
+    global io_dirs
 
-    for i in range(100):
-        task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
-        time.sleep(0.1)
-        r.incr("count")
-        r.rpush('log', ("This is a log meessage from the service: current # " + str(r.get("count").decode('utf-8'))).encode('utf-8'))
+    log_key = task_id + ":log"
+    prog_key = task_id + ":progress"
+    if not r.exists(log_key):
+        r.lpush(log_key, 'This is gonna be the log')
+    if not r.exists(prog_key):
+        r.lpush(prog_key, 'This is gonna be the progress')
+
+    #i = 0
+    #file = os.path.join(io_dirs['log'], "log.dat")
+#
+    #with open(file, 'a'):
+    #    os.utime(file, None)
+    #
+    #with open(file) as file_:
+    #    # Go to the end of file
+    #    file_.seek(0,2)
+    #    while run_pool:
+    #        curr_position = file_.tell()
+    #        line = file_.readline()
+    #        if not line:
+    #            file_.seek(curr_position)
+    #            time.sleep(1)
+    #        else:
+    #            r.rpush('log', ("This is a log meessage from the service: current # " + line).encode('utf-8'))
+    #            task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
+    #            i = i + 1
+    counter = 0
+    while run_pool == True:
+        r.rpush(log_key, ("This is a log meessage from the service: current # " + str(counter)).encode('utf-8'))
+        r.rpush(prog_key, (str(counter)).encode('utf-8'))
+        #task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': counter})
+        time.sleep(1)
+        counter = counter + 1
+    
+    r.set(task_id, "done")
     
 def start_container(task, task_id, docker_image_name, stage, io_env):
+    global run_pool
+    run_pool = True
+    
     client = docker.from_env(version='auto')
-    fut = pool.submit(_bg_job(task, task_id))
+   
+    task.update_state(task_id=task_id, state='RUNNING')
+    fut = pool.submit(_bg_job, task, task_id)
 
     client.containers.run(docker_image_name, "run", 
          detach=False, remove=True,
@@ -102,13 +139,17 @@ def start_container(task, task_id, docker_image_name, stage, io_env):
                     'workflow_log'    : {'bind'  : '/log'}},
          environment=io_env)
 
+    time.sleep(10)
+    run_pool = False
+    while not fut.done():
+        time.sleep(0.1)
+
     # hash output
     output_hash = hash_job_output()
 
     store_job_output(output_hash)
 
-    while not fut.done():
-        time.sleep(1)
+   
     
     return output_hash
 
@@ -197,4 +238,3 @@ def run(self, data):
     create_directories(task_id)
     
     return str(do_run(task, task_id, data))
-

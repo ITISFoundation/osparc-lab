@@ -1,5 +1,5 @@
 FROM continuumio/miniconda3
-MAINTAINER Manuel Guidon <guidon@itis.ethz.ch>
+LABEL maintainer="Manuel Guidon <guidon@itis.ethz.ch"
 
 RUN conda update conda
 RUN conda install flask plotly pymongo numpy
