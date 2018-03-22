@@ -142,8 +142,8 @@ def run_pipeline():
     combined.update(container_hash.encode('utf-8'))
     output_hash = combined.hexdigest()
    
-    output_ready = output_exists(output_hash)
-    celery.send_task('mytasks.run', args=[data], kwargs={})
+    #output_ready = output_exists(output_hash)
+    task = celery.send_task('mytasks.run', args=[data], kwargs={})
          
     return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
                   url=url_for('check_task',id=task.id,_external=True))

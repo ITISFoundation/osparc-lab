@@ -6,6 +6,8 @@ import sys
 import time
 import uuid
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+
 
 import docker
 import gridfs
@@ -83,54 +85,62 @@ def prepare_input_and_container(data):
 
     return docker_image_name
 
-#def _bg_job(task, task_id):
-def _bg_job(task, task_id):
-    global io_dirs
-
+def _bg_job(task, task_id, log_file):
     log_key = task_id + ":log"
     prog_key = task_id + ":progress"
+
+    # not sure whether we have to check for existence
     if not r.exists(log_key):
         r.lpush(log_key, 'This is gonna be the log')
     if not r.exists(prog_key):
         r.lpush(prog_key, 'This is gonna be the progress')
+    
+    with open(log_file) as file_:
+        # Go to the end of file
+        file_.seek(0,2)
+        while run_pool:
+            curr_position = file_.tell()
+            line = file_.readline()
+            if not line:
+                file_.seek(curr_position)
+                time.sleep(1)
+            else:
+                clean_line = line.strip()
+                if clean_line.startswith("[Progress]"):
+                    #r.set("clean_line", clean_line.encode('utf-8'))
+                    percent = clean_line.lstrip("[Progress]").rstrip("%").strip()
+                    r.rpush(prog_key, percent.encode('utf-8'))
+                    #r.rpush(prog_key, clean_line.encode('utf-8'))
+                else:
+                    r.rpush(log_key, clean_line.encode('utf-8'))
+                    #r.rpush(prog_key, (str(counter)).encode('utf-8'))
+                #r.rpush('log', ("This is a log meessage from the service: current # " + line).encode('utf-8'))
+                #task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
 
-    #i = 0
-    #file = os.path.join(io_dirs['log'], "log.dat")
-#
-    #with open(file, 'a'):
-    #    os.utime(file, None)
-    #
-    #with open(file) as file_:
-    #    # Go to the end of file
-    #    file_.seek(0,2)
-    #    while run_pool:
-    #        curr_position = file_.tell()
-    #        line = file_.readline()
-    #        if not line:
-    #            file_.seek(curr_position)
-    #            time.sleep(1)
-    #        else:
-    #            r.rpush('log', ("This is a log meessage from the service: current # " + line).encode('utf-8'))
-    #            task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
-    #            i = i + 1
-    counter = 0
-    while run_pool == True:
-        r.rpush(log_key, ("This is a log meessage from the service: current # " + str(counter)).encode('utf-8'))
-        r.rpush(prog_key, (str(counter)).encode('utf-8'))
-        #task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': counter})
-        time.sleep(1)
-        counter = counter + 1
+    #counter = 0
+    #while run_pool == True:
+    #    r.rpush(log_key, ("This is a log meessage from the service: current # " + str(counter)).encode('utf-8'))
+    #    r.rpush(prog_key, (str(counter)).encode('utf-8'))
+    #    #task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': counter})
+    #    time.sleep(1)
+    #    counter = counter + 1
     
     r.set(task_id, "done")
     
 def start_container(task, task_id, docker_image_name, stage, io_env):
     global run_pool
+    global io_dirs
+
     run_pool = True
     
     client = docker.from_env(version='auto')
    
     task.update_state(task_id=task_id, state='RUNNING')
-    fut = pool.submit(_bg_job, task, task_id)
+    # touch output file
+    log_file = os.path.join(io_dirs['log'], "log.dat")
+
+    Path(log_file).touch()
+    fut = pool.submit(_bg_job, task, task_id, log_file)
 
     client.containers.run(docker_image_name, "run", 
          detach=False, remove=True,
