@@ -91,13 +91,30 @@ qx.Class.define("qxapp.Application",
 
       var part1 = new qx.ui.toolbar.Part();
       {
-        var loadDefaultBtn = new qx.ui.toolbar.Button("Load default graph");
-        loadDefaultBtn.setHeight(40);
-        loadDefaultBtn.addListener("execute", function() {
-          this._workflowView.LoadDefault();
+        var simpleBtn = new qx.ui.toolbar.Button("simple");
+        simpleBtn.setHeight(40);
+        simpleBtn.addListener("execute", function() {
+          this._workflowView.LoadDefault(0);
         }, this);
-        part1.add(loadDefaultBtn);
+        part1.add(simpleBtn);
+       
+        var advancedBtn = new qx.ui.toolbar.Button("advanced");
+        advancedBtn.setHeight(40);
+        advancedBtn.addListener("execute", function() {
+          this._workflowView.LoadDefault(1);
+        }, this);
+        part1.add(advancedBtn);
+       
+        var moapBtn = new qx.ui.toolbar.Button("moap");
+        moapBtn.setHeight(40);
+        moapBtn.addListener("execute", function() {
+          this._workflowView.LoadDefault(2);
+        }, this);
+        part1.add(moapBtn);
+
         toolbar.add(part1);
+
+
       }
 
       toolbar.addSpacer();
@@ -112,6 +129,17 @@ qx.Class.define("qxapp.Application",
           this._workflowView.StartPipeline();
           var newLogText = textarea.getValue() + "\n" + "Start";
           textarea.setValue(newLogText);
+        }, this);
+
+        startPipelineBtn.addListener("execute", function() {
+          if (!this._socket.slotExists("operation1")) {
+            this._socket.on("operation1", function(val) {
+              console.log(val);
+              alert("Result to operation 1: " + val.value);
+            });
+          }
+          var input_number = spinner.getValue();
+          this._socket.emit("operation1", input_number);
         }, this);
         
         var stopPipelineBtn = new qx.ui.toolbar.RadioButton("Stop");

@@ -71,9 +71,13 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         }, autoUpdate);
       },
 
-      AddStuff : function()
+      AddStuff : function(loadExample)
       {
-        const loadExample = 1;
+        for (var n of this._mainGraph.nodes()){
+            this._mainGraph.removeNode(n);
+        }
+
+        //const loadExample = 1;
         if (loadExample === 0)
         {
           // #0: Undirected weighted graph
@@ -84,10 +88,9 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         }
         else if (loadExample === 1)
         {
-          this._mainGraph.addNodesFrom([1,2,3,4,5], {color: 'blue'});
-          this._mainGraph.addNodesFrom([9], {color: '#008A00'});
-          this._mainGraph.addCycle([1,2,3,4,5]);
-          this._mainGraph.addEdgesFrom([[1,9], [9,1]]);
+          this._mainGraph.addNodesFrom([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], {color: 'blue'});
+          this._mainGraph.addEdgesFrom([[1,2],[2,3],[4,5],[5,6],[7,8],[8,9],[3,10],[6,10],
+          [9,12],[10,11],[12,13],[11,14],[13,14],[14,15]]);
         }
         else if (loadExample === 2)
         {

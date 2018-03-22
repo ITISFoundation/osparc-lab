@@ -50,9 +50,9 @@ qx.Class.define("qxapp.components.workflowView",
         _jsNetworkXWrapper: null,
         _workflowView: null,
 
-        LoadDefault : function()
+        LoadDefault : function(which)
         {
-            this._jsNetworkXWrapper.AddStuff();
+            this._jsNetworkXWrapper.AddStuff(which);
         },
 
         StartPipeline : function()
