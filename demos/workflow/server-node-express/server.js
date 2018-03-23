@@ -32,6 +32,10 @@ app.get('/', function (request, response) {
 
 server.listen(PORT, HOSTNAME);
 
+var logger_handle;
+var progress_handle;
+var logger_on = false;
+var progress_on = false;
 
 var io = require('socket.io')(server);
 io.on('connection', function(client) {
@@ -42,7 +46,23 @@ io.on('connection', function(client) {
   });
 
   client.on('logger', function() {
-    setInterval(intervalFunc, 1500, client);
+    if (!logger_on){
+      logger_handle = setInterval(periodicLog, 1500, client);
+      logger_on = true;
+    } else{
+      clearInterval(logger_handle);
+      logger_on = false;
+    }
+  });
+
+  client.on('progress', function() {
+    if (!progress_on){
+      progress_handle = setInterval(periodicProgress, 1500, client);
+      progress_on = true;
+    } else{
+      clearInterval(progress_handle);
+      progress_on = false;
+    }
   });
 });
 
@@ -66,9 +86,45 @@ function doLog(client) {
   });
 };
 
-function intervalFunc(client) {
+function doProgress(client) {
+  // random progress
+  for (var prog=[],i=0;i<15;++i){
+    if(Math.random() > 0.5 ){
+      prog[i] = 0;
+    }
+    else{
+      prog[i] = 1;
+    }
+  }
+  client.emit("progress", JSON.stringify(prog));
+}; 
+  // http.get('http://172.18.0.1:8010/porgress', (resp) => {
+  //   let data = '';
+// 
+  //   // A chunk of data has been recieved.
+  //   resp.on('data', (chunk) => {
+  //     data += chunk;
+  //   });
+// 
+  //   // The whole response has been received. Print out the result.
+  //   resp.on('end', () => {
+  //     var json_data = JSON.parse(data)
+  //     client.emit('logger', json_data);
+  //   });
+// 
+  // }).on("error", (err) => {
+  //   console.log("Error: " + err.message);
+  // });
+//};
+
+function periodicLog(client) {
   doLog(client);
 }
+
+function periodicProgress(client) {
+  doProgress(client);
+}
+
 
 function doFuncparser(client, in_number) {
   var url = 'http://172.18.0.1:8010/calc_id/0.0/10.0/' + in_number.toString() + '/%22sin(x)%22';

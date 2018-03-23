@@ -68,11 +68,13 @@ qx.Class.define("qxapp.Application",
 
       // Create operation buttons
       var btnFuncParser = new qx.ui.form.Button("Run function parser");
-      var btnUpdateLog = new qx.ui.form.Button("Toggle log");
+      var btnToggleLog = new qx.ui.form.Button("Toggle log");
+      var btnToggleProgress = new qx.ui.form.Button("Toggle progress");
 
       // Add buttons and labels to document at fixed coordinates
       doc.add(btnFuncParser, {left: 300, top: 50});
-      doc.add(btnUpdateLog, {left: 600, top: 50});
+      doc.add(btnToggleLog, {left: 600, top: 50});
+      doc.add(btnToggleProgress, {left: 700, top: 50});
 
        // Add an event listeners
        btnFuncParser.addListener("execute", function() {
@@ -87,7 +89,7 @@ qx.Class.define("qxapp.Application",
       }, this);
 
        // Add an event listeners
-       btnUpdateLog.addListener("execute", function() {
+       btnToggleLog.addListener("execute", function() {
         if (!this._socket.slotExists("logger")) {
           this._socket.on("logger", function(data) {
             var newLogText = JSON.stringify(data);
@@ -95,6 +97,18 @@ qx.Class.define("qxapp.Application",
           });
         }
         this._socket.emit("logger");
+      }, this);
+
+       // Add an event listeners
+       btnToggleProgress.addListener("execute", function() {
+        if (!this._socket.slotExists("progress")) {
+          this._socket.on("progress", function(data) {
+            updateFromProgress(data);
+            var newLogText = JSON.stringify(data);
+            textarea.setValue(data + textarea.getValue());
+          });
+        }
+        this._socket.emit("progress");
       }, this);
 
       // WORKBENCH
@@ -125,8 +139,6 @@ qx.Class.define("qxapp.Application",
         part1.add(moapBtn);
 
         toolbar.add(part1);
-
-
       }
 
       toolbar.addSpacer();
@@ -180,7 +192,7 @@ qx.Class.define("qxapp.Application",
 
       this._workflowView._jsNetworkXWrapper.addListener("NodeClicked", function(e) {
         var nodeClicked = e.getData();
-        var newLogText = textarea.getValue() + "\n" + "Node " +nodeClicked.node + " clicked";
+        var newLogText = textarea.getValue() + "\n" + "Node " + nodeClicked.node + " clicked";
 
         textarea.setValue(newLogText);
         textarea.scrollToY(1e99);
@@ -190,6 +202,13 @@ qx.Class.define("qxapp.Application",
         var newLogText = textarea.getValue() + "\n" + "Double Click";
         textarea.setValue(newLogText);
       }, this);
+
+      var workflowview = this._workflowView;
+      function updateFromProgress(data){
+        textarea.setValue(textarea.getValue() + "ON MORE");
+        workflowview.UpdatePipeline(data)
+      };
+
     },
   }
 });

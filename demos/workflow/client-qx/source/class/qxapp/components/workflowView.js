@@ -64,5 +64,10 @@ qx.Class.define("qxapp.components.workflowView",
         {
             this._jsNetworkXWrapper.StopPipeline();
         },
+
+        UpdatePipeline : function(data)
+        {
+            this._jsNetworkXWrapper.UpdatePipeline(data);
+        },
     },
 });

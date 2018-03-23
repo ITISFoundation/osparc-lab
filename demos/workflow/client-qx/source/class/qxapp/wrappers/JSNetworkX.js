@@ -142,6 +142,21 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
           this._mainGraph.addNodesFrom([oldNode], {color: 'red'});
         }
       },
+
+      UpdatePipeline : function(data)
+      {
+        const getAllInfo = true;
+        var nodes = this._mainGraph.nodes(getAllInfo);
+        for (let i = 0; i < nodes.length; i++) {
+          var oldNode = nodes[i][0];
+          if (data[i] == 1)          {
+            this._mainGraph.addNodesFrom([oldNode], {color: 'red'});
+          } else{
+            this._mainGraph.addNodesFrom([oldNode], {color: 'green'});
+          }
+        }
+      },
+
     },
   
     /**
