@@ -87,12 +87,6 @@ def start_computation(data):
     except requests.exceptions.ConnectionError:
         raise ServiceUnavailable("The computational service is unavailable.")
 
-@app.route('/add/<int:param1>/<int:param2>')
-def add(param1,param2):
-    task = celery.send_task('mytasks.add', args=[param1, param2], kwargs={})
-    return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
-                url=url_for('check_task',id=task.id,_external=True))
-
 @app.route('/check/<string:id>')
 def check_task(id):
     task_id = id
@@ -130,33 +124,31 @@ def check_task(id):
 
         return str(res.result)
 
-@app.route("/run_pipeline", methods=['POST'])
-def run_pipeline():
-    data = request.get_json()
-    [input_hash, input_exists] = parse_input_data(data)
-   
-    container_hash = parse_container_data(data)
-    
-    combined = hashlib.sha256()
-    combined.update(input_hash.encode('utf-8'))
-    combined.update(container_hash.encode('utf-8'))
-    output_hash = combined.hexdigest()
-   
-    #output_ready = output_exists(output_hash)
-    task = celery.send_task('mytasks.run', args=[data], kwargs={})
-         
-    return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
-                  url=url_for('check_task',id=task.id,_external=True))
+# get all task infos
+@app.route('/check')
+def check_all_tasks():
+    all_in_one = ""
+    for task_id in task_info:
+        res = celery.AsyncResult(task_id)
+        log_key = task_id + ":log"
+        cur_len = r.llen(log_key)
+        log = []        
+        for i in range(cur_len):
+            l = r.lpop(log_key)
+            if not l is None:
+                log.append(l)
+            #log = r.lrange(log_key, 0, cur_len-1)
+        if len(log):
+            task_info[task_id] = "\n".join(log[::-1])+"\n"
+            all_in_one = all_in_one + task_info[task_id]
+    return json.dumps(all_in_one)
 
+@app.route('/clear_log')
+def clear_log():
+    task_info = {}
+    return "log deleted"
 
-def on_raw_message(body):
-    print(body)
-
-# @app.route("/calc", methods=['GET'])
-@app.route('/calc/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
-def calc(x_min, x_max, N, f):
-    #ata = request.get_json()
-   
+def run_func_parser(x_min, x_max, N, f):
     data_str = """{
     "input": 
     [
@@ -185,8 +177,6 @@ def calc(x_min, x_max, N, f):
     }""" % (N, x_min, x_max, f) 
 
     data = json.loads(data_str)
-    print(type(data))
-    sys.stdout.flush()
     hashstr = ""
     [input_hash, input_exists] = parse_input_data(data)
    
@@ -200,10 +190,25 @@ def calc(x_min, x_max, N, f):
     output_ready = output_exists(output_hash)
     print(output_ready)
     task = celery.send_task('mytasks.run', args=[data], kwargs={})
-    #print(task.get(on_message=on_raw_message, propagate=False))
-         
+    task_info[task.id] = ["Task submitted"]
+    return task
+
+@app.route('/calc/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
+def calc(x_min, x_max, N, f):
+    task = run_func_parser(x_min, x_max, N, f)
+
     return "<a href='{url}'>check status of {id} </a>".format(id=task.id,
-                  url=url_for('check_task',id=task.id,_external=True))
+        url=url_for('check_task',id=task.id,_external=True))
+
+@app.route('/calc_id/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
+def calc_id(x_min, x_max, N, f):
+    task = run_func_parser(x_min, x_max, N, f)
+    data = {}
+    data["task_id"] = task.id
+    json_data = json.dumps(data)     
+    return json_data
+
+
 
 
 if __name__ == "__main__":

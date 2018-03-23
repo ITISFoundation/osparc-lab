@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 var server = require('http').createServer(app);
-
+var http = require('http');
 
 // TODO: socker io on the same port?
 // TODO: how to guarantee same version of sockerio between client/server?
@@ -37,30 +37,62 @@ var io = require('socket.io')(server);
 io.on('connection', function(client) {
   console.log('Client connected...');
 
-  client.on('operation1', function(in_number) {
-    doOperation1(client, in_number);
+  client.on('funcparser', function(in_number) {
+    doFuncparser(client, in_number);
   });
 
-  client.on('operation2', function(in_number) {
-    doOperation2(client, in_number);
+  client.on('logger', function() {
+    setInterval(intervalFunc, 1500, client);
   });
 });
 
+function doLog(client) {
+  http.get('http://172.18.0.1:8010/check', (resp) => {
+    let data = '';
 
-function doOperation1(client, in_number) {
-  console.log('Doing operation 1 with input', in_number);
-  var resultOp1 = {
-    value: Math.pow(in_number, 2)
-  };
-  client.emit('operation1', resultOp1);
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      var json_data = JSON.parse(data)
+      client.emit('logger', json_data);
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
 };
 
-function doOperation2(client, in_number) {
-  console.log('Doing operation 2 with input', in_number);
-  var resultOp2 = {
-    value: Math.pow(in_number, 0.5)
-  };
-  client.emit('operation2', resultOp2);
+function intervalFunc(client) {
+  doLog(client);
+}
+
+function doFuncparser(client, in_number) {
+  var url = 'http://172.18.0.1:8010/calc_id/0.0/10.0/' + in_number.toString() + '/%22sin(x)%22';
+  console.log(url);
+  http.get(url, (resp) => {
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+    //  console.log(JSON.parse(data).explanation);
+      var json_data = JSON.parse(data)
+      var task_id = json_data['task_id']
+      client.emit('funcparser', task_id);
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
+  
 };
 
 

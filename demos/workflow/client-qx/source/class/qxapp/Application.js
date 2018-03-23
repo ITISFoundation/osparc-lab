@@ -59,31 +59,43 @@ qx.Class.define("qxapp.Application",
       this._socket.connect();
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5));
-      var spinner = new qx.ui.form.Spinner();
-      container.add(new qx.ui.basic.Label("Input number"));
+      var spinner = new qx.ui.form.Spinner(0,200,10000);
+      container.add(new qx.ui.basic.Label("Number of points"));
       container.add(spinner);
 
       // Add spinner to document at fixed coordinates
       doc.add(container, {left: 50, top: 50});
 
       // Create operation buttons
-      var button1 = new qx.ui.form.Button("WebSocket: Do operation");
+      var btnFuncParser = new qx.ui.form.Button("Run function parser");
+      var btnUpdateLog = new qx.ui.form.Button("Toggle log");
 
       // Add buttons and labels to document at fixed coordinates
-      doc.add(button1, {left: 250, top: 50});
+      doc.add(btnFuncParser, {left: 300, top: 50});
+      doc.add(btnUpdateLog, {left: 600, top: 50});
 
-      // Add an event listeners
-      button1.addListener("execute", function() {
-        if (!this._socket.slotExists("operation1")) {
-          this._socket.on("operation1", function(val) {
+       // Add an event listeners
+       btnFuncParser.addListener("execute", function() {
+        if (!this._socket.slotExists("funcparser")) {
+          this._socket.on("funcparser", function(val) {
             console.log(val);
-            alert("Result to operation 1: " + val.value);
+            alert("task_id: " + val);
           });
         }
-        var input_number = spinner.getValue();
-        this._socket.emit("operation1", input_number);
+        var n = spinner.getValue();
+        this._socket.emit("funcparser", n);
       }, this);
 
+       // Add an event listeners
+       btnUpdateLog.addListener("execute", function() {
+        if (!this._socket.slotExists("logger")) {
+          this._socket.on("logger", function(data) {
+            var newLogText = JSON.stringify(data);
+            textarea.setValue(data + textarea.getValue());
+          });
+        }
+        this._socket.emit("logger");
+      }, this);
 
       // WORKBENCH
       var toolbar = new qx.ui.toolbar.ToolBar();
@@ -131,17 +143,6 @@ qx.Class.define("qxapp.Application",
           textarea.setValue(newLogText);
         }, this);
 
-        startPipelineBtn.addListener("execute", function() {
-          if (!this._socket.slotExists("operation1")) {
-            this._socket.on("operation1", function(val) {
-              console.log(val);
-              alert("Result to operation 1: " + val.value);
-            });
-          }
-          var input_number = spinner.getValue();
-          this._socket.emit("operation1", input_number);
-        }, this);
-        
         var stopPipelineBtn = new qx.ui.toolbar.RadioButton("Stop");
         stopPipelineBtn.setHeight(40);
         stopPipelineBtn.setWidth(100);
@@ -169,16 +170,20 @@ qx.Class.define("qxapp.Application",
       // add textarea
       var logLabel = new qx.ui.basic.Label("Logger:");
       var textarea = new qx.ui.form.TextArea(" ");
-      textarea.setWidth(250);
+     
+      textarea.setWidth(750);
       textarea.setHeight(565);
       textarea.setReadOnly(true);
+
       doc.add(logLabel, {left: 550, top: 150});
       doc.add(textarea, {left: 550, top: 180});
 
       this._workflowView._jsNetworkXWrapper.addListener("NodeClicked", function(e) {
         var nodeClicked = e.getData();
         var newLogText = textarea.getValue() + "\n" + "Node " +nodeClicked.node + " clicked";
+
         textarea.setValue(newLogText);
+        textarea.scrollToY(1e99);
       }, this);
 
       this._workflowView._jsNetworkXWrapper.addListener("DoubleClicked", function() {

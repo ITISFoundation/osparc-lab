@@ -91,9 +91,9 @@ def _bg_job(task, task_id, log_file):
 
     # not sure whether we have to check for existence
     if not r.exists(log_key):
-        r.lpush(log_key, 'This is gonna be the log')
+        r.rpush(log_key, 'This is gonna be the log')
     if not r.exists(prog_key):
-        r.lpush(prog_key, 'This is gonna be the progress')
+        r.rpush(prog_key, 'This is gonna be the progress')
     
     with open(log_file) as file_:
         # Go to the end of file

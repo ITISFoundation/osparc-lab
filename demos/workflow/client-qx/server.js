@@ -57,10 +57,15 @@ function doOperation1(client, in_number) {
 
 function doOperation2(client, in_number) {
   console.log('Doing operation 2 with input', in_number);
-  var resultOp2 = {
-    value: Math.pow(in_number, 0.5)
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "Your Rest URL Here", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  var response = JSON.parse(xhttp.responseText);
+  // var resultOp2 = {
+  //   value: Math.pow(in_number, 2)
   };
-  client.emit('operation2', resultOp2);
+  client.emit('operation2', response);
 };
 
 
