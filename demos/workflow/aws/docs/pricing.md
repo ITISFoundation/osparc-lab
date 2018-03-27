@@ -71,7 +71,7 @@ We promised to support at least 20 (50) simulataneous users connected by the end
 ### Network
 
 - `node0.simcore.io`
-- `registry.simocre.io`
+- `registry.simcore.io`
 
 First elastic IP for free, then 0.005 per hour
 
@@ -86,6 +86,14 @@ First elastic IP for free, then 0.005 per hour
 - Data Transfer AWS ES2 to S3 in same region: 0 $ per GB
 
 ## Example decent hardware
+
+- A: $ per hour/unit on-demand
+- B: $ per hour/unit 1 year upfront
+- C: $ per hour/unit 3 years upfront
+- D: $ per month on-demand
+- E: $ per month 1 year upfront
+- F: $ per month 3 years upfront
+
 
 | service        | ec2 type                |   units  |  A     |   B   | C     |   D       | E       | F       |
 |:---------------|:------------------------|---------:|-------:|------:|:-----:|----------:|--------:|--------:|
@@ -116,3 +124,4 @@ First elastic IP for free, then 0.005 per hour
 | 2nd elastic IP | standard                | 1        | 0.005  |       |       | 3.6       | 3.6     | 3.6     | 
 | data traffic   | AWS EC2→Internet [GB]   | 10000    | 0.09   |       |       | 900       | 900     | 900     | 
 | **total cost**     |                         |          |        |       |       | **7951.244**  | **5307.26** | **3811.82** | 
+

@@ -82,9 +82,8 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         {
           // #0: Undirected weighted graph
           // Main graph would need to be changed to jsnx.Graph();
-          this._mainGraph.addWeightedEdgesFrom([[2,3,10]]);
-          this._mainGraph.addStar([3,4,5,6], {weight: 5}); 
-          this._mainGraph.addStar([2,1,0,-1], {weight: 3});
+          this._mainGraph.addNodesFrom([1,2,3,4,5,6,7,8], {color: 'blue'});
+          this._mainGraph.addEdgesFrom([[1,3],[3,5],[2,4],[4,5],[5,6],[5,7],[6,8],[7,8]]);
         }
         else if (loadExample === 1)
         {

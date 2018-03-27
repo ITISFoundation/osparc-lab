@@ -193,6 +193,9 @@ def run_func_parser(x_min, x_max, N, f):
     task_info[task.id] = ["Task submitted"]
     return task
 
+def run_pipeline(pipeline_id):
+    return "aaa"
+
 @app.route('/calc/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
 def calc(x_min, x_max, N, f):
     task = run_func_parser(x_min, x_max, N, f)
@@ -208,6 +211,13 @@ def calc_id(x_min, x_max, N, f):
     json_data = json.dumps(data)     
     return json_data
 
+@app.route('/pipeline_id/<int:pipeline_id>')
+def pipeline_id(pipeline_id):
+    task = run_pipeline(pipeline_id)
+    data = {}
+    data["task_id"] = task
+    json_data = json.dumps(data)     
+    return json_data
 
 
 

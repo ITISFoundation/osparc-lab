@@ -20,14 +20,14 @@ const APP_PATH = process.env.SIMCORE_WEB_OUTDIR || path.resolve(__dirname, 'sour
 
 // serve static assets normally
 const static_path = APP_PATH
-console.log( "Serving static : " + static_path );
-app.use( express.static(static_path) );
+console.log("Serving static : " + static_path);
+app.use(express.static(static_path));
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
 app.get('/', function (request, response) {
   console.log("Routing / to " + path.resolve(APP_PATH, 'index.html'))
-  response.sendFile( path.resolve(APP_PATH, 'index.html') );
+  response.sendFile(path.resolve(APP_PATH, 'index.html'));
 });
 
 server.listen(PORT, HOSTNAME);
@@ -38,28 +38,32 @@ var logger_on = false;
 var progress_on = false;
 
 var io = require('socket.io')(server);
-io.on('connection', function(client) {
+io.on('connection', function (client) {
   console.log('Client connected...');
 
-  client.on('funcparser', function(in_number) {
+  client.on('funcparser', function (in_number) {
     doFuncparser(client, in_number);
   });
 
-  client.on('logger', function() {
-    if (!logger_on){
+  client.on('pipeline', function (pipeline) {
+    doPipeline(client, pipeline);
+  });
+
+  client.on('logger', function () {
+    if (!logger_on) {
       logger_handle = setInterval(periodicLog, 1500, client);
       logger_on = true;
-    } else{
+    } else {
       clearInterval(logger_handle);
       logger_on = false;
     }
   });
 
-  client.on('progress', function() {
-    if (!progress_on){
+  client.on('progress', function () {
+    if (!progress_on) {
       progress_handle = setInterval(periodicProgress, 1500, client);
       progress_on = true;
-    } else{
+    } else {
       clearInterval(progress_handle);
       progress_on = false;
     }
@@ -88,34 +92,15 @@ function doLog(client) {
 
 function doProgress(client) {
   // random progress
-  for (var prog=[],i=0;i<15;++i){
-    if(Math.random() > 0.5 ){
+  for (var prog = [], i = 0; i < 15; ++i) {
+    if (Math.random() > 0.5) {
       prog[i] = 0;
-    }
-    else{
+    } else {
       prog[i] = 1;
     }
   }
   client.emit("progress", JSON.stringify(prog));
-}; 
-  // http.get('http://172.18.0.1:8010/porgress', (resp) => {
-  //   let data = '';
-// 
-  //   // A chunk of data has been recieved.
-  //   resp.on('data', (chunk) => {
-  //     data += chunk;
-  //   });
-// 
-  //   // The whole response has been received. Print out the result.
-  //   resp.on('end', () => {
-  //     var json_data = JSON.parse(data)
-  //     client.emit('logger', json_data);
-  //   });
-// 
-  // }).on("error", (err) => {
-  //   console.log("Error: " + err.message);
-  // });
-//};
+};
 
 function periodicLog(client) {
   doLog(client);
@@ -125,6 +110,30 @@ function periodicProgress(client) {
   doProgress(client);
 }
 
+
+function doPipeline(client, pipeline) {
+  var url = 'http://172.18.0.1:8010/pipeline_id/0';
+  console.log(url);
+  http.get(url, (resp) => {
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      //  console.log(JSON.parse(data).explanation);
+      var json_data = JSON.parse(data)
+      var task_id = json_data['task_id']
+      client.emit('pipeline', task_id);
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
+};
 
 function doFuncparser(client, in_number) {
   var url = 'http://172.18.0.1:8010/calc_id/0.0/10.0/' + in_number.toString() + '/%22sin(x)%22';
@@ -139,7 +148,7 @@ function doFuncparser(client, in_number) {
 
     // The whole response has been received. Print out the result.
     resp.on('end', () => {
-    //  console.log(JSON.parse(data).explanation);
+      //  console.log(JSON.parse(data).explanation);
       var json_data = JSON.parse(data)
       var task_id = json_data['task_id']
       client.emit('funcparser', task_id);
@@ -148,8 +157,6 @@ function doFuncparser(client, in_number) {
   }).on("error", (err) => {
     console.log("Error: " + err.message);
   });
-  
 };
 
-
-console.log("server started on " + HOSTNAME + ":" + PORT );
+console.log("server started on " + HOSTNAME + ":" + PORT);
