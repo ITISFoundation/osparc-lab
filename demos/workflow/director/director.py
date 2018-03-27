@@ -1,5 +1,6 @@
 import hashlib
 import json
+import random
 import sys
 
 import celery.states as states
@@ -14,8 +15,12 @@ from celery import signature
 from celery.result import AsyncResult
 from flask import Flask, make_response, render_template, request, url_for
 from pymongo import MongoClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from werkzeug.exceptions import NotFound, ServiceUnavailable
 
+from conf import DATABASE_URI, QUEUE_NAME
+from models import Base, CeleryTask, Task, Workflow
 from worker import celery
 
 app = Flask(__name__)
@@ -194,7 +199,40 @@ def run_func_parser(x_min, x_max, N, f):
     return task
 
 def run_pipeline(pipeline_id):
-    return "aaa"
+    global not_empty
+    engine = create_engine(DATABASE_URI)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    CeleryTask.__table__.create(engine, checkfirst=True)
+    Base.metadata.create_all(engine)
+
+    not_empty = True
+    for i in range(8):
+        session.add(Task(sleep=random.randint(2, 7))) # sleep for 1-7 secs
+
+    session.add(
+        Workflow(
+        dag_adjacency_list = dict([
+            (1, [3]),
+            (2, [4]),
+            (3, [5]),
+            (4, [5]),
+            (5, [6, 7]),
+            (6, [8]),
+            (7, [8])
+        ])
+        )
+    )
+
+    session.commit()
+
+    workflow = session.query(Workflow).all()[-1]
+
+    task = celery.send_task('mytasks.pipeline', args=(workflow.id,), kwargs={})
+    task_info[task.id] = ["Task submitted"]
+    return task
+
 
 @app.route('/calc/<float:x_min>/<float:x_max>/<int:N>/<string:f>')
 def calc(x_min, x_max, N, f):
@@ -215,10 +253,9 @@ def calc_id(x_min, x_max, N, f):
 def pipeline_id(pipeline_id):
     task = run_pipeline(pipeline_id)
     data = {}
-    data["task_id"] = task
+    data["task_id"] = task.id
     json_data = json.dumps(data)     
     return json_data
-
 
 
 if __name__ == "__main__":

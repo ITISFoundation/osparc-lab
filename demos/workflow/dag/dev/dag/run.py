@@ -17,7 +17,7 @@ CeleryTask.__table__.create(engine, checkfirst=True)
 Base.metadata.create_all(engine)
 
 for i in range(8):
-    session.add(Task(sleep=random.randint(1, 7))) # sleep for 1-7 secs
+    session.add(Task(sleep=random.randint(2, 7))) # sleep for 1-7 secs
 
 session.add(
     Workflow(

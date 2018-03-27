@@ -37,8 +37,6 @@ services:
     command: mongod --httpinterface --rest --smallfiles --logpath=/dev/null # --quiet
   database_ui:
     image: mongo-express
-#    links: 
-#      - database:mongo
     ports:
       - "8081:8081"
     environment:
@@ -68,6 +66,19 @@ services:
       - "8082:8081"
     depends_on:
       - redis
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=z43
+      - MYSQL_DATABASE=dag_celery
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
 #  visualizer:
 #    image: dockersamples/visualizer:stable
 #    ports:
