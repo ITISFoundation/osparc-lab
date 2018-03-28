@@ -107,7 +107,7 @@ First elastic IP for free, then 0.005 per hour
 | S3             | standard [GB]           | 100      | 0.023  |       |       | 2.3       | 2.3     | 2.3     | 
 | 2nd elastic IP | standard                | 1        | 0.005  |       |       | 3.6       | 3.6     | 3.6     | 
 | data traffic   | AWS EC2→Internet [GB]   | 10000    | 0.09   |       |       | 900       | 900     | 900     | 
-| **total cost**     |                         |          |        |       |       | **11132.348** | **7036.7**  | **4498.7** | 
+| **total cost/month**     |                         |          |        |       |       | **11132.348** | **7036.7**  | **4498.7** | 
 
 ## Example cheap hardware
 
@@ -123,5 +123,16 @@ First elastic IP for free, then 0.005 per hour
 | S3             | standard [GB]           | 100      | 0.023  |       |       | 2.3       | 2.3     | 2.3     | 
 | 2nd elastic IP | standard                | 1        | 0.005  |       |       | 3.6       | 3.6     | 3.6     | 
 | data traffic   | AWS EC2→Internet [GB]   | 10000    | 0.09   |       |       | 900       | 900     | 900     | 
-| **total cost**     |                         |          |        |       |       | **7951.244**  | **5307.26** | **3811.82** | 
+| **total cost/month**     |                         |          |        |       |       | **7951.244**  | **5307.26** | **3811.82** | 
 
+
+## Example in-house
+
+| service        | ec2 type                |   units  |  A     |   B   | C     |   D       | E       | F       |
+|:---------------|:------------------------|---------:|-------:|------:|:-----:|----------:|--------:|--------:|
+| type a         | c5.x18large [72, 278]   | 3        | 3.492  | 2.240 | 1.502 | 7542.72   | 4838.4  | 3244.32 | 
+| type b         | x1.32xlarge [128, 1952] | 1        | 18.674 | 10.74 | 5.225 | 13455.28  | 7732.8  | 3762    | 
+| S3             | standard [GB]           | 100      | 0.023  |       |       | 2.3       | 2.3     | 2.3     | 
+| 2nd elastic IP | standard                | 1        | 0.005  |       |       | 3.6       | 3.6     | 3.6     | 
+| data traffic   | AWS EC2→Internet [GB]   | 10000    | 0.09   |       |       | 900       | 900     | 900     | 
+| **total cost/month** |                         |          |        |       |       | **21893.9**  | **13477.1** | **7912.22** | 
