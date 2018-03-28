@@ -25,8 +25,8 @@ from worker import celery
 
 app = Flask(__name__)
 
-
 task_info = {}
+
 
 def create_graph(x,y):
     graph = [
@@ -134,7 +134,7 @@ def check_task(id):
 def check_all_tasks():
     all_in_one = ""
     for task_id in task_info:
-        res = celery.AsyncResult(task_id)
+        #res = celery.AsyncResult(task_id)
         log_key = task_id + ":log"
         cur_len = r.llen(log_key)
         log = []        
@@ -147,6 +147,50 @@ def check_all_tasks():
             task_info[task_id] = "\n".join(log[::-1])+"\n"
             all_in_one = all_in_one + task_info[task_id]
     return json.dumps(all_in_one)
+
+@app.route('/check_pipeline_log')
+def check_pipeline_log():
+    engine = create_engine(DATABASE_URI)
+    Session = sessionmaker(bind=engine)
+
+    session = Session()
+    tasks = session.query(Task).all()
+    session.close()
+    all_in_one = ""
+    for task in tasks:
+        task_id = task.celery_task_uid
+        if task_id:
+            all_in_one = all_in_one + task_id + "\n"
+            log_key = task_id + ":log"
+            cur_len = r.llen(log_key)
+            log = []        
+            for i in range(cur_len):
+                l = r.lpop(log_key)
+                if not l is None:
+                    log.append(l)
+            if len(log):
+                task_info[task_id] = "\n".join(log[::-1])+"\n"
+                all_in_one = all_in_one + task_info[task_id]
+    return json.dumps(all_in_one)
+
+@app.route('/check_pipeline_progress')
+def check_pipeline_progress():
+    engine = create_engine(DATABASE_URI)
+    Session = sessionmaker(bind=engine)
+
+    session = Session()
+    tasks = session.query(Task).all()
+    session.close()
+    pipeline_progress = [-1 for i in range(len(tasks))]
+    for task in tasks:
+        task_id = task.celery_task_uid
+        pipeline_part = task.id
+        if task_id:
+            prog_key = task_id + ":progress"
+            progress = r.get(prog_key)
+            pipeline_progress[pipeline_part-1] = progress
+            
+    return json.dumps(pipeline_progress)
 
 @app.route('/clear_log')
 def clear_log():
@@ -199,15 +243,14 @@ def run_func_parser(x_min, x_max, N, f):
     return task
 
 def run_pipeline(pipeline_id):
-    global not_empty
     engine = create_engine(DATABASE_URI)
     Session = sessionmaker(bind=engine)
-    session = Session()
 
+    session = Session()
+    Base.metadata.drop_all(engine, checkfirst=True)
+    CeleryTask.__table__.drop(engine, checkfirst=True)
     CeleryTask.__table__.create(engine, checkfirst=True)
     Base.metadata.create_all(engine)
-
-    not_empty = True
     for i in range(8):
         session.add(Task(sleep=random.randint(2, 7))) # sleep for 1-7 secs
 
@@ -229,6 +272,9 @@ def run_pipeline(pipeline_id):
 
     workflow = session.query(Workflow).all()[-1]
 
+    print ("WORKFLOW", workflow.id)
+    session.flush()
+    session.close()
     task = celery.send_task('mytasks.pipeline', args=(workflow.id,), kwargs={})
     task_info[task.id] = ["Task submitted"]
     return task

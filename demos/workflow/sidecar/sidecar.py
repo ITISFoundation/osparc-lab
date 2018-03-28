@@ -115,24 +115,11 @@ def _bg_job(task, task_id, log_file):
             else:
                 clean_line = line.strip()
                 if clean_line.startswith("[Progress]"):
-                    #r.set("clean_line", clean_line.encode('utf-8'))
                     percent = clean_line.lstrip("[Progress]").rstrip("%").strip()
                     r.rpush(prog_key, percent.encode('utf-8'))
-                    #r.rpush(prog_key, clean_line.encode('utf-8'))
                 else:
                     r.rpush(log_key, clean_line.encode('utf-8'))
-                    #r.rpush(prog_key, (str(counter)).encode('utf-8'))
-                #r.rpush('log', ("This is a log meessage from the service: current # " + line).encode('utf-8'))
-                #task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': i})
-
-    #counter = 0
-    #while run_pool == True:
-    #    r.rpush(log_key, ("This is a log meessage from the service: current # " + str(counter)).encode('utf-8'))
-    #    r.rpush(prog_key, (str(counter)).encode('utf-8'))
-    #    #task.update_state(task_id=task_id, state='PROGRESS', meta={'process_percent': counter})
-    #    time.sleep(1)
-    #    counter = counter + 1
-    
+ 
     r.set(task_id, "done")
     
 def start_container(task, task_id, docker_image_name, stage, io_env):
@@ -286,26 +273,26 @@ def _is_node_rdy(task, graph):
             return False
     return True
 
-def _process_task_node(celery_task, task, uid, workflow_id, cur_task_id):
-    task.celery_task_uid = uid
+def _process_task_node(celery_task, task, task_id, workflow_id, cur_task_id):
+    task.celery_task_uid = task_id
     session.add(task)
     session.commit()
-    print('Runnning Workflow {} and Task {}'.format(workflow_id, cur_task_id))
+    log_key = task_id + ":log"
+    prog_key = task_id + ":progress"
+    r.rpush(log_key, 'Runnning Workflow {} and Task {} via redis'.format(workflow_id, cur_task_id).encode('utf-8'))
     # simulate that task runs
-    return
-    # dp = 1.0 / (task.sleep-1)
-    # for i in range(task.sleep):
-    #     print('{}: Sleep, sec: {}'.format(uid, i))
-    #     process_percent = i * dp 
-    #     celery_task.update_state(state='PROGRESS', meta={'process_percent':process_percent})
-    #     time.sleep(1)
+    dp = 1.0 / (task.sleep-1)
+    for i in range(task.sleep):
+        print('{}: Sleep, sec: {}'.format(task_id, i))
+        r.rpush(log_key, '{}: Sleep, sec: {}'.format(task_id, i))
+        process_percent = i * dp 
+        r.set(prog_key, str(process_percent).encode('utf-8'))
+        time.sleep(1)
     
-counter = 0
 @celery.task(name='mytasks.pipeline', bind=True)
 def pipeline(self, workflow_id, cur_task_id=None):
     workflow = session.query(Workflow).filter_by(id=workflow_id).one()
     graph = workflow.execution_graph
-
     next_task_ids = []
     if cur_task_id:
         task = session.query(Task).get(cur_task_id)
@@ -318,7 +305,7 @@ def pipeline(self, workflow_id, cur_task_id=None):
             print("NOPE 1")
             return
 
-        _process_task_node(self,task, self.request.id, workflow_id, cur_task_id)
+        _process_task_node(self, task, self.request.id, workflow_id, cur_task_id)
 
         next_task_ids = list(graph.successors(cur_task_id))
     else:

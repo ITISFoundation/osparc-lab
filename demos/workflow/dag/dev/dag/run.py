@@ -11,8 +11,8 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-#Base.metadata.drop_all(engine, checkfirst=True)
-#CeleryTask.__table__.drop(engine, checkfirst=True)
+Base.metadata.drop_all(engine, checkfirst=True)
+CeleryTask.__table__.drop(engine, checkfirst=True)
 CeleryTask.__table__.create(engine, checkfirst=True)
 Base.metadata.create_all(engine)
 
