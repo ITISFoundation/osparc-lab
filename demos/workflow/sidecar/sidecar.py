@@ -284,7 +284,7 @@ def _process_task_node(celery_task, task, task_id, workflow_id, cur_task_id):
     dp = 1.0 / (task.sleep-1)
     for i in range(task.sleep):
         print('{}: Sleep, sec: {}'.format(task_id, i))
-        r.rpush(log_key, '{}: Sleep, sec: {}'.format(cur_task_id, i))
+        r.rpush(log_key, '{}: Sleep, sec: {} of {}'.format(cur_task_id, i+1, task.sleep))
         process_percent = i * dp 
         r.set(prog_key, str(process_percent).encode('utf-8'))
         time.sleep(1)

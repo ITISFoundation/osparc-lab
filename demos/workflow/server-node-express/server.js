@@ -70,20 +70,23 @@ io.on('connection', function (client) {
     if (!logger_on) {
       logger_handle = setInterval(periodicLog, 1500, client);
       logger_on = true;
-    } else {
-      clearInterval(logger_handle);
-      logger_on = false;
     }
+    //  else {
+    //  
+    //   clearInterval(logger_handle);
+    //   logger_on = false;
+    // }
   });
 
   client.on('progress', function () {
     if (!progress_on) {
       progress_handle = setInterval(periodicProgress, 1500, client);
       progress_on = true;
-    } else {
-      clearInterval(progress_handle);
-      progress_on = false;
-    }
+    } 
+    // else {
+    //   clearInterval(progress_handle);
+    //   progress_on = false;
+    // }
   });
 });
 
@@ -121,8 +124,9 @@ function doProgress(client) {
     resp.on('end', () => {
       var json_data = JSON.parse(data)
       console.log(data)
-      
-      client.emit('progress', json_data);
+      if(data){
+        client.emit('progress', json_data);
+      }
     });
 
   }).on("error", (err) => {

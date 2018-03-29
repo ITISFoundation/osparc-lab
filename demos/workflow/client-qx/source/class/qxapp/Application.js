@@ -101,12 +101,16 @@ qx.Class.define("qxapp.Application", {
 
       var pipelines = [simple_pipeline, advanced_pipeline];
 
+      var can_start = true;
+
       var startPipelineBtn = new qx.ui.toolbar.Button("Start");
       startPipelineBtn.setHeight(40);
       startPipelineBtn.setWidth(100);
       startPipelineBtn.setCenter(true);
       startPipelineBtn.addListener("execute", function () {
-        this._workflowView.StartPipeline();
+        if (can_start){
+          this._workflowView.StartPipeline();
+        }
       }, this);
 
       startPipelineBtn.addListener("execute", function () {
@@ -115,7 +119,9 @@ qx.Class.define("qxapp.Application", {
             console.log(val);
           });
         }
-        this._socket.emit("pipeline", current_pipeline);
+        if (can_start){
+          this._socket.emit("pipeline", current_pipeline);
+        }
       }, this);
 
        // Add an event listeners
@@ -134,8 +140,19 @@ qx.Class.define("qxapp.Application", {
         if (!this._socket.slotExists("progress")) {
           this._socket.on("progress", function (data) {
             updateFromProgress(data);
+            
+            var len = data.length;
+            var done = true;
+            for (var i=0; i<len; i++){
+              if (data[i] != 1.0){
+                done = false;
+                break;
+              }
+            }
+            can_start = done;
           });
         }
+        can_start = false;
         this._socket.emit("progress");
       }, this);
 
@@ -146,6 +163,7 @@ qx.Class.define("qxapp.Application", {
       stopPipelineBtn.setCenter(true);
       stopPipelineBtn.addListener("execute", function (e) {
         this._workflowView.StopPipeline();
+        can_start = true;
       }, this);
 
       stopPipelineBtn.addListener("execute", function () {
@@ -158,27 +176,27 @@ qx.Class.define("qxapp.Application", {
         this._socket.emit("stop_pipeline", n);
       }, this);
 
-       // Add an event listeners
-       stopPipelineBtn.addListener("execute", function () {
-        if (!this._socket.slotExists("logger")) {
-          this._socket.on("logger", function (data) {
-            var newLogText = JSON.stringify(data);
-            textarea.setValue(data + textarea.getValue());
-          });
-        }
-        this._socket.emit("logger");
-      }, this);
-
-       // Add an event listeners
-       stopPipelineBtn.addListener("execute", function () {
-        if (!this._socket.slotExists("progress")) {
-          this._socket.on("progress", function (data) {
-            updateFromProgress(data);
-          });
-        }
-        this._socket.emit("progress");
-      }, this);
-
+      //  // Add an event listeners
+      //  stopPipelineBtn.addListener("execute", function () {
+      //   if (!this._socket.slotExists("logger")) {
+      //     this._socket.on("logger", function (data) {
+      //       var newLogText = JSON.stringify(data);
+      //       textarea.setValue(data + textarea.getValue());
+      //     });
+      //   }
+      //   this._socket.emit("logger");
+      // }, this);
+// 
+      //  // Add an event listeners
+      //  stopPipelineBtn.addListener("execute", function () {
+      //   if (!this._socket.slotExists("progress")) {
+      //     this._socket.on("progress", function (data) {
+      //       updateFromProgress(data);
+      //     });
+      //   }
+      //   this._socket.emit("progress");
+      // }, this);
+// 
 
       part2.add(startPipelineBtn);
       part2.add(stopPipelineBtn);
@@ -190,7 +208,7 @@ qx.Class.define("qxapp.Application", {
       });
 
       // add jsNetworkX View
-      this._workflowView = new qxapp.components.workflowView(575, 475);
+      this._workflowView = new qxapp.components.workflowView(575, 425);
       doc.add(this._workflowView, {
         left: 20,
         top: 70
@@ -206,11 +224,11 @@ qx.Class.define("qxapp.Application", {
 
       doc.add(logLabel, {
         left: 20,
-        top: 600
+        top: 500
       });
       doc.add(textarea, {
         left: 20,
-        top: 620
+        top: 520
       });
 
       this._workflowView._jsNetworkXWrapper.addListener("NodeClicked", function (e) {
