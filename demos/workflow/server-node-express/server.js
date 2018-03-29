@@ -88,7 +88,7 @@ io.on('connection', function (client) {
 });
 
 function doLog(client) {
-  http.get('http://172.18.0.1:8010/check_pipeline_log', (resp) => {
+  http.get('http://director:8010/check_pipeline_log', (resp) => {
     let data = '';
 
     // A chunk of data has been recieved.
@@ -109,7 +109,7 @@ function doLog(client) {
 };
 
 function doProgress(client) {
-  http.get('http://172.18.0.1:8010/check_pipeline_progress', (resp) => {
+  http.get('http://director:8010/check_pipeline_progress', (resp) => {
     let data = '';
 
     // A chunk of data has been recieved.
@@ -143,13 +143,13 @@ function doPipeline(client, pipeline) {
   var url;
   switch(pipeline) {
     case 0:
-      url = 'http://172.18.0.1:8010/pipeline_id/0';
+      url = 'http://director:8010/pipeline_id/0';
       break;
     case 1:
-      url = 'http://172.18.0.1:8010/pipeline_id/1';
+      url = 'http://director:8010/pipeline_id/1';
       break;
     default:
-      url = 'http://172.18.0.1:8010/pipeline_id/0';
+      url = 'http://director:8010/pipeline_id/2';
   }
   console.log(url);
   http.get(url, (resp) => {
@@ -177,13 +177,13 @@ function doStopPipeline(client, pipeline) {
   var url;
   switch(pipeline) {
     case 0:
-      url = 'http://172.18.0.1:8010/stop_pipeline';
+      url = 'http://director:8010/stop_pipeline';
       break;
     case 1:
-      url = 'http://172.18.0.1:8010/stop_pipeline';
+      url = 'http://director:8010/stop_pipeline';
       break;
     default:
-      url = 'http://172.18.0.1:8010/stop_pipeline';
+      url = 'http://director:8010/stop_pipeline';
   }
   console.log(url);
   http.get(url, (resp) => {
@@ -205,7 +205,7 @@ function doStopPipeline(client, pipeline) {
 };
 
 function doFuncparser(client, in_number) {
-  var url = 'http://172.18.0.1:8010/calc_id/0.0/10.0/' + in_number.toString() + '/%22sin(x)%22';
+  var url = 'http://director:8010/calc_id/0.0/10.0/' + in_number.toString() + '/%22sin(x)%22';
   console.log(url);
   http.get(url, (resp) => {
     let data = '';

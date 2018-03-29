@@ -79,12 +79,6 @@ services:
       - 8070:8080
     depends_on:
       - db
-#  visualizer:
-#    image: dockersamples/visualizer:stable
-#    ports:
-#      - "5000:8080"
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
 #  qxapp:
 #    build:
 #      context: .
@@ -96,6 +90,8 @@ services:
 #        s4l_port_mod: 9096
 #    ports:
 #      - '8080:9090'
+#    depends_on:
+#      - director
 volumes:
   input:
   output:

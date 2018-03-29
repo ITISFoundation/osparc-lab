@@ -190,27 +190,27 @@ qx.Class.define("qxapp.Application", {
       });
 
       // add jsNetworkX View
-      this._workflowView = new qxapp.components.workflowView(500, 500);
+      this._workflowView = new qxapp.components.workflowView(575, 475);
       doc.add(this._workflowView, {
         left: 20,
-        top: 50
+        top: 70
       });
 
       // add textarea
       var logLabel = new qx.ui.basic.Label("Logger:");
       var textarea = new qx.ui.form.TextArea(" ");
 
-      textarea.setWidth(500);
+      textarea.setWidth(575);
       textarea.setHeight(200);
       textarea.setReadOnly(true);
 
       doc.add(logLabel, {
         left: 20,
-        top: 550
+        top: 600
       });
       doc.add(textarea, {
         left: 20,
-        top: 580
+        top: 620
       });
 
       this._workflowView._jsNetworkXWrapper.addListener("NodeClicked", function (e) {

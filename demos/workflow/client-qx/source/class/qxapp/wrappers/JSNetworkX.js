@@ -94,13 +94,18 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         else if (loadExample === 2)
         {
           // #2: NetworkX example graph
-          // Main graph would need to be changed to jsnx.Graph();
-          this._mainGraph.addNodesFrom([1,2,3,4], {group:0});
-          this._mainGraph.addNodesFrom([5,6,7], {group:1});
-          this._mainGraph.addNodesFrom([8,9,10,11], {group:2});
-           
-          this._mainGraph.addPath([1,2,5,6,7,8,11]);
-          this._mainGraph.addEdgesFrom([[1,3],[1,4],[3,4],[2,3],[2,4],[8,9],[8,10],[9,10],[11,10],[11,9]]);
+		  // Main graph would need to be changed to jsnx.Graph();
+		  var nodes = [];
+		  for (var i=1; i<43; i++){
+			  nodes.push(i);
+		  }
+
+          this._mainGraph.addNodesFrom(nodes, {group:0});
+		  this._mainGraph.addEdgesFrom([[1,2],[2,3],[4,5],[5,6],[7,8],[8,9],
+			[10,11],[11,12],[13,14],[14,15],[16,17],[17,18],[19,20],[20,21],[22,23],[23,24],
+			[3,25],[6,25],[9,25],[12,26],[15,26],[18,27],[21,27],[24,27],
+			 [25,28],[26,29],[26,30],[27,31],[27,32],[27,33],[28,35],[29,35],[30,34],[31,34],[32,37],[33,38],
+			[35,36],[34,40],[38,39],[36,40],[39,40],[40,41],[40,42]]);
         }
 
         //d3.select("svg.jsnx").selectAll("g.node").on('mouseenter', function(d) {
