@@ -5,7 +5,9 @@ import os
 import sys
 
 from aiohttp import web
-import socketio
+
+from sio_handlers import sio
+
 
 basedir = os.path.dirname(sys.argv[0] if __name__=="__main__" else __file__)
 basedir = os.path.abspath(basedir)
@@ -14,36 +16,10 @@ basedir = os.path.abspath(basedir)
 clientdir = os.path.normpath(os.path.join(basedir, "..", "client-qx", "source-output"))
 
 
-
-sio = socketio.AsyncServer(async_mode='aiohttp')
-
-# socket.io handlers
-@sio.on('connect')
-def connect(sid, environ):
-    print("connect ", sid)
-
-@sio.on('operation1')
-async def op1_handler(sid, data):
-    result = data**2
-    await sio.emit('operation1', data=dict(value=result), room=sid)
-
-@sio.on('operation2')
-async def op2_handler(sid, data):
-    result = data**0.5
-    await sio.emit('operation2', data=dict(value=result), room=sid)
-
-@sio.on('disconnect')
-def disconnect(sid):
-    print('disconnect ', sid)
-
-
-
-
 app = web.Application()
 sio.attach(app)
 
 # http requests handlers
-
 async def index(request):
     """Serve the client-side application."""
     index_path = os.path.join(clientdir, 'index.html')
