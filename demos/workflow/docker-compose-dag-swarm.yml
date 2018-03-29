@@ -1,7 +1,7 @@
 version: '3'
 services:
   director:
-    image: masu.speag.com/simcore/comp.backend/director:1.1
+    image: masu.speag.com/simcore/comp.backend/director:1.2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -17,7 +17,7 @@ services:
       placement:
         constraints: [node.role == worker]
   sidecar:
-    image: masu.speag.com/simcore/comp.backend/sidecar:1.1
+    image: masu.speag.com/simcore/comp.backend/sidecar:1.2
     volumes:
       - input:/input
       - output:/output
@@ -118,7 +118,7 @@ services:
       placement:
         constraints: [node.role == manager]
   qxapp:
-    image: masu.speag.com/webserver/dag:1.0
+    image: masu.speag.com/simcore/webserver/dag:1.2
     ports:
       - '8071:9090'
     depends_on:
