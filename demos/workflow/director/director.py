@@ -251,22 +251,49 @@ def run_pipeline(pipeline_id):
     CeleryTask.__table__.drop(engine, checkfirst=True)
     CeleryTask.__table__.create(engine, checkfirst=True)
     Base.metadata.create_all(engine)
-    for i in range(8):
-        session.add(Task(sleep=random.randint(2, 7))) # sleep for 1-7 secs
 
-    session.add(
-        Workflow(
-        dag_adjacency_list = dict([
-            (1, [3]),
-            (2, [4]),
-            (3, [5]),
-            (4, [5]),
-            (5, [6, 7]),
-            (6, [8]),
-            (7, [8])
-        ])
-        )
-    )
+    if pipeline_id == 0:
+    
+        for i in range(8):
+            session.add(Task(sleep=random.randint(2, 7))) # sleep for 1-7 secs
+
+            session.add(
+                Workflow(
+                dag_adjacency_list = dict([
+                    (1, [3]),
+                    (2, [4]),
+                    (3, [5]),
+                    (4, [5]),
+                    (5, [6, 7]),
+                    (6, [8]),
+                    (7, [8])
+                ])
+                )
+            )
+    elif pipeline_id == 1:
+        for i in range(15):
+            session.add(Task(sleep=random.randint(2, 7))) # sleep for 1-7 secs
+
+            session.add(
+                Workflow(
+                dag_adjacency_list = dict([
+                    (1, [2]),
+                    (2, [3]),
+                    (3, [10]),
+                    (4, [5]),
+                    (5, [6]),
+                    (6, [10]),
+                    (7, [8]),
+                    (8, [9]),
+                    (9, [12]),
+                    (10, [11]),
+                    (11, [14]),
+                    (12, [13]),
+                    (13, [14]),
+                    (14, [15])
+                ])
+                )
+            )
 
     session.commit()
 

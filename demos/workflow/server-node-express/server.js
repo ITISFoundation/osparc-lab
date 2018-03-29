@@ -46,7 +46,24 @@ io.on('connection', function (client) {
   });
 
   client.on('pipeline', function (pipeline) {
+
     doPipeline(client, pipeline);
+    // if (!logger_on) {
+    //   logger_handle = setInterval(periodicLog, 1500, client);
+    //   logger_on = true;
+    //   progress_handle = setInterval(periodicProgress, 1500, client);
+    //   progress_on = true;
+    // } 
+  });
+
+  client.on('stop_pipeline', function (pipeline) {
+    //doStopPipeline(client, pipeline);
+   // if (logger_on) {
+   //   clearInterval(logger_handle);
+   //   logger_on = false;
+   //   clearInterval(progress_handle);
+   //   progress_on = false;
+   // }
   });
 
   client.on('logger', function () {
@@ -91,15 +108,23 @@ function doLog(client) {
 };
 
 function doProgress(client) {
-  // random progress
-  for (var prog = [], i = 0; i < 15; ++i) {
-    if (Math.random() > 0.5) {
-      prog[i] = 0;
-    } else {
-      prog[i] = 1;
-    }
-  }
-  client.emit("progress", JSON.stringify(prog));
+  http.get('http://172.18.0.1:8010/check_pipeline_progress', (resp) => {
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      var json_data = JSON.parse(data)
+      client.emit('progress', json_data);
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
 };
 
 function periodicLog(client) {
@@ -112,7 +137,17 @@ function periodicProgress(client) {
 
 
 function doPipeline(client, pipeline) {
-  var url = 'http://172.18.0.1:8010/pipeline_id/0';
+  var url;
+  switch(pipeline) {
+    case 0:
+      url = 'http://172.18.0.1:8010/pipeline_id/0';
+      break;
+    case 1:
+      url = 'http://172.18.0.1:8010/pipeline_id/1';
+      break;
+    default:
+      url = 'http://172.18.0.1:8010/pipeline_id/0';
+  }
   console.log(url);
   http.get(url, (resp) => {
     let data = '';
@@ -128,6 +163,40 @@ function doPipeline(client, pipeline) {
       var json_data = JSON.parse(data)
       var task_id = json_data['task_id']
       client.emit('pipeline', task_id);
+    });
+
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
+};
+
+function doStopPipeline(client, pipeline) {
+  var url;
+  switch(pipeline) {
+    case 0:
+      url = 'http://172.18.0.1:8010/stop_pipeline';
+      break;
+    case 1:
+      url = 'http://172.18.0.1:8010/stop_pipeline';
+      break;
+    default:
+      url = 'http://172.18.0.1:8010/stop_pipeline';
+  }
+  console.log(url);
+  http.get(url, (resp) => {
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      //  console.log(JSON.parse(data).explanation);
+      var json_data = JSON.parse(data)
+      var task_id = json_data['task_id']
+      // client.emit('stop_pipeline', task_id);
     });
 
   }).on("error", (err) => {
@@ -158,5 +227,7 @@ function doFuncparser(client, in_number) {
     console.log("Error: " + err.message);
   });
 };
+
+
 
 console.log("server started on " + HOSTNAME + ":" + PORT);

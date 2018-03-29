@@ -55,14 +55,13 @@ AWS offers multiple model two of which apply to our use case:
 We promised to support at least 20 (50) simulataneous users connected by the end of year 1 (year 2).
 
 ### Instances
-[#vCPUS, #GB RAM]
 
-- Tornado web server: 2 x `t2.xlarge` [4,16], 54 credits
-- Director: 2 x `t2.medium` [2,4], 24 credits
-- Comp.-Backend dbs: 2 x `i3.xlarge` [4, 1 TB SSD]
-- Sidecars: 4 x `c5.9xlarge` [36, 72] or 4 x `c5.4xlarge` [16,32] + `x1.16xlarge` [64, 976] or `x1.32xlarge` [128, 1952]
-- Docker registry: `t2.small` [1,1], 6 credits
-- s4l modeler: `t2.2xlarge` [8,32], 81 credits
+- Tornado web server (static)
+- Director (static)
+- Comp.-Backend dbs (static)
+- Sidecars (dynamic)
+- Docker registry (static)
+- s4l modeler (dynamic)
 
 ### Storage
 

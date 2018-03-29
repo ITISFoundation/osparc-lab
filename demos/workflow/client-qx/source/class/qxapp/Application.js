@@ -112,8 +112,6 @@ qx.Class.define("qxapp.Application", {
         if (!this._socket.slotExists("progress")) {
           this._socket.on("progress", function (data) {
             updateFromProgress(data);
-            var newLogText = JSON.stringify(data);
-            textarea.setValue(data + textarea.getValue());
           });
         }
         this._socket.emit("progress");
@@ -123,11 +121,14 @@ qx.Class.define("qxapp.Application", {
       var toolbar = new qx.ui.toolbar.ToolBar();
       toolbar.setSpacing(5);
 
+      var current_pipeline = -1
+
       var part1 = new qx.ui.toolbar.Part(); {
         var simpleBtn = new qx.ui.toolbar.Button("simple");
         simpleBtn.setHeight(40);
         simpleBtn.setWidth(100);
         simpleBtn.addListener("execute", function () {
+          current_pipeline = 0;
           this._workflowView.LoadDefault(0);
         }, this);
         part1.add(simpleBtn);
@@ -136,6 +137,7 @@ qx.Class.define("qxapp.Application", {
         advancedBtn.setHeight(40);
         advancedBtn.setWidth(100);
         advancedBtn.addListener("execute", function () {
+          current_pipeline = 1;
           this._workflowView.LoadDefault(1);
         }, this);
         part1.add(advancedBtn);
@@ -144,6 +146,7 @@ qx.Class.define("qxapp.Application", {
         moapBtn.setHeight(40);
         moapBtn.setWidth(100);
         moapBtn.addListener("execute", function () {
+          current_pipeline = 2;
           this._workflowView.LoadDefault(2);
         }, this);
         part1.add(moapBtn);
@@ -155,46 +158,51 @@ qx.Class.define("qxapp.Application", {
 
       var part2 = new qx.ui.toolbar.Part();
 
-      var startPipelineBtn = new qx.ui.toolbar.RadioButton("Start");
+      var pipelines = [];
+      var simple_pipeline = {1: [3], 2: [4], 3: [5], 4: [5], 5: [6, 7], 6: [8], 7: [8]};
+      var advanced_pipeline = {1: [3], 2: [4], 3: [5], 4: [5], 5: [6, 7], 6: [8], 7: [8]};
+
+      var pipelines = [simple_pipeline, advanced_pipeline];
+
+      var startPipelineBtn = new qx.ui.toolbar.Button("Start");
       startPipelineBtn.setHeight(40);
       startPipelineBtn.setWidth(100);
       startPipelineBtn.setCenter(true);
       startPipelineBtn.addListener("execute", function () {
         this._workflowView.StartPipeline();
-        var newLogText = textarea.getValue() + "\n" + "Start";
-        textarea.setValue(newLogText);
       }, this);
 
-      var stopPipelineBtn = new qx.ui.toolbar.RadioButton("Stop");
+      startPipelineBtn.addListener("execute", function () {
+        if (!this._socket.slotExists("pipeline")) {
+          this._socket.on("pipeline", function (val) {
+            console.log(val);
+          });
+        }
+        this._socket.emit("pipeline", current_pipeline);
+      }, this);
+
+      var stopPipelineBtn = new qx.ui.toolbar.Button("Stop");
       stopPipelineBtn.setHeight(40);
       stopPipelineBtn.setWidth(100);
       stopPipelineBtn.setCenter(true);
       stopPipelineBtn.addListener("execute", function (e) {
         this._workflowView.StopPipeline();
-        var newLogText = textarea.getValue() + "\n" + "Stop";
-        textarea.setValue(newLogText);
       }, this);
 
       stopPipelineBtn.addListener("execute", function () {
-        if (!this._socket.slotExists("pipeline")) {
-          this._socket.on("pipeline", function (val) {
+        if (!this._socket.slotExists("pipeline_stop")) {
+          this._socket.on("stop_pipeline", function (val) {
             console.log(val);
-            alert("task_id: " + val);
           });
         }
-        console.log("heel");
         var n = "this is gonna be the pipeline as json";
-        this._socket.emit("pipeline", n);
+        this._socket.emit("stop_pipeline", n);
       }, this);
 
 
       part2.add(startPipelineBtn);
       part2.add(stopPipelineBtn);
-      var radioGroup = new qx.ui.form.RadioGroup(startPipelineBtn, stopPipelineBtn);
-      radioGroup.setAllowEmptySelection(true);
-      radioGroup.setSelection([]);
       toolbar.add(part2);
-
 
       doc.add(toolbar, {
         left: 20,
@@ -227,20 +235,14 @@ qx.Class.define("qxapp.Application", {
 
       this._workflowView._jsNetworkXWrapper.addListener("NodeClicked", function (e) {
         var nodeClicked = e.getData();
-        var newLogText = textarea.getValue() + "\n" + "Node " + nodeClicked.node + " clicked";
-
-        textarea.setValue(newLogText);
       }, this);
 
       this._workflowView._jsNetworkXWrapper.addListener("DoubleClicked", function () {
-        var newLogText = textarea.getValue() + "\n" + "Double Click";
-        textarea.setValue(newLogText);
       }, this);
 
       var workflowview = this._workflowView;
 
       function updateFromProgress(data) {
-        textarea.setValue(textarea.getValue() + "ON MORE");
         workflowview.UpdatePipeline(data)
       };
 

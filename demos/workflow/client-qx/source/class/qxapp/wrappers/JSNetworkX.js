@@ -126,9 +126,8 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
         const getAllInfo = true;
         var nodes = this._mainGraph.nodes(getAllInfo);
         for (let i = 0; i < nodes.length; i++) {
-          // nodes[i][1].color = 'green'; //doesn't work/update
           var oldNode = nodes[i][0];
-          this._mainGraph.addNodesFrom([oldNode], {color: 'green'});
+          this._mainGraph.addNodesFrom([oldNode], {color: 'red'});
         }
       },
 
@@ -146,12 +145,20 @@ qx.Class.define("qxapp.wrappers.JSNetworkX", {
       {
         const getAllInfo = true;
         var nodes = this._mainGraph.nodes(getAllInfo);
+        if (data.length != nodes.length){
+          return;
+        }
+
         for (let i = 0; i < nodes.length; i++) {
           var oldNode = nodes[i][0];
-          if (data[i] == 1)          {
+          if (data[i] == -1)          {
             this._mainGraph.addNodesFrom([oldNode], {color: 'red'});
-          } else{
+          } else if(data[i] < 1.0) {
+            this._mainGraph.addNodesFrom([oldNode], {color: 'orange'});
+          }
+          else{
             this._mainGraph.addNodesFrom([oldNode], {color: 'green'});
+            
           }
         }
       },
