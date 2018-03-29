@@ -181,6 +181,28 @@ qx.Class.define("qxapp.Application", {
         this._socket.emit("pipeline", current_pipeline);
       }, this);
 
+       // Add an event listeners
+       startPipelineBtn.addListener("execute", function () {
+        if (!this._socket.slotExists("logger")) {
+          this._socket.on("logger", function (data) {
+            var newLogText = JSON.stringify(data);
+            textarea.setValue(data + textarea.getValue());
+          });
+        }
+        this._socket.emit("logger");
+      }, this);
+
+       // Add an event listeners
+       startPipelineBtn.addListener("execute", function () {
+        if (!this._socket.slotExists("progress")) {
+          this._socket.on("progress", function (data) {
+            updateFromProgress(data);
+          });
+        }
+        this._socket.emit("progress");
+      }, this);
+
+
       var stopPipelineBtn = new qx.ui.toolbar.Button("Stop");
       stopPipelineBtn.setHeight(40);
       stopPipelineBtn.setWidth(100);
@@ -197,6 +219,27 @@ qx.Class.define("qxapp.Application", {
         }
         var n = "this is gonna be the pipeline as json";
         this._socket.emit("stop_pipeline", n);
+      }, this);
+
+       // Add an event listeners
+       stopPipelineBtn.addListener("execute", function () {
+        if (!this._socket.slotExists("logger")) {
+          this._socket.on("logger", function (data) {
+            var newLogText = JSON.stringify(data);
+            textarea.setValue(data + textarea.getValue());
+          });
+        }
+        this._socket.emit("logger");
+      }, this);
+
+       // Add an event listeners
+       stopPipelineBtn.addListener("execute", function () {
+        if (!this._socket.slotExists("progress")) {
+          this._socket.on("progress", function (data) {
+            updateFromProgress(data);
+          });
+        }
+        this._socket.emit("progress");
       }, this);
 
 

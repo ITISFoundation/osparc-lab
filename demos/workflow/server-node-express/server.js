@@ -57,7 +57,7 @@ io.on('connection', function (client) {
   });
 
   client.on('stop_pipeline', function (pipeline) {
-    //doStopPipeline(client, pipeline);
+    doStopPipeline(client, pipeline);
    // if (logger_on) {
    //   clearInterval(logger_handle);
    //   logger_on = false;
@@ -193,10 +193,7 @@ function doStopPipeline(client, pipeline) {
 
     // The whole response has been received. Print out the result.
     resp.on('end', () => {
-      //  console.log(JSON.parse(data).explanation);
-      var json_data = JSON.parse(data)
-      var task_id = json_data['task_id']
-      // client.emit('stop_pipeline', task_id);
+      console.log(data);
     });
 
   }).on("error", (err) => {

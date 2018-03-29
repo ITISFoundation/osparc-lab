@@ -192,6 +192,29 @@ def check_pipeline_progress():
             
     return json.dumps(pipeline_progress)
 
+@app.route('/stop_pipeline')
+def stop_pipeline():
+    engine = create_engine(DATABASE_URI)
+    Session = sessionmaker(bind=engine)
+
+    session = Session()
+    tasks = session.query(Task).all()
+    session.close()
+    pipeline_progress = [-1 for i in range(len(tasks))]
+    for task in tasks:
+        task_id = task.celery_task_uid
+        if task_id:
+            res = celery.AsyncResult(task_id)
+            res.revoke(terminate=True)
+
+    Base.metadata.drop_all(engine, checkfirst=True)
+    CeleryTask.__table__.drop(engine, checkfirst=True)  
+    CeleryTask.__table__.create(engine, checkfirst=True)
+    Base.metadata.create_all(engine)     
+    session.commit()
+    session.close()
+    return "Deleted"
+
 @app.route('/clear_log')
 def clear_log():
     task_info = {}
@@ -294,6 +317,7 @@ def run_pipeline(pipeline_id):
                 ])
                 )
             )
+
 
     session.commit()
 
