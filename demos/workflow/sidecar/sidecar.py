@@ -279,12 +279,12 @@ def _process_task_node(celery_task, task, task_id, workflow_id, cur_task_id):
     session.commit()
     log_key = task_id + ":log"
     prog_key = task_id + ":progress"
-    r.rpush(log_key, 'Runnning Workflow {} and Task {} via redis'.format(workflow_id, cur_task_id).encode('utf-8'))
+    #r.rpush(log_key, 'Runnning Workflow {} and Task {} via redis'.format(workflow_id, cur_task_id).encode('utf-8'))
     # simulate that task runs
     dp = 1.0 / (task.sleep-1)
     for i in range(task.sleep):
         print('{}: Sleep, sec: {}'.format(task_id, i))
-        r.rpush(log_key, '{}: Sleep, sec: {}'.format(task_id, i))
+        r.rpush(log_key, '{}: Sleep, sec: {}'.format(cur_task_id, i))
         process_percent = i * dp 
         r.set(prog_key, str(process_percent).encode('utf-8'))
         time.sleep(1)

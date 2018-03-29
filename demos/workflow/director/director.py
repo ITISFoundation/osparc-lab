@@ -160,7 +160,7 @@ def check_pipeline_log():
     for task in tasks:
         task_id = task.celery_task_uid
         if task_id:
-            all_in_one = all_in_one + task_id + "\n"
+            #all_in_one = all_in_one + task_id + "\n"
             log_key = task_id + ":log"
             cur_len = r.llen(log_key)
             log = []        

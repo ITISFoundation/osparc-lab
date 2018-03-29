@@ -88,7 +88,7 @@ io.on('connection', function (client) {
 });
 
 function doLog(client) {
-  http.get('http://172.18.0.1:8010/check', (resp) => {
+  http.get('http://172.18.0.1:8010/check_pipeline_log', (resp) => {
     let data = '';
 
     // A chunk of data has been recieved.
@@ -99,6 +99,7 @@ function doLog(client) {
     // The whole response has been received. Print out the result.
     resp.on('end', () => {
       var json_data = JSON.parse(data)
+      console.log(data)
       client.emit('logger', json_data);
     });
 
@@ -119,6 +120,8 @@ function doProgress(client) {
     // The whole response has been received. Print out the result.
     resp.on('end', () => {
       var json_data = JSON.parse(data)
+      console.log(data)
+      
       client.emit('progress', json_data);
     });
 
