@@ -26,7 +26,7 @@ conda create --yes --name boilerplate
 source activate boilerplate
 pip3 install -r server-python/requirements.txt
 ```
-To run the server
+To run the python server
 
 ```bash
 python server-python/server_aiohttp.py
