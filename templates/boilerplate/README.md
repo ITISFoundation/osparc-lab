@@ -19,24 +19,26 @@ will use container above to compile ```client-qx```. Output in ```client-qx/sour
 
 #### Running Python server in host computer
 
-First, 
-Create a python venv and activate it
+1. Create a python venv and activate it
 ```bash
 conda create --yes --name boilerplate
 source activate boilerplate
-pip3 install -r server-python/requirements.txt
+pip3 install -r server-py-aiohttp/requirements.txt
+pip3 install -r server-py-flask-eventlet/requirements.txt
 ```
-To run the python server
+
+2. run the python server with [aiohttp] or [flask]
 
 ```bash
-python server-python/server_aiohttp.py
+python server-py-aiohttp/server.py
+python server-py-flask-eventlet/server.py
 ```
 then open browser in ```http://localhost:8080```
 
 
 
 
-
+[aiohttp]:http://aiohttp.readthedocs.io
 [exploreflask]:https://exploreflask.com/en/latest/
 [flask]:http://flask.pocoo.org/
 [qx]:http://www.qooxdoo.org

@@ -55,4 +55,4 @@ if __name__ == "__main__":
 
     # deploy as an eventlet WSGI server
     host, port = _CONFIG.SIMCORE_WEB_HOSTNAME, _CONFIG.SIMCORE_WEB_PORT
-    eventlet.wsgi.server(eventlet.listen(('', 8000)), wsgi_app)
+    eventlet.wsgi.server(eventlet.listen(('', port)), wsgi_app)
