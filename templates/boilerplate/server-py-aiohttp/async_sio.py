@@ -1,5 +1,5 @@
 """
-    Uses socketio and aiohtttp framework
+    Defines **async** handlers for socket.io server
 """
 import os
 import sys
@@ -12,8 +12,9 @@ sio = socketio.AsyncServer(async_mode='aiohttp')
 
 @sio.on('connect')
 def connect(sid, environ):
-    print("connect ", sid)
-
+    # environ = WSGI evnironment dictionary
+    print("connect ", sid, environ)
+    return True
 
 @sio.on('operation1')
 async def op1_handler(sid, data):

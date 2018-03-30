@@ -6,7 +6,8 @@ import sys
 
 from aiohttp import web
 
-from sio_handlers import sio
+from async_sio import sio
+
 from config import config
 
 _CONFIG = config['default']
