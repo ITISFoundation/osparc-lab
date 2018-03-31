@@ -1,5 +1,5 @@
 ADD_TEST( NAME DemosFileStructure
-	COMMAND python3 ./tools/ci-checks/TestDemosFileStructure.py
+	COMMAND python3 ./tools/ci-checks/test_demos_file_structure.py
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
