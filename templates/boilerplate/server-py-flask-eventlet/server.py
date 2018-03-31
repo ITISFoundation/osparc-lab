@@ -54,5 +54,5 @@ if __name__ == "__main__":
     wsgi_app = socketio.Middleware(sio, app)
 
     # deploy as an eventlet WSGI server
-    host, port = _CONFIG.SIMCORE_WEB_HOSTNAME, _CONFIG.SIMCORE_WEB_PORT
-    eventlet.wsgi.server(eventlet.listen(('', port)), wsgi_app)
+    host, port = _CONFIG.SIMCORE_WEB_HOSTNAME, int(_CONFIG.SIMCORE_WEB_PORT)
+    eventlet.wsgi.server(eventlet.listen((host, port)), wsgi_app)

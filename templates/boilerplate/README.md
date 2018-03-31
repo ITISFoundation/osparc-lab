@@ -35,7 +35,17 @@ python server-py-flask-eventlet/server.py
 ```
 then open browser in ```http://localhost:8080```
 
+#### Running all servers
 
+Compose file is setup to launch three services qxapp, pyaio and pyflk to demo the same qx application served with different back-ends:
+```bash
+docker-compose build
+docker-compose up
+```
+will run qx application with:
+ - a node server in ```http://localhost:8080```
+ - an async python server in ```http://localhost:8081```
+ - a sync python server in ```http://localhost:8082```
 
 
 [aiohttp]:http://aiohttp.readthedocs.io
