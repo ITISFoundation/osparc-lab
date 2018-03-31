@@ -16,7 +16,7 @@ from flask import Flask, render_template, Blueprint
 from config import CONFIG
 from sync_sio import sio
 
-_CONFIG = CONFIG['default']
+_CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
 CLIENT_DIR = _CONFIG.SIMCORE_CLIENT_OUTDIR
 
 logging.basicConfig(level=_CONFIG.LOG_LEVEL)
