@@ -1,5 +1,11 @@
+"""
+    Flask + eventlet
+"""
+# pylint: disable=C0111
+# pylint: disable=C0103
+
 import os
-import sys
+import logging
 
 import eventlet
 import eventlet.wsgi
@@ -7,39 +13,40 @@ import socketio
 
 from flask import Flask, render_template, Blueprint
 
-from config import config
+from config import CONFIG
 from sync_sio import sio
 
-_CONFIG = config['default']
-client_dir = _CONFIG.SIMCORE_CLIENT_OUTDIR
+_CONFIG = CONFIG['default']
+CLIENT_DIR = _CONFIG.SIMCORE_CLIENT_OUTDIR
+
+logging.basicConfig(level=_CONFIG.LOG_LEVEL)
 
 
 def make_app(main_blueprint):
-    app = Flask(__name__,
-                template_folder=client_dir)
-    print(client_dir)
+    _app = Flask(__name__, template_folder=CLIENT_DIR)
+    logging.debug("Client dir: %s", CLIENT_DIR)
 
-    app.config.from_object(_CONFIG)
+    _app.config.from_object(_CONFIG)
 
     # Added as separate blueprints : see flask-static
     transpiled_blueprint = Blueprint('qx_transpiled', __name__,
-                                   static_url_path='/transpiled',
-                                   static_folder=os.path.join(client_dir, 'transpiled'))
+                                     static_url_path='/transpiled',
+                                     static_folder=os.path.join(CLIENT_DIR, 'transpiled'))
 
     resource_blueprint = Blueprint('qx_resource', __name__,
                                    static_url_path='/resource',
-                                   static_folder=os.path.join(client_dir, 'resource'))
+                                   static_folder=os.path.join(CLIENT_DIR, 'resource'))
 
-    app.register_blueprint(main_blueprint)
-    app.register_blueprint(transpiled_blueprint)
-    app.register_blueprint(resource_blueprint)
+    _app.register_blueprint(main_blueprint)
+    _app.register_blueprint(transpiled_blueprint)
+    _app.register_blueprint(resource_blueprint)
 
-    return app
+    return _app
 
 
 main = Blueprint('main', __name__,
                  static_url_path='/qxapp',
-                 static_folder=os.path.join(client_dir, "qxapp"),)
+                 static_folder=os.path.join(CLIENT_DIR, "qxapp"),)
 
 
 @main.route('/')

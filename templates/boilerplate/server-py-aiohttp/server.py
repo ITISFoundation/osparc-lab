@@ -1,36 +1,44 @@
 """
     Uses socketio and aiohtttp framework
 """
+# pylint: disable=C0103
+
 import os
-import sys
+import logging
 
 from aiohttp import web
 
 from async_sio import sio
 
-from config import config
+from config import CONFIG
 
-_CONFIG = config['default']
-client_dir = _CONFIG.SIMCORE_CLIENT_OUTDIR
+_CONFIG = CONFIG['default']
+CLIENT_DIR = _CONFIG.SIMCORE_CLIENT_OUTDIR
+
+logging.basicConfig(level=_CONFIG.LOG_LEVEL)
 
 app = web.Application()
 sio.attach(app)
 
 # http requests handlers
+
+
 async def index(request):
     """Serve the client-side application."""
-    index_path = os.path.join(client_dir, 'index.html')
+    logging.debug("index.request:\n %s", request)
+
+    index_path = os.path.join(CLIENT_DIR, 'index.html')
     with open(index_path) as f:
         return web.Response(text=f.read(), content_type='text/html')
 
 
 # TODO: check whether this can be done at once
-app.router.add_static('/qxapp', os.path.join(client_dir, 'qxapp'))
-app.router.add_static('/transpiled', os.path.join(client_dir, 'transpiled'))
-app.router.add_static('/resource', os.path.join(client_dir, 'resource'))
+app.router.add_static('/qxapp', os.path.join(CLIENT_DIR, 'qxapp'))
+app.router.add_static('/transpiled', os.path.join(CLIENT_DIR, 'transpiled'))
+app.router.add_static('/resource', os.path.join(CLIENT_DIR, 'resource'))
 app.router.add_get('/', index)
 
 if __name__ == '__main__':
-    web.run_app(app, 
-            host=_CONFIG.SIMCORE_WEB_HOSTNAME, 
-            port=_CONFIG.SIMCORE_WEB_PORT)
+    web.run_app(app,
+                host=_CONFIG.SIMCORE_WEB_HOSTNAME,
+                port=_CONFIG.SIMCORE_WEB_PORT)
