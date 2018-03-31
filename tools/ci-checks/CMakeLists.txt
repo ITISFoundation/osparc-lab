@@ -4,8 +4,12 @@ ADD_TEST( NAME DemosFileStructure
 )
 
 
-ADD_TEST( NAME PythonOveralPep8
+ADD_TEST( NAME PythonOveralPep8Tools
 	COMMAND ./tools/ci-checks/CheckPep8.sh ./tools  # for now no demos
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
+ADD_TEST( NAME PythonOveralPep8Templates
+	COMMAND ./tools/ci-checks/CheckPep8.sh ./templates  # for now no demos
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
