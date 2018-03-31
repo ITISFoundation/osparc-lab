@@ -95,7 +95,8 @@ def test_file_structure():
                     'File "README.md" does not exist (case sensitive!)')
             else:
                 with open(os.path.join(folder, 'README.md')) as my_file:
-                    if my_file.readlines():
+                    content = my_file.read().strip()
+                    if not content:
                         all_fine.error('Readme file seems empty')
 
     return all_fine.okay()
