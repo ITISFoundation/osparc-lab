@@ -2,25 +2,23 @@
 sudo: false
 
 language: python
-
 python:
   - "3.6"
-
-addons:
-  apt:
-    packages:
-    - pylint
 
 services:
   - docker
 
 # configure and buid
 install:
+  - pip3 install pylint
   - mkdir _bin
   - cd _bin
   - cmake ..
   - make -j4
   - cd ..
+
+before_script:
+  - pylint --version
 
 # command to run tests
 script:
