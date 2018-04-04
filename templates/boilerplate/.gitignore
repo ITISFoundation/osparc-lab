@@ -6,3 +6,6 @@
 */contrib/*
 */node_modules/*
 node_modules/*
+
+# python
+__pycache__
