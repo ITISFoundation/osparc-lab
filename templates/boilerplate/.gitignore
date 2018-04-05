@@ -9,3 +9,4 @@ node_modules/*
 
 # python
 __pycache__
+*.py[cd]
