@@ -8,6 +8,7 @@
 """
 # pylint: disable=C0111
 # pylint: disable=C0103
+import logging
 
 import socketio
 import services
@@ -36,16 +37,16 @@ async def op2_handler(sid, data):
 
 @sio.on('checkS4LAppVersion')
 async def s4l_check_app_version(sid, data):
-    # TODO: lazy connect?
     version = services.APP.GetApiVersion()
+    logging.debug("S4L App version %s", version)
     await sio.emit('checkS4LAppVersion',
                    data=dict(major=version.major, minor=version.minor), room=sid)
 
 
 @sio.on('checkS4LModVersion')
 async def s4l_check_app_version(sid, data):
-    # TODO: lazy connect?
-    version = services.MODEL.GetApiVersion()    
+    version = services.MODEL.GetApiVersion()
+    logging.debug("S4L Mode version %s", version)
     await sio.emit('checkS4LModVersion', 
                     data=dict(major=version.major, minor=version.minor), room=sid)
 

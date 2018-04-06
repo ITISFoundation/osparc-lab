@@ -55,7 +55,7 @@ class TestingConfig(CommonConfig):
 
 
 class ProductionConfig(CommonConfig):
-    LOG_LEVEL = logging.INFO
+    LOG_LEVEL = logging.WARNING
 
 
 CONFIG = {

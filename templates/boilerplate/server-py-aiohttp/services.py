@@ -21,7 +21,6 @@ import application.Application
 import modeler.Modeler
 
 
-
 def connect_to_std_buffer_interface(ip, port, client_service):
     from thrift.transport import TSocket, TTransport
     from thrift.protocol import TBinaryProtocol
@@ -56,8 +55,6 @@ def create_clients(ip, *ports):
         ip, port1, modeler.Modeler)
 
     return application_client, modeler_client
-
-
 
 
 _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
