@@ -2,7 +2,12 @@
 
 Simple boilerplate with a [qx] front-end, a [tornado] web-server and [s4l] as a service.
 
-
+The source code is grouped as follows
+ - ```client-qx``` is the [qx] client
+ - ```server-node-express``` is a [nodejs] web server based on [express]
+ - ```server-py-aiohttp``` is a [python] web server based on [aiohttp]
+ - ```server-py-flask-eventlet``` is a web server with a [flask] application served by [eventlet]
+ - ```services-rpc-api``` are the [thrift]-RPC APIs for computational services
 
 #### Building dev dockers
 ```bash
@@ -50,7 +55,12 @@ will run qx application with:
 
 [aiohttp]:http://aiohttp.readthedocs.io
 [exploreflask]:https://exploreflask.com/en/latest/
+[express]:https://expressjs.com
 [flask]:http://flask.pocoo.org/
+[nodejs]:https://nodejs.org/en/
+[python]:https://www.python.org
 [qx]:http://www.qooxdoo.org
+[thrift]:https://thrift.apache.org
 [tornado]:http://www.tornadoweb.org/
 [s4l]:https://www.zurichmedtech.com/sim4life/
+

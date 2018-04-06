@@ -4,6 +4,7 @@
 import os
 import sys
 
+import config
 
 def import_with_retry(module_name, *extended_paths):
     import importlib
@@ -36,12 +37,12 @@ def get_thrift_api_folders(startdir):
     return folders
 
 
-_CDIR = os.path.dirname(sys.argv[0] if __name__ == "__main__" else __file__)
-_INCLUDE = os.path.normpath(os.path.join(_CDIR, "..", "computational-svc-rpc"))
-
 
 def import_thrift_api_module(module_name):
-    return import_with_retry(module_name, *get_thrift_api_folders(_INCLUDE))
+    include = []
+    if config.CommonConfig.THRIFT_GEN_OUTDIR:
+        include = get_thrift_api_folders(config.CommonConfig.THRIFT_GEN_OUTDIR)
+    return import_with_retry(module_name, *include)
 
 # TODO Move all above to utils
 

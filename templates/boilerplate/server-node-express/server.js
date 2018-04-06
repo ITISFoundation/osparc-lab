@@ -36,7 +36,7 @@ server.listen(PORT, HOSTNAME);
 
 var thrift = require('thrift');
 
-const CS_RPC_BASEDIR = process.env.CS_RPC_BASEDIR || path.resolve(__dirname, '../computational-svc-rpc')
+const CS_RPC_BASEDIR = process.env.CS_RPC_BASEDIR || path.resolve(__dirname, '../services-rpc-api')
 var TMP = path.resolve(CS_RPC_BASEDIR, 'application/gen-nodejs')
 
 var thrApplication = require(path.resolve(TMP, 'Application.js'));

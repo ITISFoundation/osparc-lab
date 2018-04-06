@@ -33,7 +33,7 @@ WORKDIR /usr/src/app
 
 COPY --from=0 /home/node/qxapp/source-output ${SIMCORE_WEB_OUTDIR}
 
-COPY computational-svc-rpc/*/gen-py ./
+COPY services-rpc-api/*/gen-py ./
 
 COPY $serverdir/requirements.txt requirements.txt
 

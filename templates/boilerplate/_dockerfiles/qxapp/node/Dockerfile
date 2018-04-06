@@ -41,7 +41,7 @@ ENV CS_RPC_BASEDIR /home/node/thrift
 WORKDIR /home/node
 
 COPY server-node-express .
-COPY computational-svc-rpc ${CS_RPC_BASEDIR}
+COPY services-rpc-api ${CS_RPC_BASEDIR}
 COPY --from=0 /home/node/qxapp/source-output ${SIMCORE_WEB_OUTDIR}
 
 
