@@ -1,6 +1,5 @@
 import os
 import sys
-import config
 
 CDIR = os.path.dirname(sys.argv[0] if __name__ == '__main__' else __file__)
 
@@ -41,4 +40,5 @@ def get_thrift_api_folders(startdir):
 
 
 def import_thrift_api_module(module_name):
-    return import_with_retry(module_name, *list(config.THRIFT_GEN_OUTDIR))
+    from config import THRIFT_GEN_OUTDIR
+    return import_with_retry(module_name, *list(THRIFT_GEN_OUTDIR))
