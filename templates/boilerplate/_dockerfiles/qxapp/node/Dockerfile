@@ -36,14 +36,15 @@ ARG s4l_port_mod="9096"
 ENV CS_S4L_HOSTNAME $s4l_ip
 ENV CS_S4L_PORT_APP $s4l_port_app
 ENV CS_S4L_PORT_MOD $s4l_port_mod
-ENV CS_RPC_BASEDIR /home/node/thrift
+ENV CS_RPC_BASEDIR /home/node/gen-nodejs/
 
 WORKDIR /home/node
 
 COPY server-node-express .
-COPY services-rpc-api ${CS_RPC_BASEDIR}
-COPY --from=0 /home/node/qxapp/source-output ${SIMCORE_WEB_OUTDIR}
 
+COPY services-rpc-api/*/gen-nodejs ${CS_RPC_BASEDIR}
+
+COPY --from=0 /home/node/qxapp/source-output ${SIMCORE_WEB_OUTDIR}
 
 # TODO ensure npm@5.5.1
 RUN npm install -y \

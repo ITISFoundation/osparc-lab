@@ -36,14 +36,14 @@ server.listen(PORT, HOSTNAME);
 
 var thrift = require('thrift');
 
-const CS_RPC_BASEDIR = process.env.CS_RPC_BASEDIR || path.resolve(__dirname, '../services-rpc-api')
-var TMP = path.resolve(CS_RPC_BASEDIR, 'application/gen-nodejs')
+// ---------------------
+var _BDIR = process.env.CS_RPC_BASEDIR || path.resolve(__dirname, '../services-rpc-api/application/gen-nodejs')
 
-var thrApplication = require(path.resolve(TMP, 'Application.js'));
-var thrApplicationTypes = require(path.resolve(TMP, 'application_types'));
-var thrAppLogger = require(path.resolve(TMP, 'Logger'));
-var thrAppSharedService = require(path.resolve(TMP, 'SharedService'));
-var thrAppProcessFactory = require(path.resolve(TMP, 'ProcessFactory'));
+var thrApplication = require(path.resolve(_BDIR, 'Application.js'));
+var thrApplicationTypes = require(path.resolve(_BDIR, 'application_types'));
+var thrAppLogger = require(path.resolve(_BDIR, 'Logger'));
+var thrAppSharedService = require(path.resolve(_BDIR, 'SharedService'));
+var thrAppProcessFactory = require(path.resolve(_BDIR, 'ProcessFactory'));
 
 const S4L_IP = process.env.CS_S4L_HOSTNAME || '172.16.9.89';
 const S4L_PORT_APP = process.env.CS_S4L_PORT_APP || 9095;
@@ -61,10 +61,10 @@ connection_s4l_app.on('error', function(err) {
 
 var s4lAppClient = thrift.createClient(thrApplication, connection_s4l_app);
 
-
-TMP = path.resolve(CS_RPC_BASEDIR, 'modeler/gen-nodejs')
-var thrModeler = require(path.resolve(TMP, 'Modeler'));
-var thrModelerTypes = require(path.resolve(TMP, 'modeler_types'));
+// ---------------------
+_BDIR = process.env.CS_RPC_BASEDIR || path.resolve(__dirname, '../services-rpc-api/modeler/gen-nodejs')
+var thrModeler = require(path.resolve(_BDIR, 'Modeler'));
+var thrModelerTypes = require(path.resolve(_BDIR, 'modeler_types'));
 
 const S4L_PORT_MOD = process.env.CS_S4L_PORT_MOD || 9096;
 
