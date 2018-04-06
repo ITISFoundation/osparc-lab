@@ -11,10 +11,10 @@ from aiohttp import web
 from async_sio import sio
 from config import CONFIG
 
+_CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
+
 logging.basicConfig(level=_CONFIG.LOG_LEVEL)
 
-
-_CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
 CLIENT_DIR = _CONFIG.SIMCORE_CLIENT_OUTDIR
 
 app = web.Application()
