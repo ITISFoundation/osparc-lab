@@ -13,7 +13,8 @@ import config
 from config import CONFIG
 from utils import import_thrift_api_module
 
-# computational services RPC API
+
+# pylint: disable=services-rpc-api
 # TODO: include under rpc package?
 import_thrift_api_module('application')
 

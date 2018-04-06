@@ -47,8 +47,7 @@ async def s4l_check_app_version(sid, data):
 async def s4l_check_app_version(sid, data):
     version = services.MODEL.GetApiVersion()
     logging.debug("S4L Mode version %s", version)
-    await sio.emit('checkS4LModVersion', 
-                    data=dict(major=version.major, minor=version.minor), room=sid)
+    await sio.emit('checkS4LModVersion', data=dict(major=version.major, minor=version.minor), room=sid)
 
 
 @sio.on('disconnect')
