@@ -16,6 +16,13 @@ CLIENT_DIR = os.path.normpath(os.path.join(
     _CDIR, "..", "client-qx", "source-output"))
 
 
+__DEFAULT_THRIFT_GEN_OUTDIR = os.path.normpath(os.path.join(
+    _CDIR, "..", "computational-svc-rpc"))
+
+
+
+
+
 class CommonConfig:
 
     # Web service
@@ -23,10 +30,12 @@ class CommonConfig:
     SIMCORE_WEB_PORT = os.environ.get('SIMCORE_WEB_PORT', 8080)
     SIMCORE_CLIENT_OUTDIR = os.environ.get('SIMCORE_WEB_OUTDIR', CLIENT_DIR)
 
-    # S4L computational service (thrift)
+    # S4L computational service (rpc-thrift)
     CS_S4L_HOSTNAME = os.environ.get('CS_S4L_HOSTNAME', '172.16.9.89')
     CS_S4L_PORT_APP = os.environ.get('CS_S4L_PORT_APP', 9095)
     CS_S4L_PORT_MOD = os.environ.get('CS_S4L_PORT_MOD', 9096)
+
+    THRIFT_GEN_OUTDIR = os.environ.get('THRIFT_GEN_OUTDIR', __DEFAULT_THRIFT_GEN_OUTDIR)
 
     @staticmethod
     def init_app(app):
