@@ -9,4 +9,4 @@
 #'[F]atal for errors which prevented further processing'
 #'--------------------------------------------------------------------'
 
-find $1 -iname "*.py" | xargs pylint --rcfile=.pylintrc --disable=import-error --disable=fixme
+find $1 -iname "*.py" -not -path "*/gen-py/*" | xargs pylint --rcfile=.pylintrc --disable=import-error --disable=fixme

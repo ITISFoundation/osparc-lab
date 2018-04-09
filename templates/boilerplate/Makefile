@@ -2,6 +2,11 @@
 build:
 	docker-compose build
 
+compile:
+	echo Compiling qx client ...
+	docker-compose -f docker-compose.dev.yml run build-qx
+	docker-compose down
+
 run:
 	docker-compose up
 

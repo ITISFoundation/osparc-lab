@@ -3,19 +3,19 @@
 """
 # pylint: disable=C0103
 
-import os
 import logging
+import os
 
 from aiohttp import web
 
 from async_sio import sio
-
 from config import CONFIG
 
 _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
-CLIENT_DIR = _CONFIG.SIMCORE_CLIENT_OUTDIR
 
 logging.basicConfig(level=_CONFIG.LOG_LEVEL)
+
+CLIENT_DIR = _CONFIG.SIMCORE_CLIENT_OUTDIR
 
 app = web.Application()
 sio.attach(app)
