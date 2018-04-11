@@ -1,5 +1,7 @@
 # oSPARC Technology & Concepts Review
 
+[![Build Status](https://travis-ci.org/ITISFoundation/osparc-lab.svg?branch=master)](https://travis-ci.org/ITISFoundation/osparc-lab)
+
 This repository gathers a set of experiments that intend to review different concepts and web/cloud technologies.
 The purpose is to explore different possibilities and define the best options and practices towards the implementation of an online simulation platform.
 

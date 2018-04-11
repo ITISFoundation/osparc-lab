@@ -1,4 +1,7 @@
-'''Checking the folder structure of the projects within <root>/demos'''
+#!/usr/bin/python3
+'''Checking the folder structure of the projects within <root>/demos
+
+'''
 
 import os
 import os.path
@@ -30,7 +33,6 @@ class AllFine(object):
 
     def okay(self):
         '''Query the overall outcome sucess/failure and some prints'''
-        print
         if self.__ok:
             logging.info('All tests passed')
         else:
@@ -77,7 +79,7 @@ def test_file_structure():
     for sub_folder in os.listdir('demos'):
         folder = os.path.join(root_folder, sub_folder)
         if os.path.isdir(folder):
-            logging.info('Testing folder: ' + folder)
+            logging.info('Testing folder: %s', folder)
 
             # Makefile checks
             if not os.path.exists(os.path.join(folder, 'Makefile')):
@@ -93,10 +95,12 @@ def test_file_structure():
                     'File "README.md" does not exist (case sensitive!)')
             else:
                 with open(os.path.join(folder, 'README.md')) as my_file:
-                    if len(my_file.readlines()) == 0:
+                    content = my_file.read().strip()
+                    if not content:
                         all_fine.error('Readme file seems empty')
 
     return all_fine.okay()
+
 
 if __name__ == '__main__':
     if test_file_structure():

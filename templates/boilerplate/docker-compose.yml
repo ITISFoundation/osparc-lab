@@ -1,6 +1,6 @@
 version: '3'
 services:
-  qxapp:
+  jsnode:
     build:
       context: .
       dockerfile: _dockerfiles/qxapp/node/Dockerfile
@@ -11,3 +11,21 @@ services:
         s4l_port_mod: 9096
     ports:
       - '8080:9090'
+  pyaio:
+    build:
+      context: .
+      dockerfile: _dockerfiles/qxapp/python/Dockerfile
+      args:
+        serverdir: server-py-aiohttp
+    env_file: .env
+    ports:
+      - '8081:8080'
+  pyflk:
+    build:
+      context: .
+      dockerfile: _dockerfiles/qxapp/python/Dockerfile
+      args:
+        serverdir: server-py-flask-eventlet
+    env_file: .env
+    ports:
+      - '8082:8080'
