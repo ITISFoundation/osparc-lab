@@ -48,6 +48,7 @@ COPY --from=0 /home/node/qxapp/source-output ${SIMCORE_WEB_OUTDIR}
 
 # TODO ensure npm@5.5.1
 RUN npm install -y \
+  && npm install promise \
   && echo node $(node --version) \
   && echo npm $(npm --version)
 
