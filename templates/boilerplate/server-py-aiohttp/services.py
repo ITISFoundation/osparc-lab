@@ -42,26 +42,26 @@ class xRpcModelerInterface:
         protocol = TBinaryProtocol.TBinaryProtocol(transport)
         return protocol
 
-    def create_client_and_open_connection(self, transport, protocol, client_service):
+    def create_client_open_connection(self, transport, protocol, service):
         # Create the client
-        client = client_service.Client(protocol)
+        client = service.Client(protocol)
         # Connect
         transport.open()
         return client
 
-    def connect_to_std_buffer_interface(self, ip, port, client_service):
+    def connect_std_buffer_interface(self, ip, port, service):
         transport = self.create_transport(ip, port)
         protocol = self.create_protocol(transport)
-        return self.create_client_and_open_connection(transport, protocol, client_service)
+        return self.create_client_open_connection(transport, protocol, service)
 
-    def connect_to_multiplexed_interface(self, ip, port, service_name, client_service):
+    def connect_multiplexed_interface(self, ip, port, service_name, service):
         from thrift.protocol import TMultiplexedProtocol    
         
         transport = self.create_transport(ip, port)
         protocol = self.create_protocol(transport)
         # update the protocol to a multiplexed protocol (several services are agregated on the same port)
         multiplexedProtocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)
-        return self.create_client_and_open_connection(transport, multiplexedProtocol, client_service)
+        return self.create_client_open_connection(transport, multiplexedProtocol, service)
 
     def create_clients_std(self, ip, *ports):
         """
@@ -69,17 +69,17 @@ class xRpcModelerInterface:
         """
         port0, port1 = ports if len(ports) == 2 else (ports[0], ports[0]+1)
 
-        self.applicationClient = self.connect_to_std_buffer_interface(
+        self.applicationClient = self.connect_std_buffer_interface(
             ip, port0, application.Application)
 
-        self.modelerClient = self.connect_to_std_buffer_interface(
+        self.modelerClient = self.connect_std_buffer_interface(
             ip, port1, modeler.Modeler)
 
 
     def create_clients_multiplexed(self, ip, port):
-        self.applicationClient = self.connect_to_multiplexed_interface(
+        self.applicationClient = self.connect_multiplexed_interface(
             ip, port, 'Application', application.Application)
-        self.modelerClient = self.connect_to_multiplexed_interface(
+        self.modelerClient = self.connect_multiplexed_interface(
             ip, port, 'Modeler', modeler.Modeler)
 
     def create_clients(self, config):
