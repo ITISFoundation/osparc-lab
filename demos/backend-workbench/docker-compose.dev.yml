@@ -1,0 +1,22 @@
+version: '3'
+services:
+  build-qx-dev:
+    build:
+      context: .
+      dockerfile: _dockerfiles/build-qx/Dockerfile
+    volumes:
+      - './client-qx:/home/node/qxapp'
+  pyaio-dev:
+    build:
+      context: .
+      dockerfile: _dockerfiles/qxapp/python/Dockerfile-dev
+      args:
+        serverdir: server-py-aiohttp
+    env_file: .env
+    ports:
+      - '8080:8080'
+    volumes: 
+      - './server-py-aiohttp:/usr/src/app'
+      - './client-qx/source-output:/usr/src/app/client'
+    depends_on: 
+      - build-qx-dev

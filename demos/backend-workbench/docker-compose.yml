@@ -1,0 +1,11 @@
+version: '3'
+services:
+  pyaio:
+    build:
+      context: .
+      dockerfile: _dockerfiles/qxapp/python/Dockerfile
+      args:
+        serverdir: server-py-aiohttp
+    env_file: .env
+    ports:
+      - '8081:8080'
