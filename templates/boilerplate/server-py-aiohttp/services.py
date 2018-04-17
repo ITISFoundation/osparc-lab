@@ -3,6 +3,7 @@
 """
 import os
 import sys
+import logging
 
 import thrift
 import thrift.protocol
@@ -152,7 +153,7 @@ def connect():
     try:
         xRpcClient = xRpcModelerInterface(_CONFIG)
     except Thrift.TException as e:
-        print('Thrift exception: ', e)
+        logging.exception('Thrift exception: %s', e)
         xRpcClient = None
         raise
 
@@ -167,7 +168,7 @@ def callRPCFunction(rpcService, fctName, *args):
         results = method_to_call(*args)
         return results
     except Exception as e:
-        print('Thrift exception: ', e)
+        logging.exception('Thrift exception: %s', e)
         xRpcClient = None
         raise
 
