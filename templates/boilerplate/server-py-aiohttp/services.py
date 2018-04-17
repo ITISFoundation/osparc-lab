@@ -152,7 +152,9 @@ class XRpcConnectionManager:
     xRpcClient = None
     
     @staticmethod
-    def connect():        
+    def connect(): 
+    """tries to connect to the Thrift RPC interface of the XRpcWorker
+    """               
         _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
         try:
             XRpcConnectionManager.xRpcClient = xRpcModelerInterface(_CONFIG)
@@ -162,7 +164,14 @@ class XRpcConnectionManager:
             raise
 
     @staticmethod
-    def callRPCFunction(rpcService, fctName, *args):
+    def call_rpc_function(rpcService, fctName, *args):
+        """wraps the call to an RPC method such that disconnection can be detected
+        
+        Arguments:
+            rpcService {string} -- name of the service
+            fctName {string} -- name of the function
+            *args -- any number of arguments as defined in the Thrift interface
+        """
         if XRpcConnectionManager.xRpcClient is None:
             # try to connect
             XRpcConnectionManager.connect()
@@ -177,7 +186,7 @@ class XRpcConnectionManager:
             raise
 
 def MODEL(fctName, *args):
-    return XRpcConnectionManager.callRPCFunction('modelerClient', fctName, *args)
+    return XRpcConnectionManager.call_rpc_function('modelerClient', fctName, *args)
 
 def APP(fctName, *args):
-    return XRpcConnectionManager.callRPCFunction('applicationClient', fctName, *args)
+    return XRpcConnectionManager.call_rpc_function('applicationClient', fctName, *args)
