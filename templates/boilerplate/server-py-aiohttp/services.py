@@ -7,6 +7,8 @@ import sys
 import thrift
 import thrift.protocol
 import thrift.transport
+from thrift import Thrift
+
 
 import config
 
@@ -21,46 +23,101 @@ import_thrift_api_module('application')
 import application.Application
 import modeler.Modeler
 
+xRpcClient = None
+class xRpcModelerInterface:
+    applicationClient = 0
+    modelerClient = 0
 
-def connect_to_std_buffer_interface(ip, port, client_service):
-    from thrift.transport import TSocket, TTransport
-    from thrift.protocol import TBinaryProtocol
+    def create_transport(self, ip, port):
+        from thrift.transport import TSocket, TTransport
+        # create socket with host and port
+        socket = TSocket.TSocket(ip, port)
+        # Buffering is critical. Raw sockets are very slow
+        transport = TTransport.TBufferedTransport(socket)
+        return transport
+    
+    def create_protocol(self, transport):
+        from thrift.protocol import TBinaryProtocol
+        # Wrap in a protocol
+        protocol = TBinaryProtocol.TBinaryProtocol(transport)
+        return protocol
 
-    # make socket for processFactory interface
-    transport = TSocket.TSocket(ip, port)
-    # Buffering is critical. Raw sockets are very slow
-    transport = TTransport.TBufferedTransport(transport)
+    def create_client_and_open_connection(self, transport, protocol, client_service):
+        # Create the client
+        client = client_service.Client(protocol)
+        # Connect
+        transport.open()
+        return client
 
-    # Wrap in a protocol
-    protocol = TBinaryProtocol.TBinaryProtocol(transport)
+    def connect_to_std_buffer_interface(self, ip, port, client_service):
+        transport = self.create_transport(ip, port)
+        protocol = self.create_protocol(transport)
+        return self.create_client_and_open_connection(transport, protocol, client_service)
 
-    # Create a client
-    client = client_service.Client(protocol)
+    def connect_to_multiplexed_interface(self, ip, port, service_name, client_service):
+        from thrift.protocol import TMultiplexedProtocol    
+        
+        transport = self.create_transport(ip, port)
+        protocol = self.create_protocol(transport)
+        # update the protocol to a multiplexed protocol (several services are agregated on the same port)
+        multiplexedProtocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)
+        return self.create_client_and_open_connection(transport, multiplexedProtocol, client_service)
 
-    # Connect
-    transport.open()
+    def create_clients_std(self, ip, *ports):
+        """
+            Creates transport, defines protocol and opens connection
+        """
+        port0, port1 = ports if len(ports) == 2 else (ports[0], ports[0]+1)
 
-    return client
+        self.applicationClient = self.connect_to_std_buffer_interface(
+            ip, port0, application.Application)
 
-
-def create_clients(ip, *ports):
-    """
-        Creates transport, defines protocol and opens connection
-    """
-    port0, port1 = ports if len(ports) == 2 else (ports[0], ports[0]+1)
-
-    application_client = connect_to_std_buffer_interface(
-        ip, port0, application.Application)
-
-    modeler_client = connect_to_std_buffer_interface(
-        ip, port1, modeler.Modeler)
-
-    return application_client, modeler_client
+        self.modelerClient = self.connect_to_std_buffer_interface(
+            ip, port1, modeler.Modeler)
 
 
-_CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
+    def create_clients_multiplexed(self, ip, port):
+        self.applicationClient = self.connect_to_multiplexed_interface(
+            ip, port, 'Application', application.Application)
+        self.modelerClient = self.connect_to_multiplexed_interface(
+            ip, port, 'Modeler', modeler.Modeler)
 
-APP, MODEL = create_clients(
-    _CONFIG.CS_S4L_HOSTNAME,
-    _CONFIG.CS_S4L_PORT_APP,
-    _CONFIG.CS_S4L_PORT_MOD)
+    def create_clients(self, config):
+        if config.THRIFT_USE_MULTIPLEXED_SERVER == True:
+            self.create_clients_multiplexed(config.CS_S4L_HOSTNAME, config.CS_S4L_PORT_APP)
+        else:
+            self.create_clients_std(config.CS_S4L_HOSTNAME, config.CS_S4L_PORT_APP, config.CS_S4L_PORT_MOD)
+
+    def __init__(self, config):
+        self.create_clients(config)
+
+def connect():
+    global xRpcClient
+    _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
+    try:
+        xRpcClient = xRpcModelerInterface(_CONFIG)
+    except Thrift.TException as e:
+        print('Thrift exception: ', e)
+        xRpcClient = None
+        raise
+
+def callRPCFunction(rpcService, fctName, *args):
+    global xRpcClient
+    if xRpcClient is None:
+        # try to connect
+        connect()
+    try:
+        service_to_call = getattr(xRpcClient, rpcService)
+        method_to_call = getattr(service_to_call, fctName)
+        results = method_to_call(*args)
+        return results
+    except Exception as e:
+        print('Thrift exception: ', e)
+        xRpcClient = None
+        raise
+
+def MODEL(fctName, *args):
+    return callRPCFunction('modelerClient', fctName, *args)
+
+def APP(fctName, *args):
+    return callRPCFunction('applicationClient', fctName, *args)

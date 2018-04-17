@@ -37,17 +37,35 @@ async def op2_handler(sid, data):
 
 @sio.on('checkS4LAppVersion')
 async def s4l_check_app_version(sid, data):
-    version = services.APP.GetApiVersion()
-    logging.debug("S4L App version %s", version)
-    await sio.emit('checkS4LAppVersion',
-                   data=dict(major=version.major, minor=version.minor), room=sid)
+    try:
+        version = services.APP('GetApiVersion')
+        logging.debug("S4L App version %s", version)
+        await sio.emit('checkS4LAppVersion',
+                    data=dict(major=version.major, minor=version.minor), room=sid)
+    except Exception:
+        pass
+    
 
 
 @sio.on('checkS4LModVersion')
-async def s4l_check_app_version(sid, data):
-    version = services.MODEL.GetApiVersion()
-    logging.debug("S4L Mode version %s", version)
-    await sio.emit('checkS4LModVersion', data=dict(major=version.major, minor=version.minor), room=sid)
+async def s4l_check_modeler_version(sid, data):
+    try:
+        version = services.MODEL('GetApiVersion')
+        logging.debug("S4L Mode version %s", version)
+        await sio.emit('checkS4LModVersion', data=dict(major=version.major, minor=version.minor), room=sid)
+    except Exception:
+        pass
+
+@sio.on('createS4LSolidCylinder')
+async def create_S4L_solid_cylinder(sid, data):
+    from services import modeler
+    try:
+        services.APP('NewDocument')
+        uuid = services.MODEL('CreateSolidCylinder', modeler.Modeler.Vertex(0,0,0), modeler.Modeler.Vertex(25,35,34), 25.5, u'')
+        logging.debug('S4L created cylinder with uuid %s', uuid)
+        await sio.emit('createS4LSolidCylinder', data=uuid, room=sid)
+    except Exception:
+        pass
 
 
 @sio.on('disconnect')
