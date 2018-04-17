@@ -26,8 +26,8 @@ import modeler.Modeler
 
 xRpcClient = None
 class xRpcModelerInterface:
-    applicationClient = 0
-    modelerClient = 0
+    applicationClient = None
+    modelerClient = None
 
     def create_transport(self, ip, port):
         """creates a Thrift transport
