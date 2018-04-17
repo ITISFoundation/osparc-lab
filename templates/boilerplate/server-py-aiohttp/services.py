@@ -29,6 +29,16 @@ class xRpcModelerInterface:
     modelerClient = 0
 
     def create_transport(self, ip, port):
+        """creates a Thrift transport
+        
+        Arguments:
+            ip {string} -- the host ip
+            port {number} -- the host port
+        
+        Returns:
+            thrift.transport -- the transport object
+        """
+
         from thrift.transport import TSocket, TTransport
         # create socket with host and port
         socket = TSocket.TSocket(ip, port)
@@ -36,13 +46,29 @@ class xRpcModelerInterface:
         transport = TTransport.TBufferedTransport(socket)
         return transport
     
-    def create_protocol(self, transport):
+    def create_binary_protocol(self, transport):
+        """creates a Thrift binary protocol
+        
+        Arguments:
+            transport {thrift.transport} -- a transport object
+        
+        Returns:
+            thrift.protocol -- the protocol object
+        """
+
         from thrift.protocol import TBinaryProtocol
         # Wrap in a protocol
         protocol = TBinaryProtocol.TBinaryProtocol(transport)
         return protocol
 
     def create_client_open_connection(self, transport, protocol, service):
+        """creates the client and open the connection to the server
+        
+        Arguments:
+            transport {thrift.transport} -- the transport object
+            protocol {thrift.protocol} -- the protocol object
+            service {thrift.client} -- the interface client
+        """
         # Create the client
         client = service.Client(protocol)
         # Connect
@@ -50,22 +76,40 @@ class xRpcModelerInterface:
         return client
 
     def connect_std_buffer_interface(self, ip, port, service):
+        """connects to the server using a simple interface with host and port
+        
+        Arguments:
+            ip {string} -- the host
+            port {number} -- the port
+            service {thrift.client} -- the service client object
+        """
         transport = self.create_transport(ip, port)
-        protocol = self.create_protocol(transport)
+        protocol = self.create_binary_protocol(transport)
         return self.create_client_open_connection(transport, protocol, service)
 
     def connect_multiplexed_interface(self, ip, port, service_name, service):
+        """connects to the server using a multiplexed interface (with several services on the same port)
+        
+        Arguments:
+            ip {string} -- the host
+            port {number} -- the port
+            service_name {string} -- the service client name
+            service {thrift.client} -- the service client object
+        """
         from thrift.protocol import TMultiplexedProtocol    
         
         transport = self.create_transport(ip, port)
-        protocol = self.create_protocol(transport)
+        protocol = self.create_binary_protocol(transport)
         # update the protocol to a multiplexed protocol (several services are agregated on the same port)
         multiplexedProtocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)
         return self.create_client_open_connection(transport, multiplexedProtocol, service)
 
     def create_clients_std(self, ip, *ports):
-        """
-            Creates transport, defines protocol and opens connection
+        """creates the client objects using standard connection (1 client per port)
+        
+        Arguments:
+            ip {string} -- host
+            ports {numbers} -- ports (1 per service)
         """
         port0, port1 = ports if len(ports) == 2 else (ports[0], ports[0]+1)
 
@@ -77,12 +121,23 @@ class xRpcModelerInterface:
 
 
     def create_clients_multiplexed(self, ip, port):
+        """creates the client objects using multiplexed connection (several clients per port)
+        
+        Arguments:
+            ip {string} -- host
+            port {number} -- port
+        """
         self.applicationClient = self.connect_multiplexed_interface(
             ip, port, 'Application', application.Application)
         self.modelerClient = self.connect_multiplexed_interface(
             ip, port, 'Modeler', modeler.Modeler)
 
     def create_clients(self, config):
+        """creates the client objects
+        
+        Arguments:
+            config {config} -- configuration object
+        """
         if config.THRIFT_USE_MULTIPLEXED_SERVER == True:
             self.create_clients_multiplexed(config.CS_S4L_HOSTNAME, config.CS_S4L_PORT_APP)
         else:
