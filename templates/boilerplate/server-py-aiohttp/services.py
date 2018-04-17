@@ -24,7 +24,7 @@ import_thrift_api_module('application')
 import application.Application
 import modeler.Modeler
 
-xRpcClient = None
+
 class xRpcModelerInterface:
     applicationClient = None
     modelerClient = None
@@ -147,33 +147,37 @@ class xRpcModelerInterface:
     def __init__(self, config):
         self.create_clients(config)
 
-def connect():
-    global xRpcClient
-    _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
-    try:
-        xRpcClient = xRpcModelerInterface(_CONFIG)
-    except Thrift.TException as e:
-        logging.exception('Thrift exception: %s', e)
-        xRpcClient = None
-        raise
 
-def callRPCFunction(rpcService, fctName, *args):
-    global xRpcClient
-    if xRpcClient is None:
-        # try to connect
-        connect()
-    try:
-        service_to_call = getattr(xRpcClient, rpcService)
-        method_to_call = getattr(service_to_call, fctName)
-        results = method_to_call(*args)
-        return results
-    except Exception as e:
-        logging.exception('Thrift exception: %s', e)
-        xRpcClient = None
-        raise
+class XRpcConnectionManager:
+    xRpcClient = None
+    
+    @staticmethod
+    def connect():        
+        _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
+        try:
+            XRpcConnectionManager.xRpcClient = xRpcModelerInterface(_CONFIG)
+        except Thrift.TException as e:
+            logging.exception('Thrift exception: %s', e)
+            XRpcConnectionManager.xRpcClient = None
+            raise
+
+    @staticmethod
+    def callRPCFunction(rpcService, fctName, *args):
+        if XRpcConnectionManager.xRpcClient is None:
+            # try to connect
+            XRpcConnectionManager.connect()
+        try:
+            service_to_call = getattr(XRpcConnectionManager.xRpcClient, rpcService)
+            method_to_call = getattr(service_to_call, fctName)
+            results = method_to_call(*args)
+            return results
+        except Exception as e:
+            logging.exception('Thrift exception: %s', e)
+            XRpcConnectionManager.xRpcClient = None
+            raise
 
 def MODEL(fctName, *args):
-    return callRPCFunction('modelerClient', fctName, *args)
+    return XRpcConnectionManager.callRPCFunction('modelerClient', fctName, *args)
 
 def APP(fctName, *args):
-    return callRPCFunction('applicationClient', fctName, *args)
+    return XRpcConnectionManager.callRPCFunction('applicationClient', fctName, *args)
