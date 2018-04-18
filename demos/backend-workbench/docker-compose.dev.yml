@@ -1,22 +1,36 @@
 version: '3'
 services:
-  build-qx-dev:
+  # build-qx-dev:
+  #   build:
+  #     context: .
+  #     dockerfile: _dockerfiles/build-qx/Dockerfile
+  #   volumes:
+  #     - './client-qx:/home/node/qxapp'
+  # pyaio-dev:
+  #   build:
+  #     context: .
+  #     dockerfile: _dockerfiles/qxapp/python/Dockerfile-dev
+  #     args:
+  #       serverdir: server-py-aiohttp
+  #   env_file: .env
+  #   ports:
+  #     - '8080:8080'
+  #   volumes: 
+  #     - './server-py-aiohttp:/usr/src/app'
+  #     - './client-qx/source-output:/usr/src/app/client'
+  #   depends_on: 
+  #     - build-qx-dev
+  director-dev:
     build:
       context: .
-      dockerfile: _dockerfiles/build-qx/Dockerfile
-    volumes:
-      - './client-qx:/home/node/qxapp'
-  pyaio-dev:
-    build:
-      context: .
-      dockerfile: _dockerfiles/qxapp/python/Dockerfile-dev
-      args:
-        serverdir: server-py-aiohttp
-    env_file: .env
+      dockerfile: _dockerfiles/director/Dockerfile
     ports:
-      - '8080:8080'
-    volumes: 
-      - './server-py-aiohttp:/usr/src/app'
-      - './client-qx/source-output:/usr/src/app/client'
-    depends_on: 
-      - build-qx-dev
+      - '8001:8001'
+    volumes:
+      - './director:/home/app'
+      #- /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - REGISTRY_URL=https://masu.speag.com
+      - REGISTRY_AUTH=True
+      - REGISTRY_USER=z43
+      - REGISTRY_PW=z43
