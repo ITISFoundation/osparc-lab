@@ -28,7 +28,8 @@ services:
       - '8001:8001'
     volumes:
       - './director:/home/app'
-      #- /var/run/docker.sock:/var/run/docker.sock
+      # on Windows currently needs to set $Env:COMPOSE_CONVERT_WINDOWS_PATHS=1 in powershell to make this works
+      - '/var/run/docker.sock:/var/run/docker.sock'
     environment:
       - REGISTRY_URL=https://masu.speag.com
       - REGISTRY_AUTH=True
