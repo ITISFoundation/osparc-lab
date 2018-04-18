@@ -13,11 +13,11 @@
  *
  * @asset(qxapp/*)
  */
-qx.Class.define("qxapp.Application",
+qx.Class.define('qxapp.Application',
 {
-  extend : qx.application.Standalone,
+  extend: qx.application.Standalone,
 
-  include : [qx.locale.MTranslation],
+  include: [qx.locale.MTranslation],
 
   /*
   *****************************************************************************
@@ -25,20 +25,18 @@ qx.Class.define("qxapp.Application",
   *****************************************************************************
   */
 
-  members :
+  members:
   {
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
      */
-    main : function()
-    {
+    main: function() {
       // Call super class
-      this.base(arguments);
+      this.base();
 
       // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get('qx.debug')) {
         // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
         // support additional cross-browser console. Press F7 to toggle visibility
@@ -52,88 +50,27 @@ qx.Class.define("qxapp.Application",
       */
 
       // Document is the application root
-      var doc = this.getRoot();
+      let doc = this.getRoot();
 
       // openning web socket
       this._socket = new qxapp.wrappers.webSocket('app');
       this._socket.connect();
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5));
-      var spinner = new qx.ui.form.Spinner();
-      container.add(new qx.ui.basic.Label("Input number"));
-      container.add(spinner);
-
-      // Add spinner to document at fixed coordinates
-      doc.add(container, {left: 50, top: 50});
-
       // Create operation buttons
-      var button1 = new qx.ui.form.Button("WS: Do operation 1");
-      var button2 = new qx.ui.form.Button("WS: Do operation 2");
-      
-
+      let button1 = new qx.ui.form.Button('Get Available Services');
       // Add buttons and labels to document at fixed coordinates
       doc.add(button1, {left: 50, top: 100});
-      doc.add(button2, {left: 250, top: 100});
-      
-
       // Add an event listeners
-      button1.addListener("execute", function() {
-        if (!this._socket.slotExists("operation1")) {
-          this._socket.on("operation1", function(val) {
+      button1.addListener('execute', function() {
+        const socketName = 'getInteractiveServices';
+        if (!this._socket.slotExists(socketName)) {
+          this._socket.on(socketName, function(val) {
             console.log(val);
-            alert("Result to operation 1: " + val.value);
+            alert('Result to Getting Services is: ' + val);
           });
         }
-        var input_number = spinner.getValue();
-        this._socket.emit("operation1", input_number);
-      }, this);
-
-      button2.addListener("execute", function() {
-        if (!this._socket.slotExists("operation2")) {
-          this._socket.on("operation2", function(val) {
-            console.log(val);
-            alert("Result to operation 2: " + val.value);
-          });
-        }
-        var input_number = spinner.getValue();
-        this._socket.emit("operation2", input_number);
-      }, this);
-
-      var button3 = new qx.ui.form.Button("WS + S4L: Check App Version");
-      doc.add(button3, {left: 50, top: 150});
-      button3.addListener("execute", function() {
-        if (!this._socket.slotExists("checkS4LAppVersion")) {
-          this._socket.on("checkS4LAppVersion", function(val) {
-            console.log(val);
-            alert("S4L App Version: " + val.major + '.' + val.minor);
-          });
-        }
-        this._socket.emit("checkS4LAppVersion");
-      }, this);
-
-      var button4 = new qx.ui.form.Button("WS + S4L: Check Modeler Version");
-      doc.add(button4, {left: 250, top: 150});
-      button4.addListener("execute", function() {
-        if (!this._socket.slotExists("checkS4LModVersion")) {
-          this._socket.on("checkS4LModVersion", function(val) {
-            console.log(val);
-            alert("S4L Modeler Version: " + val.major + '.' + val.minor);
-          });
-        }
-        this._socket.emit("checkS4LModVersion");
-      }, this);
-
-      var button5 = new qx.ui.form.Button('WS + S4L: Create Cylinder');
-      doc.add(button5, {left: 450, top: 150});
-      button5.addListener("execute", function() {
-        if (!this._socket.slotExists("createS4LSolidCylinder")) {
-          this._socket.on("createS4LSolidCylinder", function(val) {
-            console.log(val);
-            alert("Result of creating solid cylinder: " + val);
-          });
-        }
-        this._socket.emit("createS4LSolidCylinder");
+        this._socket.emit(socketName);
       }, this);
     },
-  }
+  },
 });

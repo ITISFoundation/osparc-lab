@@ -9,8 +9,9 @@
 # pylint: disable=C0111
 # pylint: disable=C0103
 import logging
-
+import json
 import socketio
+import director_proxy
 
 sio = socketio.AsyncServer(async_mode='aiohttp')
 
@@ -21,17 +22,10 @@ def connect(sid, environ):
     print("connect ", sid, environ)
     return True
 
-
-@sio.on('operation1')
-async def op1_handler(sid, data):
-    result = data**2
-    await sio.emit('operation1', data=dict(value=result), room=sid)
-
-
-@sio.on('operation2')
-async def op2_handler(sid, data):
-    result = data**0.5
-    await sio.emit('operation2', data=dict(value=result), room=sid)
+@sio.on('getInteractiveServices')
+async def get_interactive_services_handler(sid, data):
+    result = director_proxy.retrieve_interactive_services()
+    await sio.emit('getInteractiveServices', data=result, room=sid)
 
 @sio.on('disconnect')
 def disconnect(sid):

@@ -1,3 +1,4 @@
 aiohttp
 aiohttp-devtools
 python-socketio
+requests
