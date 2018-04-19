@@ -9,6 +9,8 @@ from flask import Flask, request
 app = Flask(__name__)
 s = Session()
 
+interactive_services_prefix = 'simcore/services'
+
 def setup_registry_connection():
     # get authentication state or set default value
     REGISTRY_AUTH = os.environ.get('REGISTRY_AUTH',False)
@@ -54,7 +56,7 @@ def hello_world():
 @app.route('/list_interactive_services', methods=['GET'])
 def list_interactive_services():
     list_of_repos = retrieve_list_of_repositories()['repositories']
-    interactive_services_prefix = 'simcore/services'
+    
     list_of_interactive_repos = [repo for repo in list_of_repos if str(repo).startswith(interactive_services_prefix)]
 
     list_of_interactive_services = [retrieve_list_of_images_in_repo(repo) for repo in list_of_interactive_repos]
@@ -111,4 +113,4 @@ def stop_service():
 if __name__ == "__main__":
     setup_registry_connection()    
 
-    app.run(host='0.0.0.0', debug=False, port=8001, threaded=True)
+    app.run(host='0.0.0.0', debug=True, port=8001, threaded=True)
