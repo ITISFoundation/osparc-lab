@@ -123,17 +123,17 @@ qx.Class.define("qxapp.Application",
         this._socket.emit("checkS4LModVersion");
       }, this);
 
-      var button5 = new qx.ui.form.Button('WS + S4L: Create Cylinder');
+      let button5 = new qx.ui.form.Button('WS + S4L: Create Cylinder');
       doc.add(button5, {left: 450, top: 150});
-      button5.addListener("execute", function() {
-        if (!this._socket.slotExists("createS4LSolidCylinder")) {
-          this._socket.on("createS4LSolidCylinder", function(val) {
+      button5.addListener('execute', function() {
+        if (!scope._socket.slotExists('createS4LSolidCylinder')) {
+          scope._socket.on('createS4LSolidCylinder', function(val) {
             console.log(val);
-            alert("Result of creating solid cylinder: " + val);
+            alert('Result of creating solid cylinder: ' + val);
           });
         }
-        this._socket.emit("createS4LSolidCylinder");
-      }, this);
+        scope._socket.emit('createS4LSolidCylinder');
+      }, scope);
     },
   }
 });
