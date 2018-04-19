@@ -37,13 +37,14 @@ def start_service(service_name, service_tag, service_uuid):
         
         try:
             dockerImageFullPath = REGISTRY_URL + dockerImagePath + ':' + tag
-            # pull the docker image            
-
-            #dockerImage = dockerClient.images.pull(REGISTRY_URL + dockerImagePath, tag=tag)
             # run the docker image
-            container = dockerClient.containers.run(dockerImageFullPath, detach=True, auto_remove=True, labels={"uuid":service_uuid})            
-            # get the docker IP and port
-            listOfContainerIDs.append({"service name":service_name, "service uuid":service_uuid, "container id":container.id})        
+            if isInLocalMode():
+                container = dockerClient.containers.run(dockerImageFullPath, detach=True, auto_remove=True, labels={"uuid":service_uuid})            
+                listOfContainerIDs.append({"service name":service_name, "service uuid":service_uuid, "container id":container.id})        
+            else:
+                service = dockerClient.services.create(dockerImageFullPath, labels={"uuid":service_uuid})
+                listOfContainerIDs.append({"service name":service_name, "service uuid":service_uuid, "container id":service.id})
+            
 
         except docker.errors.ImageNotFound as e:
             # first cleanup
@@ -70,8 +71,13 @@ def stop_service(service_uuid):
     
     try:
         # get list of running containers and stop them
-        listOfRunningContainersWithUUID = dockerClient.containers.list(filters={'label':'uuid=' + service_uuid})
-        [container.stop() for container in listOfRunningContainersWithUUID]
+        if isInLocalMode():
+            listOfRunningContainersWithUUID = dockerClient.containers.list(filters={'label':'uuid=' + service_uuid})
+            [container.stop() for container in listOfRunningContainersWithUUID]
+        else:
+            listOfRunningServicesWithUUID = dockerClient.services.list(filters={'label':'uuid=' + service_uuid})
+            [service.stop() for service in listOfRunningServicesWithUUID]
+
     except docker.errors.APIError as e:
         raise Exception('Error while stopping container' + e)
     
