@@ -1,18 +1,18 @@
 /* ************************************************************************
 
-   Copyright: 2018 
+   Copyright: 2018
 
    License: MIT license
 
-   Authors: 
+   Authors:
 
 ************************************************************************ */
 
-qx.Theme.define("qxapp.theme.Decoration",
+qx.Theme.define('qxapp.theme.Decoration',
 {
-  extend : qx.theme.indigo.Decoration,
+  extend: qx.theme.indigo.Decoration,
 
-  decorations :
+  decorations:
   {
-  }
+  },
 });
