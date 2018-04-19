@@ -66,11 +66,19 @@ qx.Class.define('qxapp.Application',
         if (!this._socket.slotExists(socketName)) {
           this._socket.on(socketName, function(val) {
             console.log(val);
-            alert('Result to Getting Services is: ' + val);
+            onRetrievedInteractiveServices(val);
           });
         }
         this._socket.emit(socketName);
       }, this);
-    },
+
+      function onRetrievedInteractiveServices(data) {
+        for (let index = 0; index < data.length; index++) {
+          const service = data[index];
+          console.log(service);
+        }
+        alert(data);
+      };
+    },    
   },
 });
