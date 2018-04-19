@@ -71,6 +71,7 @@ qx.Class.define('qxapp.Application',
       // Add buttons and labels to document at fixed coordinates
       doc.add(button1, {left: 50, top: 100});
       doc.add(button2, {left: 250, top: 100});
+      
 
       let scope = this;
       // Add an event listeners
@@ -96,7 +97,6 @@ qx.Class.define('qxapp.Application',
         scope._socket.emit('operation2', inputNumber);
       }, scope);
 
-
       let button3 = new qx.ui.form.Button('WS + S4L: Check App Version');
       doc.add(button3, {left: 50, top: 150});
       button3.addListener('execute', function() {
@@ -119,6 +119,18 @@ qx.Class.define('qxapp.Application',
           });
         }
         scope._socket.emit('checkS4LModVersion');
+      }, this);
+
+      let button5 = new qx.ui.form.Button('WS + S4L: Create Cylinder');
+      doc.add(button5, {left: 450, top: 150});
+      button5.addListener('execute', function() {
+        if (!scope._socket.slotExists('createS4LSolidCylinder')) {
+          scope._socket.on('createS4LSolidCylinder', function(val) {
+            console.log(val);
+            alert('Result of creating solid cylinder: ' + val);
+          });
+        }
+        scope._socket.emit('createS4LSolidCylinder');
       }, scope);
     },
   },

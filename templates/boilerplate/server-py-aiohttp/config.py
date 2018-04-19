@@ -38,6 +38,7 @@ class CommonConfig:
     CS_S4L_PORT_MOD = os.environ.get('CS_S4L_PORT_MOD', 9096)
 
     THRIFT_GEN_OUTDIR = THRIFT_GEN_OUTDIR
+    THRIFT_USE_MULTIPLEXED_SERVER = os.environ.get('THRIFT_USE_MULTIPLEXED_SERVER', True)
 
     @staticmethod
     def init_app(app):

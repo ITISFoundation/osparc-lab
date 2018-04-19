@@ -37,12 +37,12 @@ COPY services-rpc-api/*/gen-py ./
 
 COPY $serverdir/requirements.txt requirements.txt
 
-RUN pip3 install --no-cache-dir -r ./requirements.txt \
-    && python --version \
+RUN python --version \
+    && pip3 install --no-cache-dir -r ./requirements.txt \
     && pip list --format=columns
 
 COPY $serverdir/* ./
 
 EXPOSE 8080
 
-CMD ["python", "server.py"] 
+ENTRYPOINT ["python", "server.py"] 
