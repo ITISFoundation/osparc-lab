@@ -26,7 +26,7 @@ services:
   director-dev:
     build:
       context: .
-      dockerfile: _dockerfiles/director/Dockerfile
+      dockerfile: _dockerfiles/director/Dockerfile-dev
     ports:
       - '8001:8001'
     environment:
