@@ -1,8 +1,7 @@
+import os
 import registry_proxy
 import json
 import docker
-
-REGISTRY_URL = 'masu.speag.com/'
 
 def start_service(service_name, service_tag, service_uuid):
     # get the repos implied by the service name
@@ -18,7 +17,10 @@ def start_service(service_name, service_tag, service_uuid):
     dockerClient = docker.from_env()
     try:
         # login
-        dockerClient.login(registry="masu.speag.com/v2", username='z43', password='z43')
+        registry_url = os.environ.get(REGISTRY_URL) + '/v2'
+        username = os.environ.get(REGISTRY_USER)
+        password = os.environ.get(REGISTRY_PW)
+        dockerClient.login(registry=registry_url, username=REGISTRY_USER, password=REGISTRY_PW)
     except docker.errors.APIError as e:
         raise Exception('Error while loging to registry: ' + e)
 
@@ -59,7 +61,10 @@ def stop_service(service_uuid):
     dockerClient = docker.from_env()
     try:
         # login
-        dockerClient.login(registry="masu.speag.com/v2", username='z43', password='z43')
+        registry_url = os.environ.get(REGISTRY_URL) + '/v2'
+        username = os.environ.get(REGISTRY_USER)
+        password = os.environ.get(REGISTRY_PW)
+        dockerClient.login(registry=registry_url, username=username, password=password)
     except docker.errors.APIError as e:
         raise Exception('Error while logging to registry: ' + e)
     

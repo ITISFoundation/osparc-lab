@@ -20,7 +20,7 @@ def setup_registry_connection():
     print("Frontend URL: " + FRONTEND_URL)
 
 def registry_request(path, method="GET"):
-    api_url = os.environ['REGISTRY_URL'] + '/v2/' + path
+    api_url = 'https://' + os.environ['REGISTRY_URL'] + '/v2/' + path
 
     try:
         #r = s.get(api_url, verify=False) #getattr(s, method.lower())(api_url)
