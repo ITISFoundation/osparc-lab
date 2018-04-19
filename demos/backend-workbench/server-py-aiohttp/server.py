@@ -43,6 +43,8 @@ def create_app(args=()):
     return app
 
 # if __name__ == '__main__':
+#     _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
+#     app = create_app()
 #     web.run_app(app,
 #                 host=_CONFIG.SIMCORE_WEB_HOSTNAME,
 #                 port=_CONFIG.SIMCORE_WEB_PORT)

@@ -3,6 +3,7 @@ import json
 import docker
 
 from flask import Flask, request
+from flask import abort
 import registry_proxy
 import producer
 
@@ -40,9 +41,9 @@ def start_service():
     else:
         service_tag = 'latest'
     try:
-        return producer.start_service(service_name, service_tag, uuid)
+        return producer.start_service(service_name, service_tag, uuid), 201
     except Exception as e:
-        abort(400)
+        abort(500)
     
     
 
@@ -54,9 +55,9 @@ def stop_service():
     service_uuid = request.json['service_uuid']
     try:
         producer.stop_service(service_uuid)
-        return 'service stopped'
+        return json.dumps('service stopped'), 201
     except Exception as e:
-        abort(400)
+        abort(500)
 
 if __name__ == "__main__":
     registry_proxy.setup_registry_connection()    

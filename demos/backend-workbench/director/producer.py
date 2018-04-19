@@ -49,7 +49,7 @@ def start_service(service_name, service_tag, service_uuid):
             raise Exception('Error service not found: ' + e)
         except docker.errors.APIError as e:
             # first cleanup
-            stop_service(service_uuid)
+            stop_service(service_uuid)            
             raise Exception('Error while accessing docker server: ' + e)
     
     return json.dumps({'container_ids': listOfContainerIDs})

@@ -15,7 +15,6 @@ import director_proxy
 
 sio = socketio.AsyncServer(async_mode='aiohttp')
 
-
 @sio.on('connect')
 def connect(sid, environ):
     # environ = WSGI evnironment dictionary
@@ -26,6 +25,16 @@ def connect(sid, environ):
 async def get_interactive_services_handler(sid, data):
     result = director_proxy.retrieve_interactive_services()
     await sio.emit('getInteractiveServices', data=result, room=sid)
+
+@sio.on('startModeler')
+async def startModeler_handler(sid, data):
+    result = director_proxy.start_service('modeler', data)
+    await sio.emit('startModeler', data=result, room=sid)
+
+@sio.on('stopModeler')
+async def stopModeler_handler(sid, data):
+    result = director_proxy.stop_service(data)
+    await sio.emit('stopModeler', data=result, room=sid)
 
 @sio.on('disconnect')
 def disconnect(sid):
