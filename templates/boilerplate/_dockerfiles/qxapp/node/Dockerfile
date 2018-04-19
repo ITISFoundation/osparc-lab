@@ -1,4 +1,4 @@
-# Compilation stage ----
+# Compilation stage
 FROM node:8.9.2
 
 LABEL maintainer=pcrespov
@@ -18,8 +18,9 @@ COPY client-qx/source source
 COPY client-qx/*.json ./
 RUN qx compile
 
+#------------------------------------------------------------------------
 
-# Deployment stage -----
+# Deployment stage
 FROM node:8.9.2
 
 # Web server variables
@@ -28,17 +29,22 @@ ENV SIMCORE_WEB_HOSTNAME "0.0.0.0"
 ENV SIMCORE_WEB_PORT $web_app_port
 ENV SIMCORE_WEB_OUTDIR /home/node/source-output
 
-# S4L as CompServ variables
+# Computational service RPC-API variables
 ARG s4l_ip="0.0.0.0"
 ARG s4l_port_app="9095"
 ARG s4l_port_mod="9096"
 ENV CS_S4L_HOSTNAME $s4l_ip
 ENV CS_S4L_PORT_APP $s4l_port_app
 ENV CS_S4L_PORT_MOD $s4l_port_mod
+ENV CS_RPC_BASEDIR /home/node/gen-nodejs/
 
-WORKDIR /home/node/
-COPY --from=0 /home/node/qxapp/source-output source-output
+WORKDIR /home/node
+
 COPY server-node-express .
+
+COPY services-rpc-api/*/gen-nodejs ${CS_RPC_BASEDIR}
+
+COPY --from=0 /home/node/qxapp/source-output ${SIMCORE_WEB_OUTDIR}
 
 # TODO ensure npm@5.5.1
 RUN npm install -y \

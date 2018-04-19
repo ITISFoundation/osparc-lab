@@ -6,3 +6,7 @@
 */contrib/*
 */node_modules/*
 node_modules/*
+
+# python
+__pycache__
+*.py[cd]

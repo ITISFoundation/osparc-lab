@@ -15,6 +15,6 @@ TARGET_LINK_LIBRARIES( ${MY_TARGET_NAME} ${LINK_LIBRARIES} )
 IF (USING_CLANG)
     ADD_TEST( NAME CodeCoverage${MY_TARGET_NAME}
         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMAND python3 ${CMAKE_SOURCE_DIR}/../../tools/ci-checks/AnalyzeCodeCoverage.py ${MY_TARGET_NAME} 
+        COMMAND python3 ${CMAKE_SOURCE_DIR}/../../tools/ci-checks/analyze_code_coverage.py ${MY_TARGET_NAME} 
     )
 ENDIF()
