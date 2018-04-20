@@ -2,21 +2,24 @@
 
 *            @pcrespov @sbenkler
 
+# language based assignment
 *.js         @odeimaiz
-*.md         @pcrespov
+*.py         @pcrespov
+*.cpp        @mguidon
+*.h          @mguidon
 
 # files and folders recursively
-/docs/        @pcrespov
-/templates/   @pcrespov @sbenkler
-/tools/ci-checks/       @sbenkler
-/demos/       @pcrespov
-/demos/cpp-ci/       @sbenkler
-/demos/director/     @mguidon
-/demos/pipelines/    @mguidon
-/demos/sidecar/      @mguidon
-/demos/workflow/     @mguidon
-/demos/frontend-*/   @odeimaiz
-/demos/docker-node/  @pcrespov
+/docs/                   @pcrespov
+/templates/boilerplate   @pcrespov @odeimaiz
+/tools/ci-checks/        @sbenkler
+/demos/                  @pcrespov
+/demos/cpp-ci/           @sbenkler
+/demos/director/         @mguidon
+/demos/pipelines/        @mguidon
+/demos/sidecar/          @mguidon
+/demos/workflow/         @mguidon
+/demos/frontend-*/       @odeimaiz
+/demos/docker-node/      @pcrespov
 
 
 # any change in cmake magic

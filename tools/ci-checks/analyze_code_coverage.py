@@ -12,7 +12,7 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 def test_executable(exe_name):
     '''Testing an executables run and its test coverage'''
-    logging.info('Testing executable name: ' + exe_name)
+    logging.info('Testing executable name: %s', exe_name)
 
     raw_prof_file_name = exe_name + '.profraw'
     subprocess.call('./' + exe_name, env=dict(
@@ -20,15 +20,13 @@ def test_executable(exe_name):
 
     merged_prof_file_name = exe_name + '.profdata'
     subprocess.call(('/usr/bin/llvm-profdata-3.8 merge ' +
-                     raw_prof_file_name + ' -o ' + merged_prof_file_name
-                    ).split())
+                     raw_prof_file_name + ' -o ' + merged_prof_file_name).split())
 
-    report = subprocess.check_output(('llvm-cov report ./' + exe_name +
-                                      ' -instr-profile=' + merged_prof_file_name
-                                     ).split()).decode()
+    report = subprocess.check_output(
+        ('llvm-cov report ./' + exe_name + ' -instr-profile=' + merged_prof_file_name).split()).decode()
 
-    logging.info('Full test coverage report:\n\n' +
-                 report + '\n\nPlausibility checks follow:\n')
+    logging.info('Full test coverage report: \n\n \
+                 %s \n\nPlausibility checks follow: \n', report)
 
     exit_code = 0
     within_per_file = False
@@ -49,6 +47,7 @@ def test_executable(exe_name):
                               file_name + '! ' + ', '.join(line.split()))
 
     return exit_code
+
 
 if __name__ == '__main__':
     sys.exit(test_executable(sys.argv[1]))
