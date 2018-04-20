@@ -71,7 +71,7 @@ qx.Class.define('qxapp.Application',
       // Add buttons and labels to document at fixed coordinates
       doc.add(button1, {left: 50, top: 100});
       doc.add(button2, {left: 250, top: 100});
-      
+
 
       let scope = this;
       // Add an event listeners
