@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "lintBoilerplate": "./node_modules/.bin/eslint -c ./templates/boilerplate/client-qx/.eslintrc.json ./templates/boilerplate/client-qx/source/class/qxapp/**/*.js"
+  }
+}
