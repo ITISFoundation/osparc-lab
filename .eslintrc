@@ -5,6 +5,6 @@
         "max-len":[2, 150],
         "new-cap":"off",
         "require-jsdoc":"off",
-		"linebreak-style":0
+        "linebreak-style":0
     }
 }

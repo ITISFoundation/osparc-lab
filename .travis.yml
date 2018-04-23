@@ -29,6 +29,8 @@ matrix:
         - "npm install --save-dev eslint"
         - "npm install --save-dev babel-eslint"
         - "npm install --save-dev eslint-config-google"
+        - "npm install --save-dev eslint-config-qx"
+        - "npm install --save-dev eslint-plugin-qx-rules"
       before_script:
         - eslint --version
       script:
