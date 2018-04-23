@@ -1,6 +1,7 @@
 import os
 import json
 import docker
+import logging
 
 from flask import Flask, request
 from flask import abort
@@ -43,6 +44,7 @@ def start_service():
     try:
         return producer.start_service(service_name, service_tag, uuid), 201
     except Exception as e:
+        logging.exception(e)
         abort(500)
     
     
@@ -57,6 +59,7 @@ def stop_service():
         producer.stop_service(service_uuid)
         return json.dumps('service stopped'), 201
     except Exception as e:
+        logging.exception(e)
         abort(500)
 
 if __name__ == "__main__":
