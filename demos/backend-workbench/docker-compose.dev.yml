@@ -12,6 +12,7 @@ services:
       dockerfile: _dockerfiles/qxapp/python/Dockerfile-dev
       args:
         serverdir: server-py-aiohttp
+        web_outdir: /usr/src/app/client
     env_file: .env
     ports:
       - '8080:8080'
