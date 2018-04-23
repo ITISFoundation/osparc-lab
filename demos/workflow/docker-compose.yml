@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   director:
     build:
@@ -37,8 +37,6 @@ services:
     command: mongod --httpinterface --rest --smallfiles --logpath=/dev/null # --quiet
   database_ui:
     image: mongo-express
-#    links: 
-#      - database:mongo
     ports:
       - "8081:8081"
     environment:
@@ -59,6 +57,41 @@ services:
       - 5555:5555
     depends_on:
       - director
+  redis:
+    image: redis
+  redis-commander:
+    image:   ficusio/redis-commander
+    command: --redis-host redis
+    ports:
+      - "8082:8081"
+    depends_on:
+      - redis
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=z43
+      - MYSQL_DATABASE=dag_celery
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8070:8080
+    depends_on:
+      - db
+#  qxapp:
+#    build:
+#      context: .
+#      dockerfile: _dockerfiles/qxapp/node/Dockerfile
+#      args:
+#        web_app_port: 9090
+#        s4l_ip: "172.16.9.89"
+#        s4l_port_app: 9095
+#        s4l_port_mod: 9096
+#    ports:
+#      - '8080:9090'
+#    depends_on:
+#      - director
 volumes:
   input:
   output:
