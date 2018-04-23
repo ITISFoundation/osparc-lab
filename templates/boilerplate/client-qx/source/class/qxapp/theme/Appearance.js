@@ -8,11 +8,10 @@
 
 ************************************************************************ */
 
-qx.Theme.define('qxapp.theme.Appearance',
-{
+qx.Theme.define("qxapp.theme.Appearance", {
   extend: qx.theme.indigo.Appearance,
 
   appearances:
   {
-  },
+  }
 });

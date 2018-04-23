@@ -20,8 +20,7 @@
  * i.e. using deeper namespaces and a corresponding file structure within the
  * <tt>test</tt> folder.
  */
-qx.Class.define('qxapp.test.DemoTest',
-{
+qx.Class.define("qxapp.test.DemoTest", {
   extend: qx.dev.unit.TestCase,
 
   members:
@@ -36,8 +35,8 @@ qx.Class.define('qxapp.test.DemoTest',
      * Here are some simple tests
      */
     testSimple: function() {
-      this.assertEquals(4, 3+1, 'This should never fail!');
-      this.assertFalse(false, 'Can false be true?!');
+      this.assertEquals(4, 3+1, "This should never fail!");
+      this.assertFalse(false, "Can false be true?!");
     },
 
     /**
@@ -46,8 +45,8 @@ qx.Class.define('qxapp.test.DemoTest',
     testAdvanced: function() {
       let a = 3;
       let b = a;
-      this.assertIdentical(a, b, 'A rose by any other name is still a rose');
-      this.assertInRange(3, 1, 10, 'You must be kidding, 3 can never be outside [1,10]!');
-    },
-  },
+      this.assertIdentical(a, b, "A rose by any other name is still a rose");
+      this.assertInRange(3, 1, 10, "You must be kidding, 3 can never be outside [1,10]!");
+    }
+  }
 });
