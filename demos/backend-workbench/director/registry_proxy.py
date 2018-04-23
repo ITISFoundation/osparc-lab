@@ -7,17 +7,10 @@ s = Session()
 def setup_registry_connection():
     # get authentication state or set default value
     REGISTRY_AUTH = os.environ.get('REGISTRY_AUTH',False)
-
-    # get base_url or set default value
-    FRONTEND_URL = os.getenv('FRONTEND_URL','/')
-    if not FRONTEND_URL.endswith('/'):
-        FRONTEND_URL = FRONTEND_URL + "/"
-
     if REGISTRY_AUTH == "True" or REGISTRY_AUTH == "true":
         s.auth = (os.environ['REGISTRY_USER'], os.environ['REGISTRY_PW'])
 
     print("Registry URL: " + os.environ['REGISTRY_URL'])
-    print("Frontend URL: " + FRONTEND_URL)
 
 def registry_request(path, method="GET"):
     api_url = 'https://' + os.environ['REGISTRY_URL'] + '/v2/' + path
