@@ -23,8 +23,6 @@ def create_app(args=()):
     sio.attach(app)
 
     # http requests handlers
-
-
     async def index(request):
         """Serve the client-side application."""
         logging.debug("index.request:\n %s", request)
@@ -42,10 +40,9 @@ def create_app(args=()):
     
     return app
 
-# if __name__ == '__main__':
-#     _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
-#     app = create_app()
-#     web.run_app(app,
-#                 host=_CONFIG.SIMCORE_WEB_HOSTNAME,
-#                 port=_CONFIG.SIMCORE_WEB_PORT)
-    
+if __name__ == '__main__':
+    _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
+    app = create_app()
+    web.run_app(app,
+                host=_CONFIG.SIMCORE_WEB_HOSTNAME,
+                port=_CONFIG.SIMCORE_WEB_PORT)
