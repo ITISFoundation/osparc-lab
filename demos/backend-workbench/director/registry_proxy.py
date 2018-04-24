@@ -11,8 +11,6 @@ def setup_registry_connection():
     if REGISTRY_AUTH == "True" or REGISTRY_AUTH == "true":
         session.auth = (os.environ['REGISTRY_USER'], os.environ['REGISTRY_PW'])
 
-    print("Registry URL: " + os.environ['REGISTRY_URL'])
-
 def registry_request(path, method="GET"):
     api_url = 'https://' + os.environ['REGISTRY_URL'] + '/v2/' + path
 
