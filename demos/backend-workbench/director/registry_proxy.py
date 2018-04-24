@@ -1,4 +1,5 @@
 import os
+import json
 from requests import Session, RequestException
 
 interactive_services_prefix = 'simcore/services/'
@@ -30,16 +31,22 @@ def retrieve_list_of_repositories():
     j = r.json()['repositories']
     return j
 
+def retrieve_list_of_images_in_repo(repository_name):
+    r = registry_request(repository_name + '/tags/list')
+    j = r.json()
+    return j
+
+def retrieve_labels_of_image(image, tag):
+    r = registry_request(image + '/manifests/' + tag)
+    j = r.json()
+    labels = json.loads(j["history"][0]["v1Compatibility"])["container_config"]["Labels"]
+    return labels
+
 def retrieve_list_of_repos_with_interactive_services():    
     listOfAllRepos = retrieve_list_of_repositories()
     # get the services repos
     list_of_interactive_repos = [repo for repo in listOfAllRepos if str(repo).startswith(interactive_services_prefix)]
     return list_of_interactive_repos
-
-def retrieve_list_of_images_in_repo(repository_name):
-    r = registry_request(repository_name + '/tags/list')
-    j = r.json()
-    return j
 
 def get_service_name(repository_name):
     service_name_suffixes = str(repository_name)[len(interactive_services_prefix):]

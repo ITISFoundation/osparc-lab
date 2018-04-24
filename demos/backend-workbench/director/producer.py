@@ -3,9 +3,69 @@ import registry_proxy
 import json
 import docker
 
-def isInLocalMode():
-    local_mode = bool(os.environ.get('LOCAL_MODE', True) == 'True')
-    return local_mode
+def IsServiceAWebServer(dockerImagePath):    
+    return str(dockerImagePath).find('webserver') != -1
+
+def login_docker_registry(dockerClient):
+    try:
+        # login
+        registry_url = os.environ.get('REGISTRY_URL')
+        username = os.environ.get('REGISTRY_USER')
+        password = os.environ.get('REGISTRY_PW')
+        dockerClient.login(registry=registry_url + '/v2', username=username, password=password)        
+    except docker.errors.APIError as e:
+        raise Exception('Error while loging to registry: ' + str(e))
+
+def check_service_uuid_available(dockerClient, service_uuid):
+    # check if service with same uuid already exists
+    listOfRunningServicesWithUUID = dockerClient.services.list(filters={'label':'uuid=' + service_uuid})
+    if (len(listOfRunningServicesWithUUID) != 0):
+        raise Exception('A service with the same uuid is already running: ' + service_uuid)
+
+def get_service_runtime_parameters_labels(image, tag):
+    image_labels = registry_proxy.retrieve_labels_of_image(image, tag)
+    SERVICE_RUNTIME_SETTINGS = 'simcore.service.settings'
+    runtime_parameters = dict()
+    if SERVICE_RUNTIME_SETTINGS in image_labels:
+        runtime_parameters = json.loads(image_labels[SERVICE_RUNTIME_SETTINGS])
+    return runtime_parameters
+
+def convert_labels_to_docker_runtime_parameters(service_runtime_parameters_labels):
+    runtime_params = dict()
+    for param in service_runtime_parameters_labels:
+        if 'name' not in param or 'type' not in param or 'value' not in param:
+            pass
+
+        if param['name'] == 'ports':
+            # special handling for we need to open a port with 0:XXX this tells the docker engine to allocate whatever free port
+            enpoint_spec = docker.types.EndpointSpec(ports={0:int(param['value'])})
+            runtime_params["endpoint_spec"] = enpoint_spec
+        else:
+            runtime_params[param['name']] = param['value']
+
+    
+    
+    return runtime_params
+
+def add_uuid_label(docker_service_runtime_parameters, service_uuid):
+    # add the service uuid to the docker service
+    if "labels" in docker_service_runtime_parameters:
+        docker_service_runtime_parameters["labels"]["uuid"] = service_uuid
+    else:
+        docker_service_runtime_parameters["labels"] = {"uuid":service_uuid}
+
+def get_docker_image_published_ports(service_id):
+    low_level_client = docker.APIClient()
+    service_infos_json = low_level_client.services(filters={'id':service_id})
+    published_ports = list()
+    for service_info in service_infos_json: # there should be only one actually
+        if 'Endpoint' in service_info:
+            service_endpoints = service_info['Endpoint']
+            if 'Ports' in service_endpoints:
+                ports_info_json = service_info['Endpoint']['Ports']
+                for port in ports_info_json:
+                    published_ports.append(port['PublishedPort'])
+    return published_ports
 
 def start_service(service_name, service_tag, service_uuid):
     # get the repos implied by the service name
@@ -17,19 +77,13 @@ def start_service(service_name, service_tag, service_uuid):
     listOfImages = {}
     for repo in listOfReposForService:
         listOfImages[repo] = registry_proxy.retrieve_list_of_images_in_repo(repo)
-    # get the docker client
-    dockerClient = docker.from_env()
-    try:
-        # login
-        registry_url = os.environ.get('REGISTRY_URL')
-        username = os.environ.get('REGISTRY_USER')
-        password = os.environ.get('REGISTRY_PW')
-        dockerClient.login(registry=registry_url + '/v2', username=username, password=password)        
-    except docker.errors.APIError as e:
-        raise Exception('Error while loging to registry: ' + str(e))
-
     
-    listOfContainerIDs = []
+    # initialise docker client and check the uuid is available
+    dockerClient = docker.from_env()
+    check_service_uuid_available(dockerClient, service_uuid)
+    login_docker_registry(dockerClient)
+    
+    containers_meta_data = list()
     for dockerImagePath in listOfImages:
         availableTagsList = sorted(listOfImages[dockerImagePath]['tags'])
         if len(availableTagsList) == 0:
@@ -39,17 +93,15 @@ def start_service(service_name, service_tag, service_uuid):
         if not service_tag == 'latest' and availableTagsList.count(service_tag) == 1:
             tag = service_tag
         
-        try:
-            dockerImageFullPath = registry_url +'/' + dockerImagePath + ':' + tag
-            # run the docker image
-            if isInLocalMode():
-                container = dockerClient.containers.run(dockerImageFullPath, detach=True, auto_remove=True, labels={"uuid":service_uuid})            
-                listOfContainerIDs.append({"service name":service_name, "service uuid":service_uuid, "container id":container.id})        
-            else:
-                service = dockerClient.services.create(dockerImageFullPath, labels={"uuid":service_uuid})
-                listOfContainerIDs.append({"service name":service_name, "service uuid":service_uuid, "container id":service.id})
-            
-
+        dockerImageFullPath = os.environ.get('REGISTRY_URL') +'/' + dockerImagePath + ':' + tag
+        
+        service_runtime_parameters_labels = get_service_runtime_parameters_labels(dockerImagePath, tag)
+        docker_service_runtime_parameters = convert_labels_to_docker_runtime_parameters(service_runtime_parameters_labels)
+        add_uuid_label(docker_service_runtime_parameters, service_uuid)
+        # let-s start the service
+        try:            
+            service = dockerClient.services.create(dockerImageFullPath, **docker_service_runtime_parameters)
+            published_ports = get_docker_image_published_ports(service.id)
         except docker.errors.ImageNotFound as e:
             # first cleanup
             stop_service(service_uuid)
@@ -58,29 +110,20 @@ def start_service(service_name, service_tag, service_uuid):
             # first cleanup
             stop_service(service_uuid)            
             raise Exception('Error while accessing docker server: ' + str(e))
-    
-    return json.dumps({'container_ids': listOfContainerIDs})
+
+        container_meta_data = {"container id":service.id, "published ports":published_ports}
+        containers_meta_data.append(container_meta_data)               
+    service_meta_data = {"service name":service_name, "service uuid":service_uuid, "containers":containers_meta_data}
+    return json.dumps(service_meta_data)
 
 def stop_service(service_uuid):
     # get the docker client
     dockerClient = docker.from_env()
-    try:
-        # login
-        registry_url = os.environ.get('REGISTRY_URL') + '/v2'
-        username = os.environ.get('REGISTRY_USER')
-        password = os.environ.get('REGISTRY_PW')
-        dockerClient.login(registry=registry_url, username=username, password=password)
-    except docker.errors.APIError as e:
-        raise Exception('Error while logging to registry: ' + str(e))
+    login_docker_registry(dockerClient)
     
     try:
-        # get list of running containers and stop them
-        if isInLocalMode():
-            listOfRunningContainersWithUUID = dockerClient.containers.list(filters={'label':'uuid=' + service_uuid})
-            [container.stop() for container in listOfRunningContainersWithUUID]
-        else:
-            listOfRunningServicesWithUUID = dockerClient.services.list(filters={'label':'uuid=' + service_uuid})
-            [service.remove() for service in listOfRunningServicesWithUUID]
+        listOfRunningServicesWithUUID = dockerClient.services.list(filters={'label':'uuid=' + service_uuid})
+        [service.remove() for service in listOfRunningServicesWithUUID]
 
     except docker.errors.APIError as e:
         raise Exception('Error while stopping container' + str(e))
