@@ -5,12 +5,9 @@ LABEL maintainer=pcrespov
 ENV NPM_CONFIG_LOGLEVEL warn
 
 WORKDIR /home/node/
-# https://www.npmjs.com/package/qxcompiler
-RUN npm install qxcompiler
 
-# TODO: why to create again? not better taking entire client-qx??
+RUN npm install qxcompiler
 ENV PATH="/home/node/node_modules/.bin/:${PATH}"
-#RUN qx create qxapp -I --qxpath /home/node/node_modules/qooxdoo-sdk/framework/
 
 WORKDIR /home/node/qxapp
 COPY client-qx/source source
@@ -47,4 +44,4 @@ ENV DIRECTOR_HOST='http://director'
 ENV DIRECTOR_PORT=8001
 EXPOSE 8080
 
-ENTRYPOINT python -m aiohttp.web -H ${SIMCORE_WEB_HOSTNAME} -P ${SIMCORE_WEB_PORT} server:create_app
+ENTRYPOINT ["sh", "-c", "python -m aiohttp.web -H ${SIMCORE_WEB_HOSTNAME} -P ${SIMCORE_WEB_PORT} server:create_app"]

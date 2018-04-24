@@ -16,4 +16,4 @@ ENV LOCAL_MODE='True'
 EXPOSE 8001
 COPY /director /home/app
 
-ENTRYPOINT python director.py
+ENTRYPOINT [ "python", "director.py" ]

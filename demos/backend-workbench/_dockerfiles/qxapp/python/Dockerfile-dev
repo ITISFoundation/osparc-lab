@@ -19,4 +19,4 @@ RUN python --version \
 
 EXPOSE $SIMCORE_WEB_PORT
 
-ENTRYPOINT adev runserver --host localhost --port 8080 --app-factory create_app server.py
+ENTRYPOINT ["/bin/sh", "-c", "adev runserver --host ${SIMCORE_WEB_HOSTNAME} --port ${SIMCORE_WEB_PORT} --app-factory create_app server.py"]
