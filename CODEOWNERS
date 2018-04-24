@@ -8,6 +8,3 @@
 
 # any change in travis
 /.travis.yml   @odeimaiz
-
-# to control this file
-/CODEOWNER     @pcrespov
