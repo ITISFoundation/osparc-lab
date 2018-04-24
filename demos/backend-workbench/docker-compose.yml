@@ -1,18 +1,5 @@
 version: '3'
 services:
-  pyaio:
-    build:
-      context: .
-      dockerfile: _dockerfiles/qxapp/python/Dockerfile
-      args:
-        serverdir: server-py-aiohttp
-        web_outdir: /usr/src/app/client
-    env_file: .env
-    ports:
-      - '9081:8080'
-    environment:
-      - DIRECTOR_HOST=http://172.16.9.89
-      - DIRECTOR_PORT=8001
   director:
     build:
       context: .
@@ -27,6 +14,19 @@ services:
       - REGISTRY_AUTH=True
       - REGISTRY_USER=z43
       - REGISTRY_PW=z43
-      - LOCAL_MODE=True
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
+  webserver:
+    build:
+      context: .
+      dockerfile: _dockerfiles/qxapp/python/Dockerfile
+      args:
+        serverdir: server-py-aiohttp
+        web_outdir: /usr/src/app/client
+    ports:
+      - '9081:8080'
+    environment:
+      - DIRECTOR_HOST=http://director
+      - DIRECTOR_PORT=8001
+      - SIMCORE_WEB_CONFIG=production
+  
