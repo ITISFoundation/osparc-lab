@@ -1,7 +1,7 @@
 version: '3'
 services:
   director:
-    image: masu.speag.com/comp.backend/simcore.director:1.0
+    image: masu.speag.com/simcore/comp.backend/director:1.0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -15,7 +15,7 @@ services:
       placement:
         constraints: [node.role == worker]
   sidecar:
-    image: masu.speag.com/comp.backend/simcore.sidecar:1.0
+    image: masu.speag.com/simcore/comp.backend/sidecar:1.0
     volumes:
       - input:/input
       - output:/output

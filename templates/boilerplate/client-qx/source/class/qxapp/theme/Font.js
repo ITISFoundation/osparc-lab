@@ -1,18 +1,17 @@
 /* ************************************************************************
 
-   Copyright: 2018 
+   Copyright: 2018
 
    License: MIT license
 
-   Authors: 
+   Authors:
 
 ************************************************************************ */
 
-qx.Theme.define("qxapp.theme.Font",
-{
-  extend : qx.theme.indigo.Font,
+qx.Theme.define("qxapp.theme.Font", {
+  extend: qx.theme.indigo.Font,
 
-  fonts :
+  fonts:
   {
   }
 });

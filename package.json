@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "lintBoilerplate": "eslint ./templates/boilerplate/**/*.js"
+  }
+}

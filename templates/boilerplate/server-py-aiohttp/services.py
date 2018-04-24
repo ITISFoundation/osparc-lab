@@ -153,8 +153,8 @@ class XRpcConnectionManager:
     
     @staticmethod
     def connect(): 
-    """tries to connect to the Thrift RPC interface of the XRpcWorker
-    """               
+        """tries to connect to the Thrift RPC interface of the XRpcWorker
+        """
         _CONFIG = CONFIG[os.environ.get('SIMCORE_WEB_CONFIG', 'default')]
         try:
             XRpcConnectionManager.xRpcClient = xRpcModelerInterface(_CONFIG)
