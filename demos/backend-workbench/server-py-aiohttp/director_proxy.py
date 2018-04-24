@@ -4,28 +4,28 @@ import logging
 import json
 from requests import Session, RequestException
 
-s = Session()
+session = Session()
 
 def director_request(path, method="GET", data=dict()):
     api_url = os.environ.get('DIRECTOR_HOST', 'http://172.16.9.89') + ':' + os.environ.get('DIRECTOR_PORT', '8001') + '/' + path
     try:        
-        #r = s.get(api_url, verify=False) #getattr(s, method.lower())(api_url)
         if len(data) == 0:
-            r = getattr(s, method.lower())(api_url)
+            request_result = getattr(session, method.lower())(api_url)
         else:
-            r = getattr(s, method.lower())(api_url, json=data)
-            #r = s.post(api_url, json={'service_name':'modeler', 'service_uuid':'0000'})
-        if r.status_code == 400:
+            request_result = getattr(session, method.lower())(api_url, json=data)
+
+        #TODO: we should only check for success (e.g. 201), and handle any error in a dedicated function
+        if request_result.status_code == 400:
             raise Exception('Return Code was 400, Bad request, malformed syntax!')
-        if r.status_code == 401:
+        if request_result.status_code == 401:
             raise Exception('Return Code was 401, Authentication required / not successful!')
-        elif r.status_code == 404:
+        elif request_result.status_code == 404:
             raise Exception('Return code 404, Unknown URL used!')
-        elif r.status_code == 500:
+        elif request_result.status_code == 500:
             raise Exception('Return code 500, Internal Server Error!')
         else:
-            logging.warning('return ok: %s', r.json())
-            return r
+            logging.warning('return ok: %s', request_result.json())
+            return request_result
     except RequestException as e:
         raise Exception("Problem during connection to director")
 
