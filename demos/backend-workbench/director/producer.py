@@ -102,7 +102,7 @@ def start_service(service_name, service_tag, service_uuid):
         try:            
             service = dockerClient.services.create(dockerImageFullPath, **docker_service_runtime_parameters)
             published_ports = get_docker_image_published_ports(service.id)
-            container_meta_data = {"container id":service.id, "published ports":published_ports}
+            container_meta_data = {"container_id":service.id, "published_ports":published_ports}
             containers_meta_data.append(container_meta_data)               
         except docker.errors.ImageNotFound as e:
             # first cleanup
@@ -112,7 +112,7 @@ def start_service(service_name, service_tag, service_uuid):
             # first cleanup
             stop_service(service_uuid)            
             raise Exception('Error while accessing docker server: ' + str(e))
-    service_meta_data = {"service name":service_name, "service uuid":service_uuid, "containers":containers_meta_data}
+    service_meta_data = {"service_name":service_name, "service_uuid":service_uuid, "containers":containers_meta_data}
     return json.dumps(service_meta_data)
 
 def stop_service(service_uuid):
