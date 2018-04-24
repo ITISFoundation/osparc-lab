@@ -83,6 +83,7 @@ qx.Class.define("qxapp.Application", {
       });
 
       let scope = this;
+
       // Add an event listeners
       button1.addListener("execute", function() {
         if (!scope._socket.slotExists("operation1")) {
@@ -109,6 +110,7 @@ qx.Class.define("qxapp.Application", {
         left: 50,
         top: 150
       });
+
       button3.addListener("execute", function() {
         if (!scope._socket.slotExists("checkS4LAppVersion")) {
           scope._socket.on("checkS4LAppVersion", function(val) {
