@@ -1,36 +1,10 @@
 # Order is important. The last matching pattern has the most precedence.
 
-*            @pcrespov @sbenkler
-
-# language based assignment
-*.js         @odeimaiz
-*.py         @pcrespov
-*.cpp        @mguidon
-*.h          @mguidon
+# language based assignment: No need since we have linters
 
 # files and folders recursively
-/docs/                   @pcrespov
-/templates/boilerplate   @pcrespov @odeimaiz
-/tools/ci-checks/        @sbenkler
-/demos/                  @pcrespov
-/demos/cpp-ci/           @sbenkler
-/demos/director/         @mguidon
-/demos/pipelines/        @mguidon
-/demos/sidecar/          @mguidon
-/demos/workflow/         @mguidon
-/demos/frontend-*/       @odeimaiz
-/demos/docker-node/      @pcrespov
-
-
-# any change in cmake magic
-CMakeLists.txt   @sbenkler
+/templates/    @pcrespov @odeimaiz @mguidon @sanderegg 
+/demos/        @pcrespov @odeimaiz @mguidon @sanderegg 
 
 # any change in travis
-/.travis.yml     @sbenkler
-
-# to control within-source vs. out-of-source builds
-/.gitignore      @sbenkler
-
-# to control this file
-/CODEOWNER       @sbenkler
-
+/.travis.yml   @odeimaiz
